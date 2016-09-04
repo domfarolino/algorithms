@@ -1,0 +1,7 @@
+# Generated Files
+*.[oa]
+*.py[co]
+
+# OS Files
+*~
+.DS_Store
