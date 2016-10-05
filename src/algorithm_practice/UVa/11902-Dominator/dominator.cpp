@@ -1,7 +1,10 @@
 #include <cstdio>
 #include <bitset>
 #include <vector> 
+
 using namespace std;
+
+// Source: https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=229&page=show_problem&problem=3053
 
 /**
  * 11902 - Dominator UVA problem
@@ -15,7 +18,6 @@ using namespace std;
  * As an example, for the graph shown right, 3 dominates 4
  * since all the paths from 0 to 4 must pass through 3. 1 doesn’t
  * dominate 3 since there is a path 0-2-3 that doesn’t include 1.
- * Description problem: https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=229&page=show_problem&problem=3053
  */
 
 #define MAX 100
