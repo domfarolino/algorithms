@@ -46,18 +46,17 @@ using namespace std;
 
 // Utility function to print array given size
 void printArray(int arr[], int size) {
-  for (int i = 0; i < size; ++i) {
-    cout << arr[i] << ", ";
-  }
-  cout << endl;
-}
+  cout << "{ ";
 
-// Utility function to print array given start and end indices
-void printArraySE(int arr[], int start, int end) {
-  for (int i = start; i <= end; ++i) {
-    cout << arr[i] << ", ";
+  for (int i = 0; i < size; ++i) {
+    cout << arr[i];
+
+    if (i < size - 1) {
+      cout << ", ";
+    }
   }
-  cout << endl;
+
+  cout << " }" << endl;
 }
 
 /**

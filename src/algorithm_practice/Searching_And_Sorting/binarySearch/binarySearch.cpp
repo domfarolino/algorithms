@@ -40,11 +40,20 @@ int binarySearch(T arr[], int length, T val) {
 
 int main() {
   int a[7] = {1, 2, 3, 4, 5, 6, 7};
+  int size = sizeof(a)/sizeof(a[0]);
   
   // Print array
-  cout << "{";
-  for (int i = 0; i < sizeof(a)/sizeof(a[0]); ++i) {cout << a[i] << ", ";}
-  cout << "}" << endl;
+  cout << "{ ";
+
+  for (int i = 0; i < size; ++i) {
+    cout << a[i];
+
+    if (i < size - 1) {
+      cout << ", ";
+    }
+  }
+
+  cout << " }" << endl;
   
   // "Test" binary search
   for (int i = 0; i < 10; ++i) {
