@@ -1,17 +1,16 @@
-/*
-  atoi() implementation
-
-  atoi() takes a string that represents an integer value
-  as an argument and returns the integer value.
-
-*/
-
 #include <fstream>
 #include <string>
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
 
+/**
+ * atoi() implementation
+ * atoi() takes a string that represents an integer
+ * value as an argument and returns the integer value.
+ * If the input string is an invalid number the algorithm
+ * should just return 0.
+ */
 
 // Implement atoi
 int my_atoi(const char *str) {
