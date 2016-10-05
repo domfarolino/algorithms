@@ -5,6 +5,16 @@ using namespace std;
 
 /**
  * 11902 - Dominator UVA problem
+ * In graph theory, a node X dominates a node Y if every path
+ * from the predefined start node to Y must go through X. If
+ * Y is not reachable from the start node then node Y does not
+ * have any dominator. By definition, every node reachable from
+ * the start node dominates itself. In this problem, you will be
+ * given a directed graph and you have to find the dominators
+ * of every node where the 0-th node is the start node.
+ * As an example, for the graph shown right, 3 dominates 4
+ * since all the paths from 0 to 4 must pass through 3. 1 doesn’t
+ * dominate 3 since there is a path 0-2-3 that doesn’t include 1.
  * Description problem: https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=229&page=show_problem&problem=3053
  */
 
@@ -14,7 +24,7 @@ bitset<MAX> status_initial, status_etapa;
 /**
  * This dfs will jump the node 'u' when it's equal to 'jump' node.
  */
-void dfs(int u, int jump, vector<vector<int>> adjacent_list, bool initial) {
+void dfs(int u, int jump, vector<vector<int> > adjacent_list, bool initial) {
     if (u == jump)
         return;
 
@@ -33,7 +43,7 @@ void dfs(int u, int jump, vector<vector<int>> adjacent_list, bool initial) {
 /**
  * Method to print the final result.
  */
-void print_result(const vector<vector<int>> &adjacent_list, bool initial, int nodes) {
+void print_result(const vector<vector<int> > &adjacent_list, bool initial, int nodes) {
     for (int i = 0; i < nodes; i++) {
         for (int j = 0; j < nodes; j++) status_etapa.reset(j);
 
@@ -60,7 +70,7 @@ int main() {
     int nb_nodes, nb_cases;
     int count = 1;
 
-    vector<vector<int>> adjacent_list;
+    vector<vector<int> > adjacent_list;
 
     // read cases number
     scanf("%d", &nb_cases);
