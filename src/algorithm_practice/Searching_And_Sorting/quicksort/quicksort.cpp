@@ -10,6 +10,10 @@
   Θ(n log(n))   Average
   O(n^2)        Worst case
 
+  Space Complexity
+  ----------------
+  O(log(n))    Worst case
+
 */
 
 #include <fstream>
