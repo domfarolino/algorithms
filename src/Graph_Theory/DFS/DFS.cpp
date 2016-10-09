@@ -1,6 +1,11 @@
 #include<iostream>
 using namespace std;
 
+/*
+	test values have been alongside in the comments.
+*/
+
+
 class node{
 	int val,*adj,size;
 	char col;
@@ -33,6 +38,16 @@ class node{
 			adj=new int(n);
 			if(n!=0)
 			cout<<"Enter the nodes one-by-one\n";
+			/*
+			{2,5,
+			1,18,19,
+			1,23,57,
+			2,92,
+			2,92,
+			5,92,
+			5,92,
+			18,19,23,57}
+			*/
 			for(int i=0; i<n; ++i)
 			{
 				cin>>x;
@@ -72,8 +87,8 @@ int main()
 {
 	int ctr_n,ctr_e,i,j,t,n;									//e=edges,n=nodes
 	cout<<"Enter the number of nodes\n";
-	cin>>ctr_n;
-	cout<<"Enter the number of edges\n";						//this is not used as of now. any one with better sol may need it. CHEERS!
+	cin>>ctr_n;													//for test give n=8
+	cout<<"Enter the number of edges\n";						
 	cin>>ctr_e;
 	node g[ctr_n];
 	for(i=0;i<ctr_n;++i)
@@ -84,10 +99,10 @@ int main()
 			flag=g[i].put_col('w');
 		}
 		cout<<"Enter the value for node "<<i+1<<" :\n";
-		cin>>t;
+		cin>>t;															//	{1,2,5,18,1,23,57,92}
 		g[i].put_val(t);
 		cout<<"Enter the number of nodes to which the current node is connected\n";
-		cin>>n;
+		cin>>n;														   //   {2,3,3,2,2,2,2,4}
 		g[i].put_adj(n);
 	}
 	for(i=0;i<ctr_n;++i)
@@ -102,3 +117,4 @@ int main()
 	}
 	return 0;
 }
+
