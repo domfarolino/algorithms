@@ -30,7 +30,7 @@ If the formatting doesn't match the guide perfectly it's fine, just make sure yo
 ```
  - Open up a PR on GitHub and that's it!
 
-When adding an algorithm or datastructure to the repository, providing `test.in` and `test.out` stdin/stdout files demonstrating a procedure's correct output is a plus! These don't need to be crazy extensive, just enough to demonstrate some edge cases if necessary.
+When adding an algorithm or Data Structure to the repository, providing `test.in` and `test.out` stdin/stdout files demonstrating a procedure's correct output is a plus! These don't need to be crazily extensive, just enough to demonstrate some edge cases if necessary.
 
 ## Commit Message Guidelines
 
@@ -41,8 +41,8 @@ commitType(resourceModified): brief explanation of the modifications you made
 ```
 
 The `commitType` is a brief descriptor of the type of work you're committing, it can be one of the following:
- - **algo**: Algorithm or datastructure source code
- - **fix**: Fixes to algorithm or datastructure source code
+ - **algo**: Algorithm or data structure source code
+ - **fix**: Fixes to algorithm or data structure source code
  - **test**: Adding or correcting stdin test files
  - **docs**: Documentation changes only
  - **refactor**: A code change that neither fixes a bug nor adds a feature
