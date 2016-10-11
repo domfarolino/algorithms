@@ -31,7 +31,9 @@ Time Complexity: O(nW) where n is the number of items and W is the capacity of k
 using namespace std;
 
 //returns maximum of two numbers
-int maxm(int a, int b) { return (a > b)? a : b; }
+int maxm(int a, int b) {
+    return (a > b)? a : b; 
+}
 
 
 //a DP implementation of the famous knapsack problem 
@@ -44,8 +46,8 @@ k[i][j]=maxm(k[i-1][j-w[i-1]]+v[i-1],k[i-1][j]);
 i.e >If you take the last weight find and optimal solution as if the weight didnt exist and If you dont the optimal
 solution is just k[i-1][j].
 */
-int knapsack(int v[],int w[],int n,int wmax)
-{
+int knapsack(int v[],int w[],int n,int wmax){
+    
     int k[n+1][wmax+1];
     
 
@@ -55,13 +57,10 @@ int knapsack(int v[],int w[],int n,int wmax)
                 {
                 if(i==0||j==0)
                     k[i][j]=0;
-                    else if(w[i-1]<=j)
-                        {
-                       
-                        k[i][j]=maxm(k[i-1][j-w[i-1]]+v[i-1],k[i-1][j]);
+                    else if(w[i-1]<=j){
+                           k[i][j]=maxm(k[i-1][j-w[i-1]]+v[i-1],k[i-1][j]);
                         }
-                        else
-                        {
+                        else{
                         k[i][j]=k[i-1][j];
                         }
 
@@ -72,8 +71,8 @@ return k[n][wmax];
 
 }
 
-int main()
-    {
+int main(){
+
     int n;
     //Enter size of the input array
     cout<<"Enter the size:";
@@ -84,13 +83,14 @@ int main()
     //  Enter the values
     for(int i =0;i<n;i++)
         cin>>v[i];
+
     //Enter the weights for each of the value
     for(int i =0;i<n;i++)
         cin>>w[i];
 
-        cin>>wmax;
+    cin>>wmax;
 
         //Knapsack solution
-            cout<<knapsack(v,w,n,wmax)<<endl;
+    cout<<knapsack(v,w,n,wmax)<<endl;
 
     }
