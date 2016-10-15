@@ -112,20 +112,20 @@ void mergeNoSentinel(int list[], int l, int m, int r) {
 void merge(int arr[], int l, int m, int r) {
   int n1 = m - l + 1;
   int n2 = r - m;
-  
+
   int *a1 = new int[n1+1];
   int *a2 = new int[n2+1];
-  
+
   for (int i = 0; i < n1; ++i)
     a1[i] = arr[l + i];
   for (int j = 0; j < n2; ++j)
     a2[j] = arr[m + 1 + j];
-  
+
   a1[n1] = INT_MAX;
   a2[n2] = INT_MAX;
 
   int j = 0, k = 0;
-  
+
   /**
    * One loop since we used sentinel
    * values designed to pull values from
@@ -142,7 +142,7 @@ void merge(int arr[], int l, int m, int r) {
 }
 
 void mergeSort(int list[], int l, int r){
-    
+
   /**
    * We only want to sort the array if
    * the right index is greater than

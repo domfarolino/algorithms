@@ -27,15 +27,15 @@ void quicksort(int array[], int left, int right) {
   int pivot = array[left + ((right - left) / 2)]; // safely calculate middle element
 
   while (i <= j) {
-    
+
     while (array[i] < pivot) {
       i++;
     }
-    
+
     while (array[j] > pivot) {
       j--;
     }
-    
+
     if (i <= j) {
       tmp = array[i];
       array[i] = array[j];
@@ -43,13 +43,13 @@ void quicksort(int array[], int left, int right) {
       i++;
       j--;
     }
-  
+
   }
 
   if (left < j) {
     quicksort(array, left, j);
   }
-  
+
   if (i < right) {
     quicksort(array, i, right);
   }
@@ -72,10 +72,10 @@ void printArray(int arr[], int size) {
 }
 
 int main(int argc, char **argv) {
-  
+
   int arr[14] = {9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -33};
   int size = sizeof(arr)/sizeof(arr[0]);
-  
+
   printArray(arr, size);
   quicksort(arr, 0, size-1);
   printArray(arr, size);

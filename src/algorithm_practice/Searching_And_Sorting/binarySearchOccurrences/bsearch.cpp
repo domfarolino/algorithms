@@ -17,10 +17,10 @@ int firstOccurrence(const vector<int>& haystack, int low, int high, int needle) 
   // Set this now so if the while loop is never
   // entered we don't segfault on return conditional
   int mid = low + (high - low)/2;
-    
+
   while (low <= high) {
     mid = low + (high - low)/2;
-    
+
     if (haystack[mid] < needle) {
       low = mid + 1;
     } else if (haystack[mid] > needle) {
@@ -39,10 +39,10 @@ int lastOccurrence(const vector<int>& haystack, int low, int high, int needle) {
   // Set this now so if the while loop is never
   // entered we don't segfault on return conditional
   int mid = low + (high - low)/2;
-  
+
   while (low <= high) {
     mid = low + (high - low)/2;
-    
+
     if (haystack[mid] < needle) {
       low = mid + 1;
     } else if (haystack[mid] > needle) {
@@ -60,9 +60,9 @@ int lastOccurrence(const vector<int>& haystack, int low, int high, int needle) {
 int numOccurrences(const vector<int>& haystack, int needle) {
   int first = firstOccurrence(haystack, 0, haystack.size()-1, needle);
   if (first == -1) return first;
-  
+
   int last = lastOccurrence(haystack, 0, haystack.size()-1, needle);
-  
+
   return last - first + 1;
 }
 

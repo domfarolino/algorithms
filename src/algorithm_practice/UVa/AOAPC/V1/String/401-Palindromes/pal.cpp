@@ -68,7 +68,7 @@ int main() {
   while (cin >> input) {
     isPal = isPalindrome(input);
     isMirror = isMirroredString(input, reverses);
-    
+
     cout << input << " -- ";
 
     // Both

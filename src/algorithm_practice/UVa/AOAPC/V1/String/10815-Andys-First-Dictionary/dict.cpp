@@ -61,7 +61,7 @@ int main() {
         word = "";
       }
     }
-    
+
     if (!cin.get(test)) break;
     lower(test);
   }
@@ -72,6 +72,6 @@ int main() {
     cout << *iter << endl;
     iter++;
   }
-  
+
   return 0;
 }

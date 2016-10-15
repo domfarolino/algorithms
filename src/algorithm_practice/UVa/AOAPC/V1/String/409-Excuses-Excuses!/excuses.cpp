@@ -42,9 +42,9 @@ int numberOfProperAppearances(string keyword, string excuse) {
   int numAppearances = 0, characterAfterAppearance;
   toLower(excuse);
   toLower(keyword);
-  
+
   int firstCharacterOfAppearance = excuse.find(keyword);
-  
+
   while (firstCharacterOfAppearance != string::npos) {
     characterAfterAppearance = firstCharacterOfAppearance + keyword.length();
     if (firstCharacterOfAppearance == 0 && characterAfterAppearance < excuse.length()) {
@@ -62,7 +62,7 @@ int numberOfProperAppearances(string keyword, string excuse) {
     }
     firstCharacterOfAppearance = excuse.find(keyword, characterAfterAppearance);
   }
-  
+
   return numAppearances;
 }
 
@@ -72,7 +72,7 @@ int main() {
   vector<pair<string, int> > excuses;
   string tmpString;
   int z = 1;
-    
+
   while (cin >> numKeywords >> numExcuses) {
 
     keywords.reserve(numKeywords);
@@ -102,7 +102,7 @@ int main() {
       excuses[i].second = totalExcuses;
       maxExcuses = max(maxExcuses, totalExcuses);
       totalExcuses = 0;
-    
+
     }
 
     cout << "Excuse Set #" << z << endl;
@@ -116,6 +116,6 @@ int main() {
     cout << endl;
     z++;
   }
-    
+
   return 0;
 }

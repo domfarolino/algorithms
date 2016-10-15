@@ -24,7 +24,7 @@ int main() {
     cin >> amp >> freq;
 
     for (int f = 0; f < freq; ++f) {
-      
+
       // First part of triangle
       for (int a = 1; a <= amp; ++a) {
 
@@ -33,7 +33,7 @@ int main() {
         }
 
         cout << endl;
-      
+
       }
 
       // Second part of triangle
@@ -44,14 +44,14 @@ int main() {
         }
 
         if (a) cout << endl;
-      
+
       }
 
       if (i != total-1 || f != freq-1) cout << endl; // The f != freq-1 part is key
-    
+
     }
-  
+
   }
-  
+
   return 0;
 }

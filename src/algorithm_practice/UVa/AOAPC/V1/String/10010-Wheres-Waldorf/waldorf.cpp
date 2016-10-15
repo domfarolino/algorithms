@@ -60,7 +60,7 @@ pair<int, int> foundWordIterativeFail(const string& word, string* grid, int rows
         tmpC += c_moves[move];
         break;
       }
-      
+
       move++;
     }
 
@@ -178,7 +178,7 @@ int main() {
       } // rows
 
       if (!shouldContinueToNextWord) cout << "Shit, didn't find " << words[w] << " at all" << endl;
-    
+
     } // words
 
     // Deallocate entire grid and words array
@@ -188,7 +188,7 @@ int main() {
     if (i != total-1) cout << endl; // OJ
 
   }
-  
+
   return 0;
 }
 
@@ -229,7 +229,7 @@ int main() {
 //       }
 
 //       cout << endl;
-    
+
 //     }
 
 //     // Deallocate entire grid
@@ -237,6 +237,6 @@ int main() {
 //     delete[] grid;
 
 //   }
-  
+
 //   return 0;
 // }

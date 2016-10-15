@@ -41,7 +41,7 @@ int binarySearch(T arr[], int length, T val) {
 int main() {
   int a[7] = {1, 2, 3, 4, 5, 6, 7};
   int size = sizeof(a)/sizeof(a[0]);
-  
+
   // Print array
   cout << "{ ";
 
@@ -54,7 +54,7 @@ int main() {
   }
 
   cout << " }" << endl;
-  
+
   // "Test" binary search
   for (int i = 0; i < 10; ++i) {
     cout << "Index of " << i << ": " << binarySearch(a, 7, i) << endl;

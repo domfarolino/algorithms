@@ -12,15 +12,15 @@ using namespace std;
 
 int main() {
   string input;
-  
+
   while (cin >> input) {
-    
+
     for (int i = 0; i < input.length(); ++i) {
       input[i] = input[i]-7;
     }
 
     cout << input << endl;
   }
-  
+
   return 0;
 }
