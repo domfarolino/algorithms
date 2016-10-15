@@ -35,6 +35,15 @@ int main(int argc, char *argv[])
     << "Solve via chi-squared statistical analysis" << std::endl
     << "------------------------------------------" << std::endl;
 
-  std::string testCipher = "AOLJHLZHYJPWOLYPZVULVMAOLLHYSPLZARUVDUHUKZPTWSLZAJPWOLYZPAPZHAFWLVMZBIZAPABAPVUJPWOLYPUDOPJOLHJOSLAALYPUAOLWSHPUALEAPZZOPMALKHJLYAHPUUBTILYVMWSHJLZKVDUAOLHSWOHILA";
-  performChiSquaredAnalysis(testCipher);
+  std::vector<std::string> testCiphers {
+    "FYYFHPFYIFBS", "QBPQ TFQE PMXZBP XKA ZXMFQXIP!",
+    "AOLJHLZHYJPWOLYPZVULVMAOLLHYSPLZARUVDUHUKZPTWSLZAJPWOLYZPAPZHAFWLVMZBIZA"
+    "PABAPVUJPWOLYPUDOPJOLHJOSLAALYPUAOLWSHPUALEAPZZOPMALKHJLYAHPUUBTILYVMWSH"
+    "JLZKVDUAOLHSWOHILA"
+  };
+
+  for (auto it = testCiphers.begin(); it != testCiphers.end(); it++){
+    performChiSquaredAnalysis(*it);
+  }
+
 }
