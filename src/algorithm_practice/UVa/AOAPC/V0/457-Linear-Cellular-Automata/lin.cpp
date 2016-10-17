@@ -86,7 +86,7 @@ int main() {
 
     // Input all DNA elements
     for (int j = 0; j < 10; j++) cin >> DNA[j];
-    
+
     for (int r = 0; r < 50; ++r) {
 
       for (int c = 0; c < 40; ++c) {
@@ -100,6 +100,6 @@ int main() {
 
     if (i != total-1) cout << endl;
   }
-  
+
   return 0;
 }

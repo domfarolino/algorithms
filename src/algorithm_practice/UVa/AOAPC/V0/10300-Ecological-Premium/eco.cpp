@@ -32,6 +32,6 @@ int main() {
     cout << out << endl;
     out = 0;
   }
-  
+
   return 0;
 }

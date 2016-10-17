@@ -50,7 +50,7 @@ void tapeRowToCharacter(string tapeRow) {
       currentAsciiVal <<= 1;
     }
   }
-  
+
   cout << char(sum);
 }
 
@@ -60,6 +60,6 @@ int main() {
   while (getline(cin, tmp)) {
     if (tmp[0] == '|') tapeRowToCharacter(tmp);
   }
-  
+
   return 0;
 }

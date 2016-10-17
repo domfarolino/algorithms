@@ -50,7 +50,7 @@ using namespace std;
 void insertionSort(vector<int>& nums) {
   int j;
   for (int i = 1; i < nums.size(); ++i) {
-    
+
     j = i - 1;
     while(j >= 0 && nums[j] > nums[j+1]) {
       swap(nums[j], nums[j+1]);
@@ -64,7 +64,7 @@ void insertionSortAlt(vector<int>& nums) {
   int j, key;
   for (int i = 1; i < nums.size(); ++i) {
     key = nums[i];
-    
+
     j = i - 1;
     while(j >= 0 && nums[j] > key) {
       nums[j+1] = nums[j];
@@ -78,7 +78,7 @@ void insertionSortAlt(vector<int>& nums) {
 int main() {
   vector<int> v = {5, 7, 8, 6}; // -std=c++0x
   insertionSort(v);
-  
+
   for (int i = 0; i < v.size(); ++i) {
     cout << v[i] << ", ";
   }

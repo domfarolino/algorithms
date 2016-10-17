@@ -13,10 +13,10 @@ using namespace std;
 
 int firstOccurrence(const string& haystack, int low, int high, char needle) {
   int mid = (low+high)/2;
-    
+
   while (low <= high) {
     mid = (low+high)/2;
-    
+
     if (haystack[mid] < needle) {
       low = mid+1;
     } else if (haystack[mid] > needle) {
@@ -26,7 +26,7 @@ int firstOccurrence(const string& haystack, int low, int high, char needle) {
       if (farthestLeft != -1) mid = farthestLeft;
       break;
     }
-  
+
   }
 
   return (haystack[mid] == needle) ? mid : -1;
@@ -34,10 +34,10 @@ int firstOccurrence(const string& haystack, int low, int high, char needle) {
 
 int lastOccurrence(const string& haystack, int low, int high, char needle) {
   int mid = (low+high)/2;
-    
+
   while (low <= high) {
     mid = (low+high)/2;
-    
+
     if (haystack[mid] < needle) {
       low = mid+1;
     } else if (haystack[mid] > needle) {
@@ -47,7 +47,7 @@ int lastOccurrence(const string& haystack, int low, int high, char needle) {
       if (farthestRight != -1) mid = farthestRight;
       break;
     }
-  
+
   }
 
   return (haystack[mid] == needle) ? mid : -1;
@@ -72,7 +72,7 @@ int main() {
   while (cin >> round && round != -1) {
     wrongGuesses = 0, rightGuesses = 0;
     cin >> input >> guesses;
-    
+
     sort(input.begin(), input.end());
 
     /**
@@ -90,7 +90,7 @@ int main() {
         if (numOccur != -1) rightGuesses += numOccur;
         else wrongGuesses++;
       }
-      
+
       chars[guesses[i]]++;
       ++i;
     }
@@ -102,6 +102,6 @@ int main() {
     else if (rightGuesses == input.length()) cout << "You win." << endl;
     else if (wrongGuesses == 7) cout << "You lose." << endl;
   }
-  
+
   return 0;
 }

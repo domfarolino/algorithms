@@ -23,7 +23,7 @@ string sanitizeInput(const string& input) {
   for (int i = 0; i < input.length(); ++i) {
     if (input[i] != '<' && input[i] != '>') returnString += input[i];
   }
-  
+
   return returnString;
 }
 
@@ -77,6 +77,6 @@ int main() {
 
     segments.clear();
   }
-  
+
   return 0;
 }

@@ -40,7 +40,7 @@ double fillOutNumber(const string& pool, int pos) {
   } else {
     returnNumber = stod(numString);
   }
-  
+
   return returnNumber;
 }
 
@@ -61,7 +61,7 @@ int main() {
   for (int i = 0; i < total; ++i) {
     dataFieldPosition = -1;
     hasP = false, hasI = false, hasU = false;
-    
+
     cout << "Problem #" << i+1 << endl;
     getline(cin, problemStatement);
 

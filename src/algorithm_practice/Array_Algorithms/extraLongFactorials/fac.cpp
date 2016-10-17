@@ -78,28 +78,28 @@ using namespace std;
 vector<int> addVectors(const vector<int>& a, const vector<int>& b) {
   int maxSize = max(a.size(), b.size());
   vector<int> outputVec(maxSize);
-  
+
   int aIndex = a.size()-1, bIndex = b.size()-1, carry = 0;
   int aVal, bVal;
-  
+
   for (int i = maxSize-1; i >= 0; --i) {
     if (aIndex < 0) aVal = 0;
     else aVal = a[aIndex];
-    
+
     if (bIndex < 0) bVal = 0;
     else bVal = b[bIndex];
-    
+
     outputVec[i] = (aVal + bVal + carry)%10;
-    
+
     if (aVal + bVal + carry > 9) carry = 1;
     else carry = 0;
-    
+
     aIndex--;
     bIndex--;
   }
-  
+
   if (carry) outputVec.insert(outputVec.begin(), 1);
-  
+
   return outputVec;
 }
 
@@ -111,12 +111,12 @@ vector<int> addVectors(const vector<int>& a, const vector<int>& b) {
  */
 vector<int> multiplyVectorByIntegerNaive(const vector<int>& numVector, int n) {
   vector<int> returnVec = numVector;
-  
+
   while (n != 1) {
     returnVec = addVectors(returnVec, numVector);
     n--;
   }
-  
+
   return returnVec;
 }
 
@@ -128,19 +128,19 @@ vector<int> multiplyVectorByIntegerNaive(const vector<int>& numVector, int n) {
  */
 vector<int> multiplyVectorByInteger(const vector<int>& numVector, int n) {
   vector<int> returnVec(numVector.size());
-  
+
   int carry = 0;
-  
+
   for (int i = 0; i < numVector.size(); ++i) {
     returnVec[i] = (numVector[i]*n + carry) % 10;
     carry = (numVector[i]*n + carry) / 10;
   }
-  
+
   while (carry) {
     returnVec.push_back(carry%10);
     carry /= 10;
   }
-  
+
   return returnVec;
 }
 
@@ -153,19 +153,19 @@ int main() {
   int n;
 
   while (cin >> n) {
-  
+
     while (n) {
       output = multiplyVectorByInteger(output, n);
       n--;
     }
-    
+
     for (vector<int>::const_reverse_iterator i = output.rbegin(); i != output.rend(); ++i) {
       cout << *i;
     }
-  
+
     cout << endl;
     output = {1};
   }
-  
+
   return 0;
 }

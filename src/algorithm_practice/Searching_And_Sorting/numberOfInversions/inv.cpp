@@ -100,6 +100,6 @@ int main() {
 
     nums.clear();
   }
-  
+
   return 0;
 }

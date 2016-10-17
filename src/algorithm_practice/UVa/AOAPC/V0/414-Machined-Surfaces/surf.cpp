@@ -67,7 +67,7 @@ int main() {
     v.reserve(n);
     mini = INT_MAX;
     totalSpaces = 0;
-    
+
     for (int i = 0; i < n; ++i) {
       cin.get();
       getline(cin, row);
@@ -83,6 +83,6 @@ int main() {
     cout << totalSpaces << endl;
     v.clear();
   }
-  
+
   return 0;
 }

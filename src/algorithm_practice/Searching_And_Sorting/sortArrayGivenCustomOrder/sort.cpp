@@ -118,7 +118,7 @@ int main() {
     cin >> l1 >> l2;
     nums.reserve(l1);
     customOrder.reserve(l2);
-    
+
     for (int j = 0; j < l1; ++j) {
       cin >> tmp;
       nums.push_back(tmp);

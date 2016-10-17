@@ -18,7 +18,7 @@ int main() {
   int i = 1;
 
   cin >> a >> limit;
-  
+
   while (a > 0 && limit > 0) {
     tmpA = a;
     numTerms = 1;
@@ -36,6 +36,6 @@ int main() {
     cin >> a >> limit;
     ++i;
   }
-  
+
   return 0;
 }
