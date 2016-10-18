@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// Source: https://www.hackerrank.com/contests/world-codesprint-6/challenges/flipping-the-matrix
+
 /**
  * Flipping the matrix
  * Each value in the upper left
