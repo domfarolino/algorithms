@@ -1,6 +1,5 @@
 #
-# This is an example Makefile for a caesar cipher program.  This
-# program uses both the caesar cipher module and a crypto analysis module.
+# This is an example Makefile for autokey cipher program.
 # Typing 'make' or 'make main' will create the executable file.
 #
 
@@ -22,13 +21,6 @@ main: autoKey.o
 
 autoKey.o: autoKey.cpp autoKey.h
 	$(CC) $(CFLAGS) -c autoKey.cpp
-
-# cryptoAnalysis.o: cryptoAnalysis.h cryptoAnalysis.cpp \
-# 									caesarCipher.h caesarCipher.cpp
-# 	$(CC) $(CFLAGS) -c cryptoAnalysis.cpp caesarCipher.cpp
-#
-# caesarCipher.o: caesarCipher.h caesarCipher.cpp
-# 	$(CC) $(CFLAGS) -c caesarCipher.cpp
-#
+	
 clean:
 	rm *.o main
