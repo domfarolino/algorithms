@@ -34,17 +34,16 @@ void test(std::string text) {
   std::cout << text << ": " << isPalindrome(text) << std::endl;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   std::cout << "palindrome tests" << std::endl;
-  test("racecar"); // palindrome
-  test("r a c e c a r!"); // palindrome
-  test("Mother Eve's noose we soon sever, eh Tom?"); // palindrome
-  test("On a clover, if alive, erupts a vast, pure evil; a fire volcano."); // palindrome
+  test("racecar");
+  test("r a c e c a r!");
+  test("Mother Eve's noose we soon sever, eh Tom?");
+  test("On a clover, if alive, erupts a vast, pure evil; a fire volcano.");
 
   std::cout << "Non-palindrome tests" << std::endl;
-  test("abcd"); // not a palindrome
-  test("palindrome"); // not a palindrome
-  test("!!hacktoberfest!!"); // not a palindrome
+  test("abcd");
+  test("palindrome");
+  test("!!hacktoberfest!!");
   return 0;
 }
