@@ -1,8 +1,3 @@
-/*
-ID: caroltr1
-LANG: C
-TASK: barn1
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

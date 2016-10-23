@@ -1,8 +1,3 @@
-/*
-ID: caroltr1
-LANG: C
-TASK: wormhole
-*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
