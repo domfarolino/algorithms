@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <string>
 #include <math.h> /* floor */
 
@@ -47,4 +46,5 @@ int main(int argc, char *argv[])
   test("abcd"); // not a palindrome
   test("palindrome"); // not a palindrome
   test("!!hacktoberfest!!"); // not a palindrome
+  return 0;
 }
