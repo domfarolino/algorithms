@@ -1,15 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>  /* sort */
-//
-// Bucket Sort
-//
-// Time complexity
-//  Best:     Ω(n+k), k = number of buckets
-//  Average:  Θ(n+k)
-//  Worst:    0(n^2), happens if all elements are put into the same bucket
-// Space complexity
-//  Worst:    0(n)
 
 /*
  * Bucket sort works well when you can guarantee that
@@ -20,6 +11,12 @@
  * puts elements into a "bucket" and then another sorting algorithm
  * comes in to sort the buckets. Commonly insertion sort has been a
  * popular way to sort buckets.
+ *
+ * Complexity analysis:
+ * Time complexity:
+ *    Best:     Ω(n + k), k = number of buckets
+ *    Average:  Θ(n + k)
+ *    Worst:    O(n^2), if all elements are put into the same bucket
 */
 
 template <typename T>
