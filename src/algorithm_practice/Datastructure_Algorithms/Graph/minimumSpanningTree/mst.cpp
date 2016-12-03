@@ -106,12 +106,18 @@ public:
   }
 
   /**
-   * Kruskal's algorithm to find the minimum
-   * cost spanning tree of a graph utilizes a
-   * sorting algorithm and disjoint sets to compute
-   * the minimum cost spanning tree.
-   * Time complexity: O(e*log(e))
-   * Space complexity: O(v + e)
+   * Kruskal's algorithm to find the minimum cost
+   * spanning tree of a graph utilizes a sorting
+   * algorithm and disjoint sets to compute the
+   * minimum cost spanning tree. We start out with
+   * each node as its own set entirely disjoint from
+   * every other set. We then go through the list of
+   * sorted edges and we want to pick the smallest edge
+   * connecting two disjoing subsets, and we can always
+   * ensure we'll come across the smallest edge first since
+   * the list of edges are sorted.
+   * Time complexity: O(E*log(E))
+   * Space complexity: O(V + E)
    */
   vector<Edge> kruskal() {
     vector<Edge> minimumCostSpanningTree;
@@ -184,71 +190,60 @@ public:
    * in this vertex's adjacencies. We want to set each adjacent vertex's
    * parent value equal to the node we started with and its "key" value equal to
    * the weight of the edge connecting them if and only if the weight of that edge
-   * is less than the adjacent vertex's key value.
+   * is less than the adjacent vertex's key value. As we continue, we'll end up with
+   * a set of the minimum cost edges since we're always giving ourselves a chance to
+   * update some vertex's key value to the minimum possible before committing it to the
+   * returned set of edges.
+   * Time complexity: O(V^2) // can be reduced to O(Elog(V)) with a priority queue
+   * Space complexity: O(V + E) ?
    */
-  vector<Edge> prim() {
-    unordered_map<string, int> keyMap;
-    unordered_map<string, string> parentMap;
-
+  vector<Edge> prims() {
     vector<Edge> minimumCostSpanningTree;
-    vector<string> vertexQueue = this->vertices; // artificial queue
+    vector<string> V1;
 
-    // Initialize map values for each vertex
-    for (int i = 0; i < vertices.size(); ++i) {
-      parentMap[vertices[i]] = vertices[i]; // init as "null"
-      keyMap[vertices[i]] = INT_MAX;
-    }
+    // Add a vertex to V1 to start the process
 
-    // Set our first "min" vertex by its key value
-    keyMap[vertexQueue[0]] = 0;
+    V1.push_back(this->vertices[0]);
 
-    vector<string>::iterator minVertexIterator;
-    string minVertex;
-    vector<Edge> adjacencies;
+    for (int n = 0; n < this->edges.size() - 1; n++) {
 
-    while (vertexQueue.size() != 0) {
-      minVertexIterator = min_element(vertexQueue.begin(), vertexQueue.end(), [&](string v1, string v2){return keyMap[v1] < keyMap[v2];});
-      minVertex = *minVertexIterator;
-      vertexQueue.erase(minVertexIterator);
+      // Find an edge in this->edge of min cost that connects vertex in V1 to a vertex not in V1
+      vector<Edge> bridgeEdges;
 
-      // If minVertex has had its parent set
-      if (parentMap[minVertex] != minVertex) {
-        // Store the edge between minVertex and its parent
-        cout << minVertex << " -- " << parentMap[minVertex] << endl;
-      }
-
-      adjacencies = findAdjacencies(minVertex);
-
-      /**
-       * For each adjacent vertex, if the vertex's
-       * key is less than the edge weight between it
-       * and the minVertex we want to update its key
-       * and parent such that the adjacent vertex in
-       * question is associated with the minVertex.
-       */
-      for (int i = 0; i < adjacencies.size(); ++i) {
-        if (adjacencies[i].v1 == minVertex) {
-          //cout << minVertex << "adjacency: " << adjacencies[i].v2 << endl;
-
-          if (find(vertexQueue.begin(), vertexQueue.end(), adjacencies[i].v2) != vertexQueue.end() && adjacencies[i].weight < keyMap[adjacencies[i].v2]) {
-            parentMap[adjacencies[i].v2] = minVertex;
-            keyMap[adjacencies[i].v2] = adjacencies[i].weight;
-          }
-
-        } else if (adjacencies[i].v2 == minVertex) {
-          //cout << minVertex << "adjacency: " << adjacencies[i].v1 << endl;
-
-          if (find(vertexQueue.begin(), vertexQueue.end(), adjacencies[i].v1) != vertexQueue.end() && adjacencies[i].weight < keyMap[adjacencies[i].v1]) {
-            parentMap[adjacencies[i].v1] = minVertex;
-            keyMap[adjacencies[i].v1] = adjacencies[i].weight;
-          }
-
+      // Of all edges in the graph, select ones with one vertex in V1 and one not in V1
+      for (int i = 0; i < this->edges.size(); i++) {
+        // If the edge has got one foot in and one foot out
+        if ((find(V1.begin(), V1.end(), this->edges[i].v1) != V1.end() && find(V1.begin(), V1.end(), this->edges[i].v2) == V1.end())
+        || (find(V1.begin(), V1.end(), this->edges[i].v1) == V1.end() && find(V1.begin(), V1.end(), this->edges[i].v2) != V1.end())) {
+          // Add it to bridge edges
+          bridgeEdges.push_back(this->edges[i]);
         }
       }
-    }
+
+      if (bridgeEdges.size() > 0) {
+
+        // Get min cost edge
+        int minLoc = 0;
+
+        for (int i = 0; i < bridgeEdges.size(); i++) {
+          minLoc = bridgeEdges[i] < bridgeEdges[minLoc] ? i : minLoc;
+        }
+
+        minimumCostSpanningTree.push_back(bridgeEdges[minLoc]);
+
+        // Add the vertex that is not in V1 already
+        if (find(V1.begin(), V1.end(), bridgeEdges[minLoc].v1) != V1.end()) {
+          V1.push_back(bridgeEdges[minLoc].v2);
+        } else {
+          V1.push_back(bridgeEdges[minLoc].v1);
+        }
+
+      }
+    } // end for loop
 
     return minimumCostSpanningTree;
   }
+
 };
 
 int main() {
@@ -275,14 +270,19 @@ int main() {
    * Talk to Graph class to run Kruskal
    */
   Graph G(vertices, edges);
-  vector<Edge> minimumCostSpanningTree = G.kruskal();
-
-  G.prim();
-  cout << endl << endl;
+  vector<Edge> minimumCostSpanningTreeKruskal = G.kruskal();
+  vector<Edge> minimumCostSpanningTreePrim = G.prims();
 
   // Print minimum spanning tree
-  for (int i = 0; i < minimumCostSpanningTree.size(); ++i) {
-    cout << minimumCostSpanningTree[i].v1 << " -- " << minimumCostSpanningTree[i].v2 << " " << minimumCostSpanningTree[i].weight << endl;
+  for (int i = 0; i < minimumCostSpanningTreeKruskal.size(); ++i) {
+    cout << minimumCostSpanningTreeKruskal[i].v1 << " -- " << minimumCostSpanningTreeKruskal[i].v2 << " " << minimumCostSpanningTreeKruskal[i].weight << endl;
+  }
+
+  cout << endl;
+
+  // Print minimum spanning tree
+  for (int i = 0; i < minimumCostSpanningTreePrim.size(); ++i) {
+    cout << minimumCostSpanningTreePrim[i].v1 << " -- " << minimumCostSpanningTreePrim[i].v2 << " " << minimumCostSpanningTreePrim[i].weight << endl;
   }
 
   return 0;
