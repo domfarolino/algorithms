@@ -1,0 +1,35 @@
+12 22
+SanFrancisco
+Minneapolis
+KansasCity
+Dallas
+Chicago
+St.Louis
+Cleveland
+Atlanta
+Richmond
+Philadelphia
+NY
+Boston
+SanFrancisco Minneapolis 2057
+SanFrancisco KansasCity 1871
+SanFrancisco Dallas 1763
+Minneapolis KansasCity 509
+Minneapolis Chicago 412
+KansasCity Dallas 495
+Chicago KansasCity 504
+KansasCity St.Louis 252
+Chicago St.Louis 294
+St.Louis Dallas 643
+St.Louis Atlanta 554
+Dallas Atlanta 792
+Cleveland St.Louis 565
+Cleveland Chicago 341
+Cleveland Atlanta 712
+Cleveland Richmond 458
+Cleveland Philadelphia 437
+Cleveland NY 486
+Atlanta Richmond 529
+Richmond Philadelphia 248
+Philadelphia NY 109
+NY Boston 216
