@@ -1,9 +1,12 @@
 #include <iostream>
+#include <algorithm>
+#include <climits>
 #include <vector>
 
 using namespace std;
 
 // Source: https://leetcode.com/contest/smarking-algorithm-contest-3/problems/minimum-moves-to-equal-array-elements/
+// Source: https://leetcode.com/problems/minimum-moves-to-equal-array-elements/
 
 /**
  * Minimum Moves to Equal Array Elements
@@ -70,7 +73,7 @@ using namespace std;
  * Time complexity: O(nlog(n))
  * Space complexity: depends on implementation of sort
  */
-int minMovesSlower(vector<int>& nums) {
+int minMovesSort(vector<int>& nums) {
   sort(nums.begin(), nums.end());
   int minimum = nums[0], maximum = nums[nums.size() - 1];
 
@@ -116,10 +119,41 @@ int minMoves(vector<int>& nums) {
   return retMoves - 1;
 }
 
+/**
+ * This solution does not keep track of the
+ * min and max indices. We get around this by
+ * not setting moves equal to anything and just
+ * calculating each value in the array's effect
+ * on the number of moves. Slightly less work here
+ * but same complexity as the above version.
+ */
+int minMovesLeaner(vector<int>& nums) {
+  int moves = 0, min = INT_MAX, max = INT_MIN;
+  for (int i = 0; i < nums.size(); ++i) {
+    if (nums[i] < min) min = nums[i];
+    if (nums[i] > max) max = nums[i];
+  }
+
+  for (int i = 0; i < nums.size(); ++i) {
+    moves += (nums[i] - min);
+  }
+
+  return moves;
+}
+
 int main() {
-  vector<int> inputVec = {1, 1, 2, 3, 4, 5, 5, 6, 6};
+  // Good test case:
+  // [1, 4]
+  // [1, 1, 4]
+  // [1, 2, 4]
+  // [1, 2, 2, 4]
+  // [1, 3, 4]
+  // [0, 1, 3]
+
+  vector<int> inputVec = {1, 1, 2, 3, 4, 5, 5, 6, 6}; // -std=c++0x
+  cout << minMovesSort(inputVec) << endl;
   cout << minMoves(inputVec) << endl;
-  cout << minMovesSlower(inputVec) << endl;
+  cout << minMovesLeaner(inputVec) << endl;
 
   return 0;
 }
