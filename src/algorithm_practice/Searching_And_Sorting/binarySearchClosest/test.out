@@ -1,0 +1,24 @@
+Closest to 4 is: 4 at index: 1
+Value >= to 4 is: 4 at index: 1
+
+Closest to 5 is: 4 at index: 1
+Value >= to 5 is: 7 at index: 2
+
+Closest to 5 is: 4 at index: 0
+Value >= to 5 is: 8 at index: 1
+
+Closest to 5 is: 4 at index: 0
+Value >= to 5 is: 8 at index: 1
+
+Closest to 1 is: 1 at index: 0
+Value >= to 1 is: 1 at index: 0
+
+Closest to -60 is: 5 at index: 0
+Value >= to -60 is: 5 at index: 0
+
+Closest to 80 is: 79 at index: 4
+Value >= to 80 is: 81 at index: 5
+
+Closest to 110 is: 8 at index: 3
+Value >= to 110 is: 0 at index: -1
+
