@@ -59,7 +59,8 @@ int main() {
   head->next->next = new Node<int>(2);
   head->next->next->next = new Node<int>(3);
 
-  head = removeDuplicates(head);
+  Node<int>* realHead = removeDuplicates(head);
+  head = realHead;
 
   while (head) {
     cout << head->val << " -> ";
@@ -68,6 +69,6 @@ int main() {
 
   cout << "null abyss" << endl;
 
-  deleteList(head);
+  deleteList(realHead);
   return 0;
 }
