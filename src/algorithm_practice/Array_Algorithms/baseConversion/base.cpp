@@ -5,6 +5,7 @@
 using namespace std;
 
 // Source: N/A
+// SO: http://stackoverflow.com/questions/41654305/recursive-base-conversion-time-complexity-analysis
 
 /**
  * Given an integer `p` and a destination base `b`, return a string representation
@@ -31,7 +32,8 @@ using namespace std;
  *
  * We could also do this iteratively. We could maintain a single return string, and keep appending (n % b) while adjusting n = (n / b).
  * As a result, we'd end up with the string we want but backwards since the least significant digit would appear at the beginning as it is
- * what we calculate first. This is the most efficient way to perform this operation.
+ * what we calculate first. This answer assumes that += is O(1) for a single character. See http://stackoverflow.com/a/15082239/3947332. The
+ * answer seems to indicate O(1) for single character appends, but the third para makes it slightly unclear.
  * Complexity analysis:
  * Time complexity: O(n) (n = logb(p))
  * Space complexity: O(n) (n = logb(p))
