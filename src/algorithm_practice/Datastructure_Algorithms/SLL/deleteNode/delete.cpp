@@ -53,7 +53,7 @@ using namespace std;
 template <typename T>
 struct Node {
   T val;
-  Node *next;
+  Node<T> *next;
   Node(T inVal, Node<T> *inNext = NULL): val(inVal), next(inNext) {}
 };
 
