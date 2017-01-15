@@ -20,8 +20,8 @@ using namespace std;
 template <typename T>
 struct Node {
   T val;
-  Node<T>* next;
-  Node(T inVal, Node* inNext = NULL): val(inVal), next(inNext) {}
+  Node<T> *next;
+  Node(T inVal, Node<T> *inNext = NULL): val(inVal), next(inNext) {}
 };
 
 template <typename T>
