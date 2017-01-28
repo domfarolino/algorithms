@@ -58,6 +58,31 @@ using namespace std;
  * Complexity analysis:
  * Time complexity: O(n)
  * Space complexity: O(1)
+ *
+ * Let's now take a look at the recursive version of this algorithm. A common pattern we see in linked list algorithms is that we may need to store a reference
+ * to the node behind the one of interest, so we can perform some operation like deleting a node. With recursion, we can often implicitly store references to nodes
+ * in stack frames instead of explicitly keeping them in variables. This means we can just focus on the steps we need to perform once we arrive at the node of interest
+ * since references to all of the previous nodes are stored implicitly on the stack. For example when we recursively delete a node from a linked list, if the current node
+ * we're on is the one we want to delete, we'll just delete it, and return the node that appears after it. This works for the base case, and also in other cases, where we'll
+ * set currentNode->next = recursiveCall(currentNode->next). It is a little wasteful, in that if there are n elements in the list, we're duplicating (n - 2) assignments that
+ * already exist, but it gives us the ability to just return a single node from each frame and have very simple code. This algorithm is very similar to just deleting a node from
+ * a linked list, the only difference being we don't want to check the node's value to determine whether or not it should be deleted, but instead we want to check how far it is from
+ * the back, probably by maintaining some counter variable. So, how we do we maintain a counter variable that persists in between stack frames? There are two main ways to do this. One
+ * requires us to have a slightly bloated function signature, by passing in some integer reference that each stack frame can modify/view without making a copy of, and the other is to use
+ * a static variable inside the function. The static variable is nice because it hides some nice implementation details inside the function and only gets assigned one time (point of static).
+ * We'll want to check this static counter on each frame and if the counter equals some value, we'll know to delete the current node. Now we need to figure out our method of actually mutating
+ * the static counter. We'll want to increment the counter as we unwind back from the end of the list to the beginning. This means we'll want to be incrementing after the recursive call in each
+ * frame, as this is when we'll be unwinding. Let's consider an example:
+ *
+ * 1 -> 2 -> 3 -> 5, n = 2
+ *
+ * With n = 2, we know we'll want to delete the `3` node. This means we'll need our static counter variable `i = 2` when we hit `3` as we're headed back to the beginning of the list. Of course
+ * this means `i = 1` when we're on the last node. We can recurse past the `5` node to hit our base case (null head), and then increment the counter. Once the counter is incremented we can check
+ * to see if `i == n`, and if so, delete the current node. Everything else from here is just like a regular recursive algorithm to delete a node from a linked list.
+ *
+ * Complexity analysis:
+ * Time complexity: O(n)
+ * Space complexity: O(n) - due to stack frame accumulation
  */
 
 template <typename T>
@@ -68,7 +93,7 @@ struct Node {
 };
 
 template <typename T>
-Node<T>* removeNthFromLast(Node<T> *head, int n) {
+Node<T>* removeNthFromLastIterative(Node<T> *head, int n) {
   if (!head) return NULL;
 
   Node<T> *fakeHead = new Node<T>(0);
@@ -101,6 +126,28 @@ Node<T>* removeNthFromLast(Node<T> *head, int n) {
   return tmp;
 }
 
+/**
+ * Note the use of a static integer may mess with your
+ * ability to use this function as a member of a class.
+ */
+template <typename T>
+Node<T>* removeNthFromLastRecursive(Node<T>* head, int n) {
+  if (!head) return NULL;
+
+  static int i = 0; // initialized once
+
+  Node<T>* next = removeNthFromLastRecursive(head->next, n);
+  ++i;
+
+  if (i == n) {
+    delete head;
+    return next;
+  }
+
+  head->next = next; // duplicate assignment I was talking about
+  return head;
+}
+
 template <typename T>
 void deleteList(Node<T> *head) {
   Node<T> *tmp;
@@ -117,10 +164,22 @@ int main() {
   head->next = new Node<int>(2);
   head->next->next = new Node<int>(3);
   head->next->next->next = new Node<int>(4);
+  head->next->next->next->next = new Node<int>(5);
 
-  head = removeNthFromLast(head, 1);
+  head = removeNthFromLastIterative(head, 1);
 
   Node<int> *tmp = head;
+
+  while (tmp) {
+    cout << tmp->val << " -> ";
+    tmp = tmp->next;
+  }
+
+  cout << endl;
+
+  head = removeNthFromLastRecursive(head, 2);
+
+  tmp = head;
 
   while (tmp) {
     cout << tmp->val << " -> ";
