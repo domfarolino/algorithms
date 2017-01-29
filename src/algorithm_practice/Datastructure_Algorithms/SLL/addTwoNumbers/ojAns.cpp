@@ -11,7 +11,7 @@ class Solution {
 public:
 
     ListNode* addTwoNumbers(ListNode *a, ListNode *b) {
-      if (!a || !b) return (a) ? a : b;
+      if (!a && !b) return NULL;
 
       ListNode *preHead = new ListNode(0), *returnHead = preHead;
       int carry = 0, tmpSum = 0;

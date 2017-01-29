@@ -82,7 +82,7 @@ struct Node {
  * the following code by getting rid of the two extra while loops!
  */
 Node<int>* addTwoNumbers(Node<int> *a, Node<int> *b) {
-  if (!a || !b) return (a) ? a : b;
+  if (!a && !b) return NULL;
 
   Node<int> *preHead = new Node<int>(0), *returnHead = preHead;
   int carry = 0;
@@ -143,7 +143,7 @@ int main() {
   b->next->next->next = new Node<int>(1);
   b->next->next->next->next = new Node<int>(1);
 
-  Node<int> *sumHead = addTwoNumbers(a, b), *tmp = sumHead;
+  Node<int> *sumHead = addTwoNumbers(a, NULL), *tmp = sumHead;
 
   while (tmp) {
     cout << tmp << ": " << tmp->val << ", ";
