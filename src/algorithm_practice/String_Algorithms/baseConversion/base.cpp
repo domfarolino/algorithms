@@ -45,6 +45,7 @@ string convertIntToBaseRecursive(int number, int base) {
 
   // Adding least significant digit to "the rest" computed recursively
   // Could reverse these operations if we wanted the string backwards.
+  if (number % base > 10) return convertIntToBaseRecursive(number / base, base) + char(number % base + 55);
   return convertIntToBaseRecursive(number / base, base) + to_string(number % base);
 }
 
@@ -52,7 +53,11 @@ string convertIntToBaseIterative(int number, int base) {
   string retString = "";
 
   while (number) {
-    retString += to_string(number % base);
+    if (number % base > 10) {
+      retString += char(number % base + 55);
+    } else {
+      retString += to_string(number % base);
+    }
     number /= base;
   }
 
@@ -62,7 +67,7 @@ string convertIntToBaseIterative(int number, int base) {
 }
 
 int main() {
-  for (int i = 2; i < 10; ++i) {
+  for (int i = 2; i <= 16; ++i) {
     cout << "Base " << i << ":" << endl;
     cout << convertIntToBaseRecursive(511, i) << endl;
     cout << convertIntToBaseIterative(511, i) << endl;
