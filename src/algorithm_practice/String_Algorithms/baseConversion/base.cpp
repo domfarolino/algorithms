@@ -67,10 +67,10 @@ string convertIntToBaseIterative(int number, int base) {
 }
 
 int main() {
-  for (int i = 2; i <= 16; ++i) {
+  for (int i = 2; i <= 36; ++i) {
     cout << "Base " << i << ":" << endl;
-    cout << convertIntToBaseRecursive(511, i) << endl;
-    cout << convertIntToBaseIterative(511, i) << endl;
+    cout << convertIntToBaseRecursive(2017, i) << endl;
+    cout << convertIntToBaseIterative(2017, i) << endl;
     cout << "---" << endl;
   }
   return 0;
