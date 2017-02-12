@@ -31,7 +31,7 @@ template <typename T>
 struct Node {
   T val;
   Node<T> *left, *right;
-  Node(T inVal, Node<T> *inLeft = NULL, Node<T> *inRight = NULL): val(inVal), left(inLeft), right(inRight) {}
+  Node(T inVal): val(inVal), left(NULL), right(NULL) {}
 };
 
 /**
@@ -53,6 +53,9 @@ bool subtreesSymmetric(Node<T> *left, Node<T> *right) {
   return (left->val == right->val) && subtreesSymmetric(left->left, right->right) && subtreesSymmetric(left->right, right->left);
 }
 
+/**
+ * Utility function to delete a binary tree
+ */
 template <typename T>
 void deleteTree(Node<T> *root) {
   if (!root) return;
