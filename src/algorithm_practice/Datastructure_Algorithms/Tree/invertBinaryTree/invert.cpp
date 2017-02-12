@@ -17,9 +17,10 @@ using namespace std;
  * The iterative version of this algorithm is a basic breadth first search.
  * We want to store all of the nodes in a queue, and for each node, swap its
  * children.
+ *
+ * Complexity analysis:
  * Time complexity: O(n) - since we have to touch all of the nodes
- * Space complexity: O(n) - since worst case we have to store all of
- * the nodes in the queue technically
+ * Space complexity: O(n) - since worst case we have to store all of the nodes in the queue technically
  */
 
 template <typename T>
