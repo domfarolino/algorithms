@@ -65,8 +65,8 @@ void Vector<T>::push_back(T val) {
 }
 
 /**
- * Time complexity: O(1)
- * Space complexity: O(1)
+ * Time complexity: O(n)
+ * Space complexity: O(1) amortized
  */
 template <typename T>
 void Vector<T>::push_front(T val) {
@@ -107,7 +107,7 @@ void Vector<T>::pop_back() {
 
 /**
  * Time complexity: O(n)
- * Space complexity: O(n)
+ * Space complexity: O(1)
  */
 template <typename T>
 void Vector<T>::pop_front() {
