@@ -60,9 +60,11 @@ void SLL<T>::removeFromHead() {
   if (!this->head) return;
 
   Node<T> *tmp = this->head->next;
-  delete this->head;
-  this->head = tmp;
 
+  delete this->head;
+  this->head = NULL;
+
+  this->head = tmp;
   if (!this->head) this->tail = NULL;
 }
 
@@ -71,9 +73,7 @@ void SLL<T>::removeFromTail() {
   if (!this->tail) return;
 
   if (this->head == this->tail) {
-    delete this->head;
-    this->head = NULL;
-    return;
+    return this->removeFromHead();
   }
 
   Node<T> *curr = this->head;
@@ -82,7 +82,9 @@ void SLL<T>::removeFromTail() {
   }
 
   delete this->tail;
+
   this->tail = curr;
+  this->tail->next = NULL;
 }
 
 template <typename T>
@@ -96,9 +98,12 @@ void SLL<T>::remove(T elem) {
     tmp = tmp->next;
   }
 
+  // Could not find it
+  if (!tmp->next) return;
+
   Node<T> *next = tmp->next->next;
 
-  if (this->tail == tmp->next) {
+  if (tmp->next == this->tail) {
     this->tail = tmp;
   }
 

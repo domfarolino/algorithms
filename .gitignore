@@ -1,5 +1,6 @@
 .vscode/
 # Generated Files
+a.out
 *.[oa]
 *.py[co]
 
