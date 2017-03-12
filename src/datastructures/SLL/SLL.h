@@ -159,6 +159,9 @@ void SLL<T>::clear() {
     delete this->head;
     this->head = next;
   }
+
+  // Don't need to set this->head = NULL because of the way we iterate
+  // We guarantee that this->head = NULL at the end of the function
 }
 
 /**
