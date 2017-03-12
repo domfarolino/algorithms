@@ -33,6 +33,10 @@ public:
 
 };
 
+/**
+ * Time complexity: O(1)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void SLL<T>::addToHead(T elem) {
   if (!this->head) {
@@ -41,9 +45,13 @@ void SLL<T>::addToHead(T elem) {
   }
 
   Node<T> *newHead = new Node<T>(elem, this->head);
-  this->head = newHead;
+  this->head = newHead; // could jam this into one line
 }
 
+/**
+ * Time complexity: O(1)
+ * Space complexity O(1)
+ */
 template <typename T>
 void SLL<T>::addToTail(T elem) {
   if (!this->head) {
@@ -55,6 +63,10 @@ void SLL<T>::addToTail(T elem) {
   this->tail = this->tail->next;
 }
 
+/**
+ * Time complexity: O(1)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void SLL<T>::removeFromHead() {
   if (!this->head) return;
@@ -62,12 +74,15 @@ void SLL<T>::removeFromHead() {
   Node<T> *tmp = this->head->next;
 
   delete this->head;
-  this->head = NULL;
 
   this->head = tmp;
   if (!this->head) this->tail = NULL;
 }
 
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void SLL<T>::removeFromTail() {
   if (!this->tail) return;
@@ -84,9 +99,13 @@ void SLL<T>::removeFromTail() {
   delete this->tail;
 
   this->tail = curr;
-  this->tail->next = NULL;
+  this->tail->next = NULL; // important!
 }
 
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void SLL<T>::remove(T elem) {
   if (!this->head) return;
@@ -101,16 +120,20 @@ void SLL<T>::remove(T elem) {
   // Could not find it
   if (!tmp->next) return;
 
-  Node<T> *next = tmp->next->next;
+  Node<T> *next = tmp->next->next; // either proper "next" node, or "NULL" after old tail
 
   if (tmp->next == this->tail) {
     this->tail = tmp;
   }
 
   delete tmp->next;
-  tmp->next = next;
+  tmp->next = next; // seals gap for regular list, or ensures list ends with NULL
 }
 
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
 template <typename T>
 bool SLL<T>::exists(T elem) {
   Node<T> tmp = this->head;
@@ -123,14 +146,18 @@ bool SLL<T>::exists(T elem) {
   return false;
 }
 
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void SLL<T>::clear() {
-  Node<T> *tmp = this->head;
+  Node<T> *next = this->head;
 
-  while (tmp) {
-    tmp = tmp->next;
+  while (this->head) {
+    next = this->head->next;
     delete this->head;
-    this->head = tmp;
+    this->head = next;
   }
 }
 

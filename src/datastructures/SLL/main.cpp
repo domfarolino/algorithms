@@ -104,6 +104,18 @@ void remove() {
   assert(list.listToString() == "");
 }
 
+void clear() {
+  SLL<int> list;
+  list.addToHead(1);
+  list.addToHead(2);
+  list.addToHead(3);
+
+  list.clear();
+  assert(list.listToString() == "");
+  list.clear();
+  assert(list.listToString() == "");
+}
+
 int main() {
   addToHead();
   addToTail();
@@ -111,6 +123,7 @@ int main() {
   removeFromHead();
   removeFromTail();
   remove();
+  clear();
 
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
