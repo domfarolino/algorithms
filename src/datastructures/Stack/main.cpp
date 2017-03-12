@@ -37,8 +37,23 @@ void popAndSize() {
   assert(stack.size() == 0);
   stack.pop();
   assert(stack.size() == 0);
+}
+
+void popAndEmpty() {
+  Stack<int> stack;
+  stack.push(1);
+  stack.push(2);
+  stack.push(3);
+
+  assert(!stack.empty());
   stack.pop();
-  assert(stack.size() == 0);
+  assert(!stack.empty());
+  stack.pop();
+  assert(!stack.empty());
+  stack.pop();
+  assert(stack.empty());
+  stack.pop();
+  assert(stack.empty());
 }
 
 void top() {
@@ -93,6 +108,7 @@ int main() {
   pushAndSize();
   pushAndEmpty();
   popAndSize();
+  popAndEmpty();
   top();
   clear();
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
