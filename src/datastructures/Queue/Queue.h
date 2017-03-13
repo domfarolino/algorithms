@@ -12,11 +12,11 @@ private:
 public:
   Queue() {}
 
-  int size() {
+  int size() const {
     return inbox.size() + outbox.size();
   }
 
-  bool empty() {
+  bool empty() const {
     return inbox.empty() && outbox.empty();
   }
 
