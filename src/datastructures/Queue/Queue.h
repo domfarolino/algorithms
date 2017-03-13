@@ -25,11 +25,19 @@ public:
   T front();
 };
 
+/**
+ * Time complexity: O(1)
+ * Space complexity: O(1)
+ */
 template <typename T>
 void Queue<T>::enqueue(T val) {
   this->inbox.push(val);
 }
 
+/**
+ * Time complexity: O(1) amortized
+ * Space complexity: O(1)
+ */
 template <typename T>
 void Queue<T>::dequeue() {
   if (this->inbox.empty() && this->outbox.empty()) return;
@@ -41,6 +49,10 @@ void Queue<T>::dequeue() {
   this->outbox.pop();
 }
 
+/**
+ * Time complexity: O(1) amortized
+ * Space complexity: O(1)
+ */
 template <typename T>
 T Queue<T>::front() {
   if (this->inbox.empty() && this->outbox.empty()) throw std::logic_error("Trying to view top element of an empty stack");
@@ -53,7 +65,10 @@ T Queue<T>::front() {
 }
 
 /**
- * Private utility to
+ * Private utility to transfer elements from incoming stack to outgoing stack.
+ * More or less reverses the order of a stack while still allowing items to be inputted.
+ * Time complexity: O(n)
+ * Space complexity: O(1)
  */
 template <typename T>
 void Queue<T>::transfer() {
