@@ -157,6 +157,26 @@ void clear() {
   assert(vector.capacity() == 0);
 }
 
+void overloadedConstructor() {
+  Vector<int> vector(-100);
+
+  assert(vector.empty());
+  assert(vector.size() == 0);
+  assert(vector.capacity() == 1);
+
+  vector.push_back(1);
+
+  assert(!vector.empty());
+  assert(vector.size() == 1);
+  assert(vector.capacity() == 1);
+
+  vector.push_back(1);
+
+  assert(!vector.empty());
+  assert(vector.size() == 2);
+  assert(vector.capacity() == 2);
+}
+
 int main() {
   pushBackAndSize();
   popBackAndSize();
@@ -171,6 +191,7 @@ int main() {
   size();
   reverse();
   clear();
+  overloadedConstructor();
 
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;

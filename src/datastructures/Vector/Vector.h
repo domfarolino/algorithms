@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a >= _b ? _a : _b; })
+
 template <typename T>
 class Vector {
 private:
@@ -9,7 +11,7 @@ private:
 
 public:
   Vector(): _size(0), _capacity(1), _data(new T[this->_capacity]) {}
-  Vector(int inCapacity): _size(0), _capacity(inCapacity), _data(new T[this->_capacity]) {}
+  Vector(int inCapacity): _size(0), _capacity(MAX(1, inCapacity)), _data(new T[this->_capacity]) {}
 
   int size() const {
     return this->_size;
