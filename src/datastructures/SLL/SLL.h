@@ -110,7 +110,9 @@ template <typename T>
 void SLL<T>::remove(T elem) {
   if (!this->head) return;
 
-  if (this->head->val == elem) return this->removeFromHead();
+  if (this->head->val == elem) {
+    return this->removeFromHead();
+  }
 
   Node<T> *tmp = this->head;
   while (tmp->next && tmp->next->val != elem) {
@@ -162,6 +164,9 @@ void SLL<T>::clear() {
 
   // Don't need to set this->head = NULL because of the way we iterate
   // We guarantee that this->head = NULL at the end of the function
+
+  // Maintain invariant
+  this->tail = NULL;
 }
 
 /**
