@@ -1,8 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <stdexcept>
-
 template <typename T>
 struct Node {
   T val;
