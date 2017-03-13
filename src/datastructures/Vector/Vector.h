@@ -27,7 +27,9 @@ public:
 
   void clear() {
     delete[] this->_data;
+    this->_data = NULL;
     this->_size = 0;
+    this->_capacity = 0;
   }
 
   ~Vector() {
@@ -39,7 +41,7 @@ public:
   void pop_back();
   void pop_front();
   void reverse();
-  T& operator[](int);
+  T& operator[](int) const;
 };
 
 /**
@@ -143,7 +145,7 @@ void Vector<T>::reverse() {
  * Space complexity: O(1)
  */
 template <typename T>
-T& Vector<T>::operator[](int idx) {
+T& Vector<T>::operator[](int idx) const {
   if (idx >= 0 && idx < this->_size) return this->_data[idx];
   else throw std::logic_error("Access out of bounds " + std::to_string(idx));
 }

@@ -107,7 +107,7 @@ void popFrontAndIndex() {
   }
 }
 
-void sizeTest() {
+void size() {
   Vector<int> vector(10);
 
   for (int i = 0; i < 100; ++i) {
@@ -125,7 +125,7 @@ void sizeTest() {
   assert(vector.size() == 0);
 }
 
-void reverseTest() {
+void reverse() {
   const int size = 100;
   Vector<int> vector(size);
 
@@ -141,6 +141,21 @@ void reverseTest() {
 
 }
 
+void clear() {
+  Vector<int> vector(100);
+
+  for (int i = 0; i < 20; ++i) {
+    vector.push_back(i);
+  }
+
+  vector.clear();
+  vector.clear();
+
+  assert(vector.size() == 0);
+  assert(vector.empty());
+  assert(vector.capacity() == 0);
+}
+
 int main() {
   pushBackAndSize();
   popBackAndSize();
@@ -152,8 +167,9 @@ int main() {
   pushFrontAndIndex();
   popFrontAndIndex();
 
-  sizeTest();
-  reverseTest();
+  size();
+  reverse();
+  clear();
 
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
