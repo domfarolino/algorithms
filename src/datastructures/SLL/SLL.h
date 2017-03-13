@@ -25,11 +25,11 @@ public:
   void removeFromHead();
   void removeFromTail();
   void remove(T);
-  bool exists(T);
+  bool exists(T) const;
   void clear();
 
-  std::string listToString();
-  void printList();
+  std::string listToString() const;
+  void printList() const;
 
 };
 
@@ -135,7 +135,7 @@ void SLL<T>::remove(T elem) {
  * Space complexity: O(1)
  */
 template <typename T>
-bool SLL<T>::exists(T elem) {
+bool SLL<T>::exists(T elem) const {
   Node<T> tmp = this->head;
 
   while (tmp) {
@@ -168,7 +168,7 @@ void SLL<T>::clear() {
  * Utility for testing
  */
 template <typename T>
-std::string SLL<T>::listToString() {
+std::string SLL<T>::listToString() const {
   std::string result;
   Node<T> *tmp = this->head;
 
@@ -185,7 +185,7 @@ std::string SLL<T>::listToString() {
  * Utility for testing
  */
 template <typename T>
-void SLL<T>::printList() {
+void SLL<T>::printList() const {
   std::cout << this->listToString() << std::endl;
 }
 
