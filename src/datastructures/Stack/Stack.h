@@ -19,17 +19,17 @@ private:
 public:
   Stack(): head(NULL), _size(0) {}
 
-  int size() {
+  int size() const {
     return this->_size;
   }
 
-  bool empty() {
+  bool empty() const {
     return this->_size == 0;
   }
 
   void push(T);
   void pop();
-  T top();
+  T top() const;
   void clear();
 
   ~Stack() {
@@ -67,7 +67,7 @@ void Stack<T>::pop() {
  * Space complexity: O(1)
  */
 template <typename T>
-T Stack<T>::top() {
+T Stack<T>::top() const {
   if (!this->size()) {
     throw std::logic_error("Trying to view top element of an empty stack");
   }
