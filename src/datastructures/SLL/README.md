@@ -1,6 +1,14 @@
 # Singly Linked List
 
-A singly linked list is a datastructure similar to a vector however the elements are not stored contiguously. The nature of this storage affects the complexities of some of the abstract operations such that `addToFront` (equivalent to `push_front`) is `O(1)`, finding the element at the half-way point is `O(n)`. Singly linked lists work by maintaining an internal list `head` and `tail`. In all of our operations it is imporant to maintain certain invariants, such as ensuring whenver the `head` is `NULL` the `tail` is also `NULL` and vice versa so that iterating from head to tail iterates only over safe memory. It is also important to realize when adding and removing nodes from a list, if at all we bring the list down to a single element the `head` should always equal the `tail`. Also the `tail->next` should always equal `NULL`.
+A singly linked list is a datastructure similar to a vector however the elements are not stored contiguously. The nature of this storage
+affects the complexities of some of the abstract operations such that `addToFront` (equivalent to `push_front`) is `O(1)`, finding the element
+at the half-way point is `O(n)`. Singly linked lists work by maintaining an internal list with `head` and `tail` pointers. In all of our operations
+it is imporant to maintain certain invariants, such as ensuring whenver the `head` is `NULL` the `tail` is also `NULL` and vice versa so that when
+iterating from head to tail, we iterate only over safe memory. It is also important to realize when adding and removing nodes from a list, if at
+all we bring the list down to a single element the `head` and `tail` pointers must be equal. At any given point where the `tail` is not `NULL`,
+`tail->next` should always equal `NULL`.
+
+The singly linked list is a really important datastructure as it is the underlying foundation for both stacks and queues.
 
 ## Supported operations
 
@@ -28,16 +36,19 @@ When adding something to the beginning of the list we'll see one of two cases.
  - The list is empty (`head = tail = NULL`)
  - The list has at least one node (`head != NULL`)
 
-Regarding the former, we just need to set the head equal to a new list node whose value is `elem`. Since the list will only contain one value at this point it is important to uphold our invariant of updating the tail to equal the head.
+Regarding the former, we just need to set the head equal to a new list node whose value is `elem`. Since the list will only contain
+one value at this point it is important to uphold our invariant of updating the tail to equal the head.
 
-In the average case of inserting an element at the head of a list with more than one node we'll just create a new node whose next value is equal to the current head. Then we'll set the current head equal to this new value, and we're finished.
+In the average case of inserting an element at the head of a list with more than one node we'll just create a new node whose next
+value is equal to the current head. Then we'll set the current head equal to this new value, and we're finished.
 
 <a name="addToTail"></a>
 ### `void SLL<T>::addToTail(T elem);`
 
 Adding an element to the tail of a list functions similarly to adding to the head. If the list is empty the functions behave identically.
 
-In the average case, we just need to make our current tail point to a new node whose value is `elem`. We need to set the `next` field on this node to `NULL` (prepping it to become a tail), and then set our tail pointer equal to this node.
+In the average case, we just need to make our current tail point to a new node whose value is `elem`. We need to set the `next` field on
+this node to `NULL` (prepping it to become a tail), and then set our tail pointer equal to this node.
 
 <a name="removeFromHead"></a>
 ### `void SLL<T>::removeFromHead();`
@@ -47,7 +58,8 @@ When removing an element from the head of a list, besides the case where the lis
  - The list has a single node
  - The list has many nodes
 
-The former is a special case in which we'll need to be sure to maintain our invariant and update the head and tail pointers to `NULL` after deleting the head.
+The former is a special case in which we'll need to be sure to maintain our invariant and update the head and tail pointers to `NULL`
+after deleting the head.
 
 In general we'll want to reverse what we did in `addToHead` so basically assuming the head exists, we'll want to:
 
@@ -55,17 +67,21 @@ In general we'll want to reverse what we did in `addToHead` so basically assumin
 2. Delete `head`
 3. Set `head` equal to `head->next`
 
-These operations will be the same in both cases, and we can take care of the former case by just checking to see if our new head is `NULL` or not. If it is, we know we just deleted the tail and we should update our tail pointer. Else, we do nothing.
+These operations will be the same in both cases, and we can take care of the former case by just checking to see if our new head is `NULL` or
+not. If it is, we know we just deleted the tail and we should update our tail pointer. Else, we do nothing.
 
 <a name="removeFromTail"></a>
 ### `void SLL<T>::removeFromTail();`
 
-When removing *any* element of a list it is convenient to have a pointer to the element that comes before it. Consider the case in which we want to delete the node `3` in the following list: `2 -> 3 -> 4`. In this case we'll want to seal the gap that deleting `3` creates so we'll need a pointer to `2`. We run into a similar position when deleting the tail node from a list, since we'll want to update:
+When removing *any* element of a list it is convenient to have a pointer to the element that comes before it. Consider the case in which we want
+to delete the node `3` in the following list: `2 -> 3 -> 4`. In this case we'll want to seal the gap that deleting `3` creates so we'll need a
+pointer to `2`. We run into a similar position when deleting the tail node from a list, since we'll want to update:
 
  - The new tail's next value to properly point to `NULL`
  - The tail pointer to equal the node that preceded our old tail (inchworm the tail pointer back)
 
-When deleting a node from a non-empty list, this works fine unless the list contains *only* a single element. In this case it is impossible to get a pointer to the node before it, so we can perform the same logic that we did in `removeFromHead`.
+When deleting a node from a non-empty list, this works fine unless the list contains *only* a single element. In this case it is impossible to get
+a pointer to the node before it, so we can perform the same logic that we did in `removeFromHead`.
 
 ```cpp
   if (!this->tail) return;
@@ -75,7 +91,8 @@ When deleting a node from a non-empty list, this works fine unless the list cont
   }
 ```
 
-In the average case however, we can iterate through the list with a temporary pointer until this pointer's next is equal to the tail pointer. Our pointer will be sitting at the node right before our tail and we can proceed to:
+In the average case however, we can iterate through the list with a temporary pointer until this pointer's next is equal to the tail pointer. Our
+pointer will be sitting at the node right before our tail and we can proceed to:
 
 1. Delete our tail
 2. Set our tail pointer equal to our temporary pointer (inchworm the tail pointer back)
@@ -96,11 +113,18 @@ In the average case however, we can iterate through the list with a temporary po
 <a name="remove"></a>
 ### `void SLL<T>::remove(T elem);`
 
-When removing the first element that matches some criteria from *any* position in a linked list, much of the logic covered in the <a href="#removeFromTail">removeFromTail</a> applies. Of course we first need to check for list existence and only continue if there is at least one node in the list.
+When removing the first element that matches some criteria from *any* position in a linked list, much of the logic covered in the
+<a href="#removeFromTail">removeFromTail</a> applies. Of course we first need to check for list existence and only continue if
+there is at least one node in the list.
 
-Next we'll want to employ the same logic of iterating a temporary pointer through the list. Since deleting the head is a special case (as we cannot obtain a pointer to a node before the head) we'll check to see if the head meets our criteria first and then let one of our previous methods handle the logic for that case. We know that this method will handle all invariants properly so we can make the call and return with no worries.
+Next we'll want to employ the same logic of iterating a temporary pointer through the list. Since deleting the head is a special case
+(as we cannot obtain a pointer to a node before the head) we'll check to see if the head meets our criteria first and then let one of
+our previous methods handle the logic for that case. We know that this method will handle all invariants properly so we can make the call
+and return with no worries.
 
-In the average case we'll do our regular iteration. In the prior method (<a href="#removeFromTail">removeFromTail</a>) we stopped iterating through the list when the temporary's next field equaled the tail pointer. In this case we'll stop iterating when `temp->next` equals a node that matches our criteria (value equivalence, for example).
+In the average case we'll do our regular iteration. In the prior method (<a href="#removeFromTail">removeFromTail</a>) we stopped iterating
+through the list when the temporary's next field equaled the tail pointer. In this case we'll stop iterating when `temp->next` equals a node
+that matches our criteria (value equivalence, for example).
 
 ```cpp
   Node<T> *tmp = this->head;
@@ -109,14 +133,18 @@ In the average case we'll do our regular iteration. In the prior method (<a href
   }
 ```
 
-Of course we have to take in account that there may not be a node in the list that matches our criteria. In this case, before assuming `temp->next` is the node to delete we should do a quick check.
+Of course we have to take in account that there may not be a node in the list that matches our criteria. In this case, before assuming `temp->next` is
+the node to delete we should do a quick check.
 
 ```cpp
   // Could not find it
   if (!tmp->next) return;
 ```
 
-Now we can continue deleting `tmp->next`. To do this we want a temporary pointer to `tmp->next->next` (this is safe since at this point we know `tmp->next` exists). We then delete `tmp->next` and set `tmp->next` equal to the temporary pointer we pulled out earlier. This works well except for the case where the node we delete happens to also be the tail node, as we're not upholding our invariant of keeping the tail pointer up to date. We can fix this with a simple conditional before we continue to actually do the deleting.
+Now we can continue deleting `tmp->next`. To do this we want a temporary pointer to `tmp->next->next` (this is safe since at this point we know `tmp->next`
+exists). We then delete `tmp->next` and set `tmp->next` equal to the temporary pointer we pulled out earlier. This works well except for the case where the
+node we delete happens to also be the tail node, as we're not upholding our invariant of keeping the tail pointer up to date. We can fix this with a simple
+conditional before we continue to actually do the deleting.
 
 ```cpp
   if (tmp->next == this->tail) {
@@ -130,9 +158,13 @@ Now we can continue deleting `tmp->next`. To do this we want a temporary pointer
 <a name="exists"></a>
 ### `void SLL<T>::exists(T elem);`
 
-This method is farily trivial. We want to maintain a temporary pointer initialliy equivalent to the head and while it still exists, iterate through the list checking each node's value against `elem`.
+This method is farily trivial. We want to maintain a temporary pointer initialliy equivalent to the head and while it still
+exists, iterate through the list checking each node's value against `elem`.
 
 <a name="clear"></a>
 ### `void SLL<T>::clear();`
 
-The point of this method is to completely delete the list. We do this by iterating through the list deleting the head pointer while keeping a temporary pointer to the remaining portion of the list (`this->head->next`). Alternatively we could just keep calling <a href="#removeFromHead">removeFromHead</a> while the head still exists, since we know this method works in all cases and upholds the necessary invariants.
+The point of this method is to completely delete the list. We do this by iterating through the list deleting the head pointer while keeping
+a temporary pointer to the remaining portion of the list (`this->head->next`). Alternatively we could just keep calling
+<a href="#removeFromHead">removeFromHead</a> while the head still exists, since we know this method works in all cases and
+upholds the necessary invariants.
