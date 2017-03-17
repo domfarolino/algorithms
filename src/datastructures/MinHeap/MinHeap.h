@@ -105,12 +105,12 @@ void MinHeap<T>::bubbleDown(int index) {
 
   int indexToSwap;
 
-  if (hasLeftChild && hasRightChild) {
-
-    if (this->vec[lChildIndex] <= this->vec[rChildIndex]) indexToSwap = lChildIndex;
-    else indexToSwap = rChildIndex;
-
-  } else if (hasLeftChild) indexToSwap = lChildIndex;
+  /**
+   * Set indexToSwap equal to the valid index whose
+   * value in the vector is the lowest (highest priority)
+   */
+  if (hasLeftChild && hasRightChild) indexToSwap = (this->vec[lChildIndex] <= this->vec[rChildIndex]) ? lChildIndex : rChildIndex;
+  else if (hasLeftChild) indexToSwap = lChildIndex;
   else if (hasRightChild) indexToSwap = rChildIndex;
   else return;
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include <assert.h>
 
 #include "MinHeap.h"
