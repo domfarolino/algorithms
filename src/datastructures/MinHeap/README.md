@@ -153,7 +153,7 @@ if (a >= b) {
 
 ...we opt for:
 
-```
+```cpp
 int maxVal = max(a, b);
 
 // tons
@@ -166,24 +166,24 @@ And we get:
 
 ```cpp
 bool hasLeftChild = false, hasRightChild = false;
-  int lChildIndex = index * 2 + 1, rChildIndex = index * 2 + 2;
+int lChildIndex = index * 2 + 1, rChildIndex = index * 2 + 2;
 
-  if (lChildIndex < this->vec.size() && this->vec[index] > this->vec[lChildIndex]) hasLeftChild = true;
-  if (rChildIndex < this->vec.size() && this->vec[index] > this->vec[rChildIndex]) hasRightChild = true;
+if (lChildIndex < this->vec.size() && this->vec[index] > this->vec[lChildIndex]) hasLeftChild = true;
+if (rChildIndex < this->vec.size() && this->vec[index] > this->vec[rChildIndex]) hasRightChild = true;
 
-  int indexToSwap;
+int indexToSwap;
 
-  /**
-   * Set indexToSwap equal to the valid index whose
-   * value in the vector is the lowest (highest priority)
-   */
-  if (hasLeftChild && hasRightChild) indexToSwap = (this->vec[lChildIndex] <= this->vec[rChildIndex]) ? lChildIndex : rChildIndex;
-  else if (hasLeftChild) indexToSwap = lChildIndex;
-  else if (hasRightChild) indexToSwap = rChildIndex;
-  else return;
+/**
+  * Set indexToSwap equal to the valid index whose
+  * value in the vector is the lowest (highest priority)
+  */
+if (hasLeftChild && hasRightChild) indexToSwap = (this->vec[lChildIndex] <= this->vec[rChildIndex]) ? lChildIndex : rChildIndex;
+else if (hasLeftChild) indexToSwap = lChildIndex;
+else if (hasRightChild) indexToSwap = rChildIndex;
+else return;
 
-  T childItem = this->vec[indexToSwap];
-  this->vec[indexToSwap] = this->vec[index];
-  this->vec[index] = childItem;
-  return bubbleDown(indexToSwap);
+T childItem = this->vec[indexToSwap];
+this->vec[indexToSwap] = this->vec[index];
+this->vec[index] = childItem;
+return bubbleDown(indexToSwap);
 ```
