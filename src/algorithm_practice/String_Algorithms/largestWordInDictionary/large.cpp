@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <unordered_map>
 
 // Source: http://www.geeksforgeeks.org/find-largest-word-dictionary-deleting-characters-given-string/
 // Source: http://practice.geeksforgeeks.org/problem-page.php?pid=1710
