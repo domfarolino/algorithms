@@ -13,6 +13,9 @@ public:
   Vector(): _size(0), _capacity(1), _data(new T[this->_capacity]) {}
   Vector(int inCapacity): _size(0), _capacity(MAX(1, inCapacity)), _data(new T[this->_capacity]) {}
 
+  Vector(const Vector<T>&);
+  Vector& operator=(const Vector<T>&);
+
   int size() const {
     return this->_size;
   }
@@ -43,6 +46,45 @@ public:
   void reverse();
   T& operator[](int) const;
 };
+
+/**
+ * Copy constructor
+ * This gets used when we create
+ * a new instance of Vector from an
+ * already existing instance: Vector<int> v = existingVec;
+ */
+template <typename T>
+Vector<T>::Vector(const Vector<T>& right) {
+  this->_data = new T[right.capacity()];
+  this->_capacity = right.capacity();
+
+  for (int i = 0; i < right.size(); ++i) {
+    this->_data[i] = right[i];
+  }
+
+  this->_size = right.size();
+}
+
+/**
+ * Copy assignment operator
+ * This gets used when set an already
+ * existing instance of Vector equal to
+ * another Vector: existingVec = anotherOne;
+ */
+template<typename T>
+Vector<T>& Vector<T>::operator=(const Vector<T>& right) {
+  delete[] this->_data;
+
+  this->_data = new T[right.capacity()];
+  this->_capacity = right.capacity();
+
+  for (int i = 0; i < right.size(); ++i) {
+    this->_data[i] = right[i];
+  }
+
+  this->_size = right.size();
+  return *this;
+}
 
 /**
  * Time complexity: O(1) amortized
@@ -146,8 +188,11 @@ void Vector<T>::reverse() {
  */
 template <typename T>
 T& Vector<T>::operator[](int idx) const {
-  if (idx >= 0 && idx < this->_size) return this->_data[idx];
-  else throw std::logic_error("Access out of bounds " + std::to_string(idx));
+  if (idx >= 0 && idx < this->_size) {
+    return this->_data[idx];
+  } else {
+    throw std::logic_error("Access out of bounds " + std::to_string(idx));
+  }
 }
 
 #endif
