@@ -12,11 +12,20 @@ template <typename T>
 class SLL {
 private:
   Node<T> *head, *tail;
+  int _size;
 
 public:
-  SLL(): head(NULL), tail(NULL) {}
+  SLL(): head(NULL), tail(NULL), _size(0) {}
   SLL(const SLL<T>&);
   SLL<T>& operator=(const SLL<T>&);
+
+  int size() const {
+    return this->_size;
+  }
+
+  bool empty() const {
+    return (this->_size == 0) && (this->head == this->tail && this->tail == NULL);
+  }
 
   void addToHead(T);
   void addToTail(T);
@@ -40,7 +49,7 @@ public:
  * like SLL<int> list = alreadyExistingOne;
  */
 template <typename T>
-SLL<T>::SLL(const SLL<T>& right): head(NULL), tail(NULL) {
+SLL<T>::SLL(const SLL<T>& right): head(NULL), tail(NULL), _size(0) {
   Node<T> *rightPtr = right.head;
 
   while (rightPtr) {
@@ -76,11 +85,13 @@ template <typename T>
 void SLL<T>::addToHead(T elem) {
   if (!this->head) {
     this->head = this->tail = new Node<T>(elem);
+    this->_size++;
     return;
   }
 
   Node<T> *newHead = new Node<T>(elem, this->head);
   this->head = newHead; // could jam this into one line
+  this->_size++;
 }
 
 /**
@@ -91,11 +102,13 @@ template <typename T>
 void SLL<T>::addToTail(T elem) {
   if (!this->head) {
     this->head = this->tail = new Node<T>(elem);
+    this->_size++;
     return;
   }
 
   this->tail->next = new Node<T>(elem);
   this->tail = this->tail->next;
+  this->_size++;
 }
 
 /**
@@ -112,6 +125,8 @@ void SLL<T>::removeFromHead() {
 
   this->head = tmp;
   if (!this->head) this->tail = NULL;
+
+  this->_size--;
 }
 
 /**
@@ -134,7 +149,9 @@ void SLL<T>::removeFromTail() {
   delete this->tail;
 
   this->tail = curr;
-  this->tail->next = NULL; // important!
+  this->tail->next = NULL; // important
+
+  this->_size--;
 }
 
 /**
@@ -165,6 +182,8 @@ void SLL<T>::remove(T elem) {
 
   delete tmp->next;
   tmp->next = next; // seals gap for regular list, or ensures list ends with NULL
+
+  this->_size--;
 }
 
 /**
@@ -189,19 +208,9 @@ bool SLL<T>::exists(T elem) const {
  */
 template <typename T>
 void SLL<T>::clear() {
-  Node<T> *next = this->head;
-
-  while (this->head) {
-    next = this->head->next;
-    delete this->head;
-    this->head = next;
+  while (!this->empty()) {
+    this->removeFromHead();
   }
-
-  // Don't need to set this->head = NULL because of the way we iterate
-  // We guarantee that this->head = NULL at the end of the function
-
-  // Maintain invariant
-  this->tail = NULL;
 }
 
 /**

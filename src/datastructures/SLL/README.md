@@ -1,20 +1,27 @@
 # Singly Linked List
 
 A singly linked list is a datastructure similar to a vector however the elements are not stored contiguously. The nature of this storage
-affects the complexities of some of the abstract operations such that `addToFront` (equivalent to `push_front`) is `O(1)`, finding the element
-at the half-way point is `O(n)`. Singly linked lists work by maintaining an internal list with `head` and `tail` pointers. In all of our operations
-it is imporant to maintain certain invariants, such as ensuring whenver the `head` is `NULL` the `tail` is also `NULL` and vice versa so that when
-iterating from head to tail, we iterate only over safe memory. It is also important to realize when adding and removing nodes from a list, if at
-all we bring the list down to a single element the `head` and `tail` pointers must be equal. At any given point where the `tail` is not `NULL`,
-`tail->next` should always equal `NULL`.
+affects the complexities of some of the abstract operations. For example, `addToFront` (equivalent to `push_front`) is `O(1)`, and there is
+no indexing. "Indexing" must be done with iteration which is `O(n)`. Singly linked lists work by maintaining an internal list with `head` and
+`tail` pointers as well as an internal `_size` variable to keep track of the current list length. In all of our operations it is imporant to
+maintain certain invariants, such as
 
-The singly linked list is a really important datastructure as it is the underlying foundation for both stacks and queues.
+ - Ensuring whenever the `head` is `NULL`, the `tail` is also `NULL` and vice versa so that when iterating from
+ head to tail, we iterate only over safe memory.
+ - When adding and removing nodes from a list, if at all we bring the list down to a single element, the `head` and
+ `tail` pointers *must* be equal.
+ - At any given point where the `tail` is not `NULL`, `tail->next` should always equal `NULL`, again for safe iteration.
+ - The internal `_size` variable is updated appropriately when nodes are added and removed from the list.
+
+The singly linked list is a very important datastructure and is usually the underlying implementation for both stacks and queues.
 
 ## Supported operations
 
  - [`SLL()`](#default-constructor)
  - [`SLL(const SLL<T>&)`](#copy-constructor)
  - [`operator=(const SLL<T>&)`](#copy-assignment)
+ - [`size()`](#size)
+ - [`empty()`](#empty)
  - [`addToHead()`](#addToHead)
  - [`addToTail()`](#addToTail)
  - [`removeFromHead()`](#removeFromHead)
@@ -46,6 +53,16 @@ errors, double-frees, etc.
 ### `SLL<T>& SLL<T>::operator=(const SLL<T>& right);`
 
 The logic behind this functionality is nearly identical to [`SLL(const SLL<T>&)`](#copy-constructor).
+
+<a name="size"></a>
+### `int SLL<T>::size() const;`
+
+This method returns the internal `_size` variable.
+
+<a name="empty"></a>
+### `bool SLL<T>::empty() const;`
+
+This method returns a boolean indicating whether or not the list is empty.
 
 <a name="addToHead"></a>
 ### `void SLL<T>::addToHead(T elem);`
@@ -83,8 +100,8 @@ after deleting the head.
 In general we'll want to reverse what we did in `addToHead` so basically assuming the head exists, we'll want to:
 
 1. Keep a temp pointer equal to `head->next`
-2. Delete `head`
-3. Set `head` equal to `head->next`
+1. Delete `head`
+1. Set `head` equal to `head->next`
 
 These operations will be the same in both cases, and we can take care of the former case by just checking to see if our new head is `NULL` or
 not. If it is, we know we just deleted the tail and we should update our tail pointer. Else, we do nothing.
@@ -114,8 +131,8 @@ In the average case however, we can iterate through the list with a temporary po
 pointer will be sitting at the node right before our tail and we can proceed to:
 
 1. Delete our tail
-2. Set our tail pointer equal to our temporary pointer (inchworm the tail pointer back)
-3. Set the temporary pointer's next field equal to `NULL`
+1. Set our tail pointer equal to our temporary pointer (inchworm the tail pointer back)
+1. Set the temporary pointer's next field equal to `NULL`
 
 ```cpp
   Node<T> *curr = this->head;
@@ -175,7 +192,7 @@ conditional before we continue to actually do the deleting.
 ```
 
 <a name="exists"></a>
-### `void SLL<T>::exists(T elem);`
+### `void SLL<T>::exists(T elem) const;`
 
 This method is farily trivial. We want to maintain a temporary pointer initialliy equivalent to the head and while it still
 exists, iterate through the list checking each node's value against `elem`.
