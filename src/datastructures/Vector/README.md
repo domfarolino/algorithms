@@ -39,7 +39,7 @@ This overloaded constructor sets the internal size to 0 since no elements have b
 met. The `max` check ensures that the capacity will never be 0 or negative.
 
 <a name="copy-constructor"></a>
-### `Vector<T>::Vector(const Vector<int>& right);`
+### `Vector<T>::Vector(const Vector<T>& right);`
 
 The copy constructor allows support for deep copying when code like `Vector<int> vec = alreadyExistingVector;`. Similarly to
 a regular constructor, the copy constructor is generated for you by the compiler unless you explicitly include one. The one
@@ -48,7 +48,7 @@ enough, but when your internal member variables are pointers pointing to dynamic
 extra steps to ensure that the memory is re-allocated (and its contents copied) for each new instance that is initialized.
 
 <a name="copy-assignment"></a>
-### `Vector<T>& Vector<T>::operator=(const Vector<int>& right);`
+### `Vector<T>& Vector<T>::operator=(const Vector<T>& right);`
 
 The logic behind this functionality is nearly identical to [`Vector(const Vector<T>&)`](#copy-constructor).
 
