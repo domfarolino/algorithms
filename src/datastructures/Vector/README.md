@@ -47,6 +47,11 @@ generated for you performs shallow copying of internal member variables from one
 enough, but when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to take
 extra steps to ensure that the memory is re-allocated (and its contents copied) for each new instance that is initialized.
 
+<a name="copy-assignment"></a>
+### `Vector<T>& Vector<T>::operator=(const Vector<int>& right);`
+
+The logic behind this functionality is nearly identical to [`Vector(const Vector<T>&)`](#copy-constructor).
+
 <a name="size"></a>
 ### `int Vector<T>::size() const;`
 
