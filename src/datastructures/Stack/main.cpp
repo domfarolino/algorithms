@@ -112,6 +112,7 @@ int main() {
   popAndEmpty();
   top();
   clear();
+
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
 }

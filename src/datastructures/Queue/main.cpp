@@ -89,6 +89,7 @@ int main() {
   dequeueAndSize();
   dequeueAndEmpty();
   front();
+
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
 }

@@ -74,7 +74,6 @@ void peek() {
 }
 
 int main() {
-
   insertAndSize();
   insertAndEmpty();
   removeAndSize();
