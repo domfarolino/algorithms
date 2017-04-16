@@ -154,7 +154,8 @@ void clear() {
 
   assert(vector.size() == 0);
   assert(vector.empty());
-  assert(vector.capacity() == 0);
+  // Should reset vector to a fresh, usable form
+  assert(vector.capacity() == 1);
 }
 
 void overloadedConstructor() {

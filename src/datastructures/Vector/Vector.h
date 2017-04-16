@@ -30,9 +30,9 @@ public:
 
   void clear() {
     delete[] this->_data;
-    this->_data = NULL;
+    this->_capacity = 1;
+    this->_data = new T[this->capacity()];
     this->_size = 0;
-    this->_capacity = 0;
   }
 
   ~Vector() {

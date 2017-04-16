@@ -154,9 +154,5 @@ This function mostly acts as a pass through to index in our internal array with 
 ### `void Vector<T>::clear();`
 
 This function resets the vector by deleting the internal array. In order to make it correct and safe we must follow our invariants of properly
-updating our internal size and capacity variables as well as setting the internal array pointer equal to `NULL` so that multiple calls to
-`clear()` do not fail.
-
-*Note clear is called from the destructor so its goal is to ensure that all memory is deleted. Therefore the capacity will always be 0 and
-you cannot store anything in the vector after calling `clear()`. I wouldn't mind seeing this change maybe to take in a flag determining whether
-the destructor called this as a "final clear" or if this is a user friendly call that keeps the vector usable afterward.
+updating our internal size and capacity variables. Since we want the vector to be usable after calls to `clear()`, we reset the capacity to `1`
+and reallocate our internal `_data` array to match the capacity.
