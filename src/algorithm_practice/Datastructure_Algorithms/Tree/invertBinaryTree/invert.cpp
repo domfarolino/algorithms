@@ -69,7 +69,7 @@ TreeNode<T>* invertBinaryTree(TreeNode<T>* root) {
 template <typename T>
 TreeNode<T>* invertBinaryTreeIterative(TreeNode<T>* root) {
   queue<TreeNode<T>*> q;
-  TreeNode<T>* tmpNode; // store this up here so we don't keep throwing it on and off the stack
+  TreeNode<T>* tmpNode; // store this up here so we don't keep pushing/popping it from the stack
 
   if (root) q.push(root);
 
