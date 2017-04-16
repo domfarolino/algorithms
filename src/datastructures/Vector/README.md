@@ -41,11 +41,14 @@ met. The `max` check ensures that the capacity will never be 0 or negative.
 <a name="copy-constructor"></a>
 ### `Vector<T>::Vector(const Vector<T>& right);`
 
-The copy constructor allows support for deep copying when code like `Vector<int> vec = alreadyExistingVector;`. Similarly to
-a regular constructor, the copy constructor is generated for you by the compiler unless you explicitly include one. The one
-generated for you performs shallow copying of internal member variables from one instance to another. Sometimes this is good
-enough, but when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to take
-extra steps to ensure that the memory is re-allocated (and its contents copied) for each new instance that is initialized.
+The copy constructor allows support for deep copying when initializing a vector with the definition of another.
+For example: `Vector<int> vec = alreadyExistingVec;`. Similarly to a regular constructor, the copy constructor
+is generated for you by the compiler unless you explicitly include one. The default copy constructor performs
+a shallow copy of internal member variables from one instance to another. Sometimes this is good enough, but
+when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to
+take extra steps to ensure that the memory is reallocated (and its contents copied) for each new instance that is
+initialized. This is so that multiple instances do now share the same underlying memory. This can lead to logic
+errors, double-frees, etc.
 
 <a name="copy-assignment"></a>
 ### `Vector<T>& Vector<T>::operator=(const Vector<T>& right);`

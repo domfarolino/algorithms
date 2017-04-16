@@ -15,10 +15,8 @@ private:
 
 public:
   SLL(): head(NULL), tail(NULL) {}
-
-  ~SLL() {
-    this->clear();
-  }
+  SLL(const SLL<T>&);
+  SLL<T>& operator=(const SLL<T>&);
 
   void addToHead(T);
   void addToTail(T);
@@ -31,7 +29,44 @@ public:
   std::string listToString() const;
   void printList() const;
 
+  ~SLL() {
+    this->clear();
+  }
 };
+
+/**
+ * Copy constructor
+ * This gets called when we do something
+ * like SLL<int> list = alreadyExistingOne;
+ */
+template <typename T>
+SLL<T>::SLL(const SLL<T>& right): head(NULL), tail(NULL) {
+  Node<T> *rightPtr = right.head;
+
+  while (rightPtr) {
+    this->addToTail(rightPtr->val);
+    rightPtr = rightPtr->next;
+  }
+}
+
+/**
+ * Copy assignment operator
+ * This gets called when we do something
+ * like alreadyExistingList = anotherDifferentList.
+ */
+template <typename T>
+SLL<T>& SLL<T>::operator=(const SLL<T>& right) {
+  this->clear();
+
+  Node<T> *rightPtr = right.head;
+
+  while (rightPtr) {
+    this->addToTail(rightPtr->val);
+    rightPtr = rightPtr->next;
+  }
+
+  return *this;
+}
 
 /**
  * Time complexity: O(1)

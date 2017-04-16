@@ -13,6 +13,8 @@ The singly linked list is a really important datastructure as it is the underlyi
 ## Supported operations
 
  - [`SLL()`](#default-constructor)
+ - [`SLL(const SLL<T>&)`](#copy-constructor)
+ - [`operator=(const SLL<T>&)`](#copy-assignment)
  - [`addToHead()`](#addToHead)
  - [`addToTail()`](#addToTail)
  - [`removeFromHead()`](#removeFromHead)
@@ -27,6 +29,23 @@ The singly linked list is a really important datastructure as it is the underlyi
 ### `SLL<T>::SLL();`
 
 The default constructor sets both the `head` and `tail` pointers to `NULL`.
+
+<a name="copy-constructor"></a>
+### `SLL<T>::SLL(const SLL<T>& right);`
+
+The copy constructor allows support for deep copying when initializing a list with the definition of another.
+For example: `SLL<int> list = alreadyExistingList;`. Similarly to a regular constructor, the copy constructor
+is generated for you by the compiler unless you explicitly include one. The default copy constructor performs
+a shallow copy of internal member variables from one instance to another. Sometimes this is good enough, but
+when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to
+take extra steps to ensure that the memory is reallocated (and its contents copied) for each new instance that is
+initialized. This is so that multiple instances do now share the same underlying memory. This can lead to logic
+errors, double-frees, etc.
+
+<a name="copy-assignment"></a>
+### `SLL<T>& SLL<T>::operator=(const SLL<T>& right);`
+
+The logic behind this functionality is nearly identical to [`SLL(const SLL<T>&)`](#copy-constructor).
 
 <a name="addToHead"></a>
 ### `void SLL<T>::addToHead(T elem);`

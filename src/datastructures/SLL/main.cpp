@@ -117,6 +117,37 @@ void clear() {
   assert(list.listToString() == "");
 }
 
+void copyConstructor() {
+  SLL<int> right;
+  right.addToTail(1);
+  right.addToTail(2);
+
+  SLL<int> left = right;
+
+  right.clear();
+  right.addToHead(3);
+  assert(left.listToString() == "1,2,");
+  assert(right.listToString() == "3,");
+}
+
+void copyAssignment() {
+  SLL<int> left, center, right;
+
+  for (int i = 0; i < 5; ++i) right.addToTail(i);
+
+  left = center = right;
+
+  assert(left.listToString() == center.listToString());
+  assert(center.listToString() == right.listToString());
+
+  right.clear();
+  center.addToHead(49);
+
+  assert(left.listToString() == "0,1,2,3,4,");
+  assert(center.listToString() == "49,0,1,2,3,4,");
+  assert(right.listToString() == "");
+}
+
 int main() {
   addToHead();
   addToTail();
@@ -125,6 +156,9 @@ int main() {
   removeFromTail();
   remove();
   clear();
+
+  copyConstructor();
+  copyAssignment();
 
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
