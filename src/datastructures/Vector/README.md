@@ -3,11 +3,14 @@
 A vector is a datastructure that acts as a dynamic array with abstract operations. All elements in a vector are stored contiguously
 which yields `O(1)` indexing. The Vector class works by maintaining an internal array along with variables to keep track of size and
 capacity. Once the size of the internal array matches its capacity (when enough elements are added) the internal array doubles in capacity.
+Doubling capacity has proven to be a good way to achieve amortized `O(1)` `push_back`s.
 
 ## Supported operations
 
  - [`Vector()`](#default-constructor)
  - [`Vector(int)`](#overloaded-constructor)
+ - [`Vector(const Vector<T>&)`](#copy-constructor)
+ - [`operator=(const Vector<T>&)`](#copy-assignment)
  - [`size()`](#size)
  - [`capacity()`](#capacity)
  - [`empty()`](#empty)
@@ -35,6 +38,15 @@ This overloaded constructor sets the internal size to 0 since no elements have b
 `max(1, int inCapacity)` so we can guarantee that we'll be able to double the size of our internal array when capacity is
 met. The `max` check ensures that the capacity will never be 0 or negative.
 
+<a name="copy-constructor"></a>
+### `Vector<T>::Vector(const Vector<int>& right);`
+
+The copy constructor allows support for deep copying when code like `Vector<int> vec = alreadyExistingVector;`. Similarly to
+a regular constructor, the copy constructor is generated for you by the compiler unless you explicitly include one. The one
+generated for you performs shallow copying of internal member variables from one instance to another. Sometimes this is good
+enough, but when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to take
+extra steps to ensure that the memory is re-allocated (and its contents copied) for each new instance that is initialized.
+
 <a name="size"></a>
 ### `int Vector<T>::size() const;`
 
@@ -57,7 +69,7 @@ When trying to add an element into the vector we will face one of two cases. Eit
 
  - The size of the internal array has met its capacity, and we'll need to do a resize before pushing back
  - We can simply push back with no problem
-
+overloaded
 We first check to see if we must perform a resize. If so, we create another array of length `this->_capacity * 2` and copy
 all of the elements from our internal array into the longer one and then double our internal capacity variable. With our data
 copied over, we can delete our internal array and set our internal array equal to the newly created one.
