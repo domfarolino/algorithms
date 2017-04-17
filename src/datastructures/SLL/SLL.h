@@ -1,6 +1,8 @@
 #ifndef SLL_H
 #define SLL_H
 
+#include <utility> // std::swap
+
 template <typename T>
 struct Node {
   T val;
@@ -62,19 +64,10 @@ SLL<T>::SLL(const SLL<T>& other): head(NULL), tail(NULL), _size(0) {
  */
 template <typename T>
 SLL<T>& SLL<T>::operator=(SLL<T> other) {
-  // Store member pointers in temporary vars
-  Node<T> *tmpHead = this->head, *tmpTail = this->tail;
-  int tmpSize = this->_size;
-
-  // Perform swap
-  this->head = other.head;
-  this->tail = other.tail;
-  this->_size = other._size;
-
-  other.head = tmpHead;
-  other.tail = tmpTail;
-  other._size = tmpSize;
-
+  // Perform member variable swap
+  std::swap(this->_size, other._size);
+  std::swap(this->head, other.head);
+  std::swap(this->tail, other.tail);
   return *this;
 }
 

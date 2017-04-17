@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <utility> // std::swap
+
 #define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a >= _b ? _a : _b; })
 
 template <typename T>
@@ -14,7 +16,7 @@ public:
   Vector(int inCapacity): _size(0), _capacity(MAX(1, inCapacity)), _data(new T[this->_capacity]) {}
 
   Vector(const Vector<T>&);
-  Vector& operator=(const Vector<T>&);
+  Vector& operator=(Vector<T>);
 
   int size() const {
     return this->_size;
@@ -49,40 +51,28 @@ public:
 
 /**
  * Copy constructor
- * This gets used when we create
- * a new instance of Vector from an
- * already existing instance: Vector<int> v = existingVec;
  */
 template <typename T>
-Vector<T>::Vector(const Vector<T>& right) {
-  this->_data = new T[right.capacity()];
-  this->_capacity = right.capacity();
+Vector<T>::Vector(const Vector<T>& other) {
+  this->_data = new T[other.capacity()];
+  this->_capacity = other.capacity();
 
-  for (int i = 0; i < right.size(); ++i) {
-    this->_data[i] = right[i];
+  for (int i = 0; i < other.size(); ++i) {
+    this->_data[i] = other[i];
   }
 
-  this->_size = right.size();
+  this->_size = other.size();
 }
 
 /**
  * Copy assignment operator
- * This gets used when set an already
- * existing instance of Vector equal to
- * another Vector: existingVec = anotherOne;
+ * Using copy-swap idiom
  */
 template<typename T>
-Vector<T>& Vector<T>::operator=(const Vector<T>& right) {
-  delete[] this->_data;
-
-  this->_data = new T[right.capacity()];
-  this->_capacity = right.capacity();
-
-  for (int i = 0; i < right.size(); ++i) {
-    this->_data[i] = right[i];
-  }
-
-  this->_size = right.size();
+Vector<T>& Vector<T>::operator=(Vector<T> other) {
+  std::swap(this->_size, other._size);
+  std::swap(this->_capacity, other._capacity);
+  std::swap(this->_data, other._data);
   return *this;
 }
 

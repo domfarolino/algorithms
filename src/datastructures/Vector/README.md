@@ -10,7 +10,7 @@ Doubling capacity has proven to be a good way to achieve amortized `O(1)` `push_
  - [`Vector()`](#default-constructor)
  - [`Vector(int)`](#overloaded-constructor)
  - [`Vector(const Vector<T>&)`](#copy-constructor)
- - [`operator=(const Vector<T>&)`](#copy-assignment)
+ - [`operator=(Vector<T>)`](#copy-assignment)
  - [`size()`](#size)
  - [`capacity()`](#capacity)
  - [`empty()`](#empty)
@@ -39,7 +39,7 @@ This overloaded constructor sets the internal size to 0 since no elements have b
 met. The `max` check ensures that the capacity will never be 0 or negative.
 
 <a name="copy-constructor"></a>
-### `Vector<T>::Vector(const Vector<T>& right);`
+### `Vector<T>::Vector(const Vector<T>& other);`
 
 The copy constructor allows support for deep copying when initializing a vector with the definition of another.
 For example: `Vector<int> vec = alreadyExistingVec;`. Similarly to a regular constructor, the copy constructor
@@ -51,9 +51,16 @@ initialized. This is so that multiple instances do now share the same underlying
 errors, double-frees, etc.
 
 <a name="copy-assignment"></a>
-### `Vector<T>& Vector<T>::operator=(const Vector<T>& right);`
+### `Vector<T>& Vector<T>::operator=(Vector<T> other);`
 
-The logic behind this functionality is nearly identical to [`Vector(const Vector<T>&)`](#copy-constructor).
+A lot of the logic that is necessary for the copy assignment operator to work can be found in the
+[`Vector(const Vector<T>&)`](#copy-constructor). To avoid duplicating the code in two places, we can instead
+use the copy-swap idiom to define our copy-assignment operator in terms of our copy constructor.
+
+Good sources to understand this idiom:
+
+ - http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
+ - http://stackoverflow.com/questions/5695548/public-friend-swap-member-function
 
 <a name="size"></a>
 ### `int Vector<T>::size() const;`
