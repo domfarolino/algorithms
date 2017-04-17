@@ -19,7 +19,7 @@ The singly linked list is a very important datastructure and is usually the unde
 
  - [`SLL()`](#default-constructor)
  - [`SLL(const SLL<T>&)`](#copy-constructor)
- - [`operator=(const SLL<T>&)`](#copy-assignment)
+ - [`operator=(SLL<T>)`](#copy-assignment)
  - [`size()`](#size)
  - [`empty()`](#empty)
  - [`addToHead()`](#addToHead)
@@ -38,7 +38,7 @@ The singly linked list is a very important datastructure and is usually the unde
 The default constructor sets both the `head` and `tail` pointers to `NULL`.
 
 <a name="copy-constructor"></a>
-### `SLL<T>::SLL(const SLL<T>& right);`
+### `SLL<T>::SLL(const SLL<T>& other);`
 
 The copy constructor allows support for deep copying when initializing a list with the definition of another.
 For example: `SLL<int> list = alreadyExistingList;`. Similarly to a regular constructor, the copy constructor
@@ -50,9 +50,16 @@ initialized. This is so that multiple instances do now share the same underlying
 errors, double-frees, etc.
 
 <a name="copy-assignment"></a>
-### `SLL<T>& SLL<T>::operator=(const SLL<T>& right);`
+### `SLL<T>& SLL<T>::operator=(SLL<T> other);`
 
-The logic behind this functionality is nearly identical to [`SLL(const SLL<T>&)`](#copy-constructor).
+A lot of the logic that is necessary for the copy assignment operator to work can be found in the
+[`SLL(const SLL<T>&)`](#copy-constructor). To avoid duplicating the code in two places, we can instead
+use the copy-swap idiom to define our copy-assignment operator in terms of our copy constructor.
+
+Good sources to understand this idiom:
+
+ - http://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
+ - http://stackoverflow.com/questions/5695548/public-friend-swap-member-function
 
 <a name="size"></a>
 ### `int SLL<T>::size() const;`

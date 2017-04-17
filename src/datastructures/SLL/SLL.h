@@ -17,7 +17,7 @@ private:
 public:
   SLL(): head(NULL), tail(NULL), _size(0) {}
   SLL(const SLL<T>&);
-  SLL<T>& operator=(const SLL<T>&);
+  SLL<T>& operator=(SLL<T>);
 
   int size() const {
     return this->_size;
@@ -45,34 +45,35 @@ public:
 
 /**
  * Copy constructor
- * This gets called when we do something
- * like SLL<int> list = alreadyExistingOne;
  */
 template <typename T>
-SLL<T>::SLL(const SLL<T>& right): head(NULL), tail(NULL), _size(0) {
-  Node<T> *rightPtr = right.head;
+SLL<T>::SLL(const SLL<T>& other): head(NULL), tail(NULL), _size(0) {
+  Node<T> *otherPtr = other.head;
 
-  while (rightPtr) {
-    this->addToTail(rightPtr->val);
-    rightPtr = rightPtr->next;
+  while (otherPtr) {
+    this->addToTail(otherPtr->val);
+    otherPtr = otherPtr->next;
   }
 }
 
 /**
  * Copy assignment operator
- * This gets called when we do something
- * like alreadyExistingList = anotherDifferentList.
+ * Using copy-swap idiom
  */
 template <typename T>
-SLL<T>& SLL<T>::operator=(const SLL<T>& right) {
-  this->clear();
+SLL<T>& SLL<T>::operator=(SLL<T> other) {
+  // Store member pointers in temporary vars
+  Node<T> *tmpHead = this->head, *tmpTail = this->tail;
+  int tmpSize = this->_size;
 
-  Node<T> *rightPtr = right.head;
+  // Perform swap
+  this->head = other.head;
+  this->tail = other.tail;
+  this->_size = other._size;
 
-  while (rightPtr) {
-    this->addToTail(rightPtr->val);
-    rightPtr = rightPtr->next;
-  }
+  other.head = tmpHead;
+  other.tail = tmpTail;
+  other._size = tmpSize;
 
   return *this;
 }
