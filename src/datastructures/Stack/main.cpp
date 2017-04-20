@@ -105,6 +105,39 @@ void clear() {
   assert(threwError);
 }
 
+void copyConstructor() {
+  Stack<int> right;
+  right.push(1);
+  right.push(2);
+  right.push(3);
+
+  Stack<int> left = right;
+  right.clear();
+
+  assert(left.size() == 3);
+  assert(left.top() == 3);
+}
+
+void copyAssignment() {
+  Stack<int> left, center, right;
+  right.push(1);
+  right.push(2);
+  right.push(3);
+
+  left = center = right;
+  right.clear();
+
+  assert(left.size() == 3);
+  assert(center.size() == 3);
+  assert(left.top() == 3);
+  assert(center.top() == 3);
+
+  center.clear();
+
+  assert(left.size() == 3);
+  assert(center.size() == 3);
+}
+
 int main() {
   pushAndSize();
   pushAndEmpty();
@@ -112,6 +145,9 @@ int main() {
   popAndEmpty();
   top();
   clear();
+
+  copyConstructor();
+  copyAssignment();
 
   cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
   return 0;
