@@ -25,13 +25,15 @@ public:
   void remove();
   T peek() const;
 
-  void printHeap() {
+  void printHeap() const {
     for (int i = 0; i < this->vec.size(); ++i) {
       std::cout << this->vec[i] << ", ";
     }
 
     std::cout << std::endl;
   }
+
+  void clear();
 };
 
 /**
@@ -118,6 +120,15 @@ void MinHeap<T>::bubbleDown(int index) {
   this->vec[indexToSwap] = this->vec[index];
   this->vec[index] = childItem;
   return bubbleDown(indexToSwap);
+}
+
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+template <typename T>
+void MinHeap<T>::clear() {
+  this->vec.clear();
 }
 
 #endif

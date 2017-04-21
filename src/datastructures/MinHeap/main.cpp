@@ -4,8 +4,6 @@
 
 #include "MinHeap.h"
 
-using namespace std;
-
 void insertAndSize() {
   MinHeap<int> heap;
   assert(heap.size() == 0);
@@ -73,6 +71,40 @@ void peek() {
   }
 }
 
+void copyConstructor() {
+  MinHeap<int> right;
+  right.insert(1);
+  right.insert(2);
+  right.insert(3);
+
+  MinHeap<int> left = right;
+  right.clear();
+
+  assert(left.size() == 3);
+  assert(left.peek() == 1);
+}
+
+void copyAssignment() {
+  MinHeap<int> left, center, right;
+  right.insert(1);
+  right.insert(2);
+  right.insert(3);
+
+  left = center = right;
+  right.clear();
+
+  assert(left.size() == 3);
+  assert(center.size() == 3);
+  assert(left.peek() == 1);
+  assert(center.peek() == 1);
+
+  center.clear();
+
+  assert(left.size() == 3);
+  assert(center.size() == 0);
+  assert(center.empty());
+}
+
 int main() {
   insertAndSize();
   insertAndEmpty();
@@ -80,6 +112,9 @@ int main() {
   removeAndEmpty();
   peek();
 
-  cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
+  copyConstructor();
+  copyAssignment();
+
+  std::cout << "\x1B[32m✔ All tests pass\x1B[32m" << std::endl;
   return 0;
 }
