@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "../SLL.h"
+#include "../SLL/SLL.h"
 
 template <typename T>
 class Stack {
@@ -12,11 +12,11 @@ public:
   Stack() {}
 
   int size() const {
-    return this->list.size();
+    return list.size();
   }
 
   bool empty() const {
-    return this->list.empty();
+    return list.empty();
   }
 
   void push(T);
@@ -25,7 +25,7 @@ public:
   void clear();
 
   ~Stack() {
-    this->clear();
+    clear();
   }
 };
 
@@ -35,7 +35,7 @@ public:
  */
 template <typename T>
 void Stack<T>::push(T val) {
-  this->list.addToHead(val);
+  list.addToHead(val);
 }
 
 /**
@@ -44,7 +44,7 @@ void Stack<T>::push(T val) {
  */
 template <typename T>
 void Stack<T>::pop() {
-  this->list.removeFromHead();
+  list.removeFromHead();
 }
 
 /**
@@ -53,11 +53,11 @@ void Stack<T>::pop() {
  */
 template <typename T>
 T Stack<T>::top() const {
-  if (!this->size()) {
+  if (!size()) {
     throw std::logic_error("Trying to view top element of an empty stack");
   }
 
-  return 5;
+  return *(list.begin());
 }
 
 /**
@@ -66,7 +66,7 @@ T Stack<T>::top() const {
  */
 template <typename T>
 void Stack<T>::clear() {
-  this->list.clear();
+  list.clear();
 }
 
 #endif

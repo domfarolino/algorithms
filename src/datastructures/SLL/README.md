@@ -29,8 +29,8 @@ The singly linked list is a very important datastructure and is usually the unde
  - [`remove()`](#remove)
  - [`exists()`](#exists)
  - [`clear()`](#clear)
- - [`begin()`][#begin]
- - [`end()`][#end]
+ - [`begin()`](#begin)
+ - [`end()`](#end)
 
 ----
 

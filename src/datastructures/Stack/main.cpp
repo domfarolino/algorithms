@@ -98,7 +98,7 @@ void clear() {
 
   try {
     stack.top();
-  } catch (std::exception e) {
+  } catch (std::logic_error e) {
     threwError = true;
   }
 
@@ -135,7 +135,8 @@ void copyAssignment() {
   center.clear();
 
   assert(left.size() == 3);
-  assert(center.size() == 3);
+  assert(center.size() == 0);
+  assert(center.empty());
 }
 
 int main() {
