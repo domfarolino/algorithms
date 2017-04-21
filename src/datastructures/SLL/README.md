@@ -29,6 +29,8 @@ The singly linked list is a very important datastructure and is usually the unde
  - [`remove()`](#remove)
  - [`exists()`](#exists)
  - [`clear()`](#clear)
+ - [`begin()`][#begin]
+ - [`end()`][#end]
 
 ----
 
@@ -211,3 +213,21 @@ The point of this method is to completely delete the list. We do this by iterati
 a temporary pointer to the remaining portion of the list (`this->head->next`). Alternatively we could just keep calling
 <a href="#removeFromHead">removeFromHead</a> while the head still exists, since we know this method works in all cases and
 upholds the necessary invariants.
+
+<a name="begin"></a>
+### `SLLIterator<T> SLL<T>::begin();`
+
+This method returns a `SLLIterator` object (light abstraction over a `Node<T>` pointer) pointing at the head of the linked list
+it was called on. This is useful to iterate through the list and see values in sequence. For more information on the capabilities
+of this basic `SLLIterator` object see [the class](https://github.com/domfarolino/algorithms/blob/master/src/datastructures/SLL/SLLIterator.h).
+
+<a name="end"></a>
+### `SLLIterator<T> SLL<T>::end();`
+
+This method returns a `SLLIterator` object (light abstraction over a `Node<T>` pointer) referencing the NULL, or more specifically the
+value of `this->tail->next` if tail is not `NULL`, or `this->tail` otherwise. This is convenient for iterating so that we can move an
+iterator through the list `while (someIterator != list.end())`, and we'll be able to hit all of our elements. See, if `list.end()`
+returned a `SLLIterator` pointing at the tail, then we'd be able to iterate over all elements BUT the tail!
+
+*Note the logic for the `end()` method may seem like overkill when we could simply just return `SLLIterator<T>(NULL)`, however I wanted
+to ensure that we used our member variables to make sure we're always holding to our invariants (i.e. `this->tail = NULL` when list is empty)*
