@@ -23,10 +23,6 @@ public:
   void pop();
   T top() const;
   void clear();
-
-  ~Stack() {
-    clear();
-  }
 };
 
 /**

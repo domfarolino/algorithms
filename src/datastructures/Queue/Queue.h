@@ -1,28 +1,28 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "../Stack/Stack.h"
+#include "../SLL/SLL.h"
 
 template <typename T>
 class Queue {
 private:
-  Stack<T> inbox, outbox;
-  void transfer();
+  SLL<int> list;
 
 public:
   Queue() {}
 
   int size() const {
-    return inbox.size() + outbox.size();
+    return list.size();
   }
 
   bool empty() const {
-    return inbox.empty() && outbox.empty();
+    return list.empty();
   }
 
   void enqueue(T);
   void dequeue();
-  T front();
+  T front() const;
+  void clear();
 };
 
 /**
@@ -31,51 +31,38 @@ public:
  */
 template <typename T>
 void Queue<T>::enqueue(T val) {
-  this->inbox.push(val);
+  list.addToTail(val);
 }
 
 /**
- * Time complexity: O(1) amortized
+ * Time complexity: O(1)
  * Space complexity: O(1)
  */
 template <typename T>
 void Queue<T>::dequeue() {
-  if (this->inbox.empty() && this->outbox.empty()) return;
-
-  if (this->outbox.empty()) {
-    this->transfer();
-  }
-
-  this->outbox.pop();
+  list.removeFromHead();
 }
 
 /**
- * Time complexity: O(1) amortized
+ * Time complexity: O(1)
  * Space complexity: O(1)
  */
 template <typename T>
-T Queue<T>::front() {
-  if (this->inbox.empty() && this->outbox.empty()) throw std::logic_error("Trying to view top element of an empty stack");
-
-  if (this->outbox.empty()) {
-    this->transfer();
+T Queue<T>::front() const {
+  if (!size()) {
+    throw std::logic_error("Trying to view front element of an empty queue");
   }
 
-  return this->outbox.top();
+  return *(list.begin());
 }
 
 /**
- * Private utility to transfer elements from incoming stack to outgoing stack.
- * More or less reverses the order of a stack while still allowing items to be inputted.
- * Time complexity: O(n)
+ * Time complexity: O(1)
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::transfer() {
-  while (!inbox.empty()) {
-    outbox.push(inbox.top());
-    inbox.pop();
-  }
+void Queue<T>::clear() {
+  list.clear();
 }
 
 #endif
