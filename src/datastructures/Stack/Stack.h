@@ -1,28 +1,22 @@
 #ifndef STACK_H
 #define STACK_H
 
-template <typename T>
-struct Node {
-  T val;
-  Node<T> *next;
-  Node(T inVal, Node<T> *inNext = NULL): val(inVal), next(inNext) {}
-};
+#include "../SLL/SLL.h"
 
 template <typename T>
 class Stack {
 private:
-  Node<T> *head;
-  int _size;
+  SLL<T> list;
 
 public:
-  Stack(): head(NULL), _size(0) {}
+  Stack() {}
 
   int size() const {
-    return this->_size;
+    return list.size();
   }
 
   bool empty() const {
-    return this->_size == 0;
+    return list.empty();
   }
 
   void push(T);
@@ -31,7 +25,7 @@ public:
   void clear();
 
   ~Stack() {
-    this->clear();
+    clear();
   }
 };
 
@@ -41,8 +35,7 @@ public:
  */
 template <typename T>
 void Stack<T>::push(T val) {
-  this->head = new Node<T>(val, this->head); // the ole swap
-  this->_size++;
+  list.addToHead(val);
 }
 
 /**
@@ -51,13 +44,7 @@ void Stack<T>::push(T val) {
  */
 template <typename T>
 void Stack<T>::pop() {
-  if (!this->head) return;
-
-  Node<T> *tmp = this->head->next;
-  delete this->head;
-
-  this->_size--;
-  this->head = tmp;
+  list.removeFromHead();
 }
 
 /**
@@ -66,11 +53,11 @@ void Stack<T>::pop() {
  */
 template <typename T>
 T Stack<T>::top() const {
-  if (!this->size()) {
+  if (!size()) {
     throw std::logic_error("Trying to view top element of an empty stack");
   }
 
-  return this->head->val;
+  return *(list.begin());
 }
 
 /**
@@ -79,17 +66,7 @@ T Stack<T>::top() const {
  */
 template <typename T>
 void Stack<T>::clear() {
-  Node<T> *next;
-
-  while (this->head) {
-    next = this->head->next;
-    delete this->head;
-    this->head = next;
-  }
-
-  this->_size = 0;
-  // Don't need to set this->head = NULL because of the way we iterate
-  // We guarantee that this->head = NULL at the end of the function
+  list.clear();
 }
 
 #endif

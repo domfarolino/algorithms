@@ -1,6 +1,7 @@
 #ifndef SLL_H
 #define SLL_H
 
+#include "SLLIterator.h"
 #include <utility> // std::swap
 
 template <typename T>
@@ -36,6 +37,22 @@ public:
   void remove(T);
   bool exists(T) const;
   void clear();
+
+  SLLIterator<T> begin() const {
+    return SLLIterator<T>(this->head);
+  }
+
+  SLLIterator<T> end() const {
+    Node<T> *end;
+
+    if (this->tail) {
+      end = this->tail->next;
+    } else {
+      end = this->tail;
+    }
+
+    return SLLIterator<T>(end);
+  }
 
   std::string listToString() const;
   void printList() const;
