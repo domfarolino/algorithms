@@ -1,6 +1,6 @@
 #include <iostream>
 #include <assert.h>
-#include "./SLL.h"
+#include "SLL.h"
 
 void iteratorIncrement() {
   SLL<int> list;
