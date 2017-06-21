@@ -6,20 +6,14 @@ using namespace std;
 
 // Source: https://leetcode.com/problems/fizz-buzz/
 
-/**
- * Actual Fizz Buzz
- * This code intentionally does not follow any
- * recommended style guide. Deal with it thx.
- */
-
 vector<string> fizzBuzz(int n) {
   vector<string> returnVec(n, "");
 
   for (int i = 1; i <= n; ++i) {
-    if (i % 3 && i % 5) returnVec[i-1] = to_string(i);
-    else if (i % 3 || i % 5) {
-      (i % 3) ? returnVec[i-1] = "Buzz" : returnVec[i-1] = "Fizz";
-    } else if (i % 3 == 0 && i % 5 == 0) returnVec[i-1] = "FizzBuzz";
+    if (i % 3 == 0 && i % 5 == 0) returnVec[i] = "FizzBuzz";
+    else if (i % 3 == 0) returnVec[i] = "Fizz";
+    else if (i % 5 == 0) returnVec[i] = "Buzz";
+    else returnVec[i] = to_string(i);
   }
 
   return returnVec;
