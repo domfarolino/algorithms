@@ -33,17 +33,20 @@ inserts and removals are not `O(log(n))` unless the tree is balanced.
 <a name="default-constructor"></a>
 ### `BST<T>::BST();`
 
-Our default constructor doesn't really need to do anything.
+Our default constructor doesn't really need to do anything. We just have an initialization
+list which sets our internal `root` member pointer to `NULL` and our internal size variable
+`_size` to `0`.
 
 <a name="size"></a>
 ### `int BST<T>::size();`
 
-Stuff here
+This just returns the value of our internal `_size` variable.
 
 <a name="empty"></a>
 ### `bool BST<T>::empty();`
 
-Stuff here
+This just returns whether or not our internal `_size` variable is `0` *and* our internal `root`
+variable is `NULL`.
 
 <a name="add"></a>
 ### `void BST<T>::add(T elem);`
