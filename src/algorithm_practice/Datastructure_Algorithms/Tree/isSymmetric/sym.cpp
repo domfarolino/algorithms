@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/symmetric-tree/
 
 /**
@@ -68,9 +66,9 @@ int main() {
   Node<int> *root = new Node<int>(0);
   root->left = new Node<int>(1);
   root->right = new Node<int>(1);
-  // root->left->left = new Node<int>(2); not symmetric
+  // root->left->left = new Node<int>(2); //not symmetric
 
-  cout << isSymmetric(root) << endl;
+  std::cout << isSymmetric(root) << std::endl;
 
   deleteTree(root);
   return 0;
