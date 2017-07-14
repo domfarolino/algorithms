@@ -15,5 +15,5 @@ The purpose of this repository is to act as a curation of
 The code in this repository is intended to be heavily documented and easily understood so that
 the understanding of techniques and concepts is easily transferred. Inside the `src` folder you'll
 see the folders `algorithm_practice` and `datastructures`. The contents of these folder is pretty
-obvious, but each one has its own documentation with it to further explain the file structure and
+obvious, but each one has its own accompanying documentation to further explain the file structure and
 organization involved. 
