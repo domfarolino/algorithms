@@ -33,7 +33,10 @@ following files:
 
  - Source file to be compiled and demonstrate the algorithm. Name doesn't really matter, but the file should contain
    the title of the problem, a description, and a detailed explanation of the solution (see the list in the first section
-   of this README).
+   of this README)
+ - OJ answer file (`ojAns.cpp`) which should be a file consisting of exactly the code that yields in the right answer on the
+   online judge that hosts the problem. This typically won't compile on anything but the OJ machine but can be used to quickly
+   verify that a correct solution is being submitted
  - Optionally a test input file (`test.in`) to feed test cases into the executable (via stdin) produced by compiling the source file
  - Optionally a test output file (`test.out`) that contains a correct solution's output (from stdout) to the test cases in `test.in`
  - Optionally a `README.md` if you choose to put the documentation here instead of in the source file (doesn't matter)
