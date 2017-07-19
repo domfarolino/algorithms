@@ -111,12 +111,62 @@ we empty the entire tree yet our root is not `NULL` or the `_size` variable is n
 <a name="add"></a>
 ### `void BST<T>::add(T elem);`
 
-Stuff here
-
 <a name="add-helper"></a>
 ### `void BST<T>::addHelper(T elem, TreeNode<T> *root);`
 
-Stuff here
+To add a node to binary search tree it is best to consider the average case first. So let's take the
+following BST:
+
+```
+      5
+    /   \
+   2     7
+ /  \   /  \
+~    ~ ~    ~
+```
+
+Assuming we want to add the value 11 to the tree, we'll start with the root and realize 11 will need
+to be placed in 5's right subtree as it is greater than 5. We'll then repeat this logic at the tree
+rooted at 5's right subtree, 7. Again 11 is greater than 7 so we'll need to place 11 in 7's right subtree
+however 7's subtree is NULL. In this case we don't want to recurse down another level and give a NULL root
+to our function as the current root because we'd just end up setting this NULL root equal to a new node and
+it would never be attached to anything. When adding a child node to a parent, we need to add the have the parent
+in context so that we can add the child directly to it. In other words, we want to stop recursing at the last
+non-null node and determine which subtree our value-to-add will go in. Here's a quick visualization of the
+recursion:
+
+```
+------------stack frame--------------------+
+add(root = 5, value = 11)                  |
+  if (value > root && root->right) {       |
+    add(5->right, 11);                     |
+    +---------stack frame------------------+
+    |add(root = 7, 11)                     |
+    |   if (value > root && root->right) { |
+    |     ...                              |
+    |   } else (!right) {                  |
+    |     7->right = new Node(10);         |
+    |   }                                  |
+    +--------------------------------------+
+                                           |
+-------------------------------------------+
+  }
+```
+
+* Note the above function must take in a root, which will be the tree's private `root` initially. This means that it
+must be called from our `add` wrapper function the first time in order to get the private `root`.
+
+With the above statements, it is clear that in general the `addHelper` function will never have to deal with a NULL root
+in the average case; this means we won't have to perform any NULL checks in the beginning of our function before accessing
+things like `root->left` and `root->right`, since root will always be non-null.
+
+Now it's time to consider the edge case in which the root of the actual tree is NULL. How can our algorithm handle this?
+We could of course add a NULL check at the beginning of our function but is a little wasteful since we'd only *need* to
+perform the NULL check the very first time, since we just saw that in the average case we'll always have a non-null root.
+The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the recursive `addHelper`
+algorithm with the private `root` variable. Here we can check to see if the actual tree's root is NULL or not, and either
+create the root for the first time or pass it off to our recursive algorithm. Yeah! We've successfully condensed our edge
+case handling logic so that we're not performing extraneous NULL checks when we don't have to.
 
 <a name="exists"></a>
 ### `void BST<T>::exists(T elem);`
