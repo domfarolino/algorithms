@@ -94,11 +94,7 @@ void BST<T>::addHelper(T elem, TreeNode<T> *root) {
  */
 template <typename T>
 bool BST<T>::exists(T elem) {
-  if (!root) {
-    return false;
-  } else {
-    return existsHelper(elem, this->root);
-  }
+  return existsHelper(elem, this->root);
 }
 
 template <typename T>
