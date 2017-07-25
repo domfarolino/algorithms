@@ -175,17 +175,132 @@ Yeah! We've successfully condensed our edge case handling logic so we're not per
 <a name="exists-helper"></a>
 ### `void BST<T>::existsHelper(T elem, TreeNode<T> *root);`
 
-Stuff here
+The `exists` and `existsHelper` methods are similar in mechanics to the `add` method above so a lot of the boilerplate will
+be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either
 
+ 1. Find the node we're looking for
+ 1. Or get to a NULL node (the one we're looking for didn't exist)
+
+In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
+we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree
+suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
+about to recurse to is NULL or not like we did with `add`; instead we can just recurse to it, and check in the next frame if that
+root is NULL. Doing both would yield in extraneous NULL checks. With this information, we know the wrapper function `exists` doesn't
+have to provide any logic at all, and can just simply kick off the first call of the `existsHelper` function with the private `root`
+of the tree.
+ 
 <a name="remove"></a>
 ### `void BST<T>::remove(T elem);`
-
-Stuff here
 
 <a name="remove-helper"></a>
 ### `void BST<T>::removeHelper(T elem, TreeNode<T> *root);`
 
-Stuff here
+Removing a node from a BST is more difficult than adding or finding, and since most sources tend to show the solution with little
+or poor explanation, I intend start with the basics and explain how this algorithm works. There are only three cases to consider
+when removing a ndoe from a binary search tree.
+
+  1. The node to remove has no children (is a leaf node)
+  1. The node to remove has one child
+  1. The node to remove has two children
+
+Of course there is the trivial case in which the node to remove does not exist, however that's not what we're focusing on as we'll
+get that for free later.
+
+#### Removing a node with no children
+
+Consider the following tree:
+
+```
+  5
+   \
+    6
+```
+
+Removing `6` from the above tree is as easy as navigating to the node (we've already seen how to do this), and simply deleting it
+as its removal doesn't affect any other part of the tree.
+
+#### Removing a node with one child
+
+Consider the following tree:
+
+```
+  5
+   \
+    6
+     \
+      8
+     / \
+    7   9
+```
+
+Removing `6` from the above tree is as easy as making the 5->right pointer point to the only subtree the target node `6`
+(thus bypassing our target node) and then deleting `6`. We'd end up with the following tree:
+
+```
+  5
+   \
+    8    // 6 got bypassed and then deleted
+   / \
+  7   9
+```
+
+### Removing a node with two children (most complex case)
+
+Consider the following tree:
+
+```
+      5
+    /   \
+   2     7
+    \   / \
+     4 6   8
+```
+
+Removing `5` from the above tree is a bit less obvious, mainly because its successor is not completely straightforward. It is
+tempting to think that we must pick either the `2` or `7` to replace the `5`, but that requires us to rearrange a lot of the
+tree afterwards. Instead we can pick a successor that requires practically no extra work, and that successor will be the closest
+value to the node we're removing. The two closest values to `5` in the tree will be the largest node in its left subtree
+(`4`), and the smallest node in its right subtree (`6`). Note that no matter which we choose as a successor, no rearranging will
+be required. This is because the smallest node in `5`'s right subtree (`6`) is still larger than all nodes in `5`'s left subtree,
+meaning `5`'s left subtree can also be the left subtree of `6`; and since `6` is the smallest node in `5`'s right subtree, all nodes
+in this subtree can equally comprise the right subtree of `6` once it replaces `5`. So the question at this point which do we choose,
+the `4` or the `6` as the successor? You might think it doesn't matter but it actually does! Consider the following tree:
+
+```
+      5
+   /     \
+  2       7
+   \     /
+    3   6
+   /   /
+  3   6
+```
+
+The two trees we can get as a result of choosing either `3` or `6` as `5`'s successor are as follows:
+
+```
+ Choose 3         Choose 6
+     3       |      6
+  /     \    |    /   \
+ 2       7   |   2     7
+  \     /    |    \   /
+   3   6     |     3 6
+      /      |    /
+     6       |   3
+```
+
+Note only one of the above trees is valid! Remember the invariant that we mentioned in the first paragraph introduction that talks
+about how we handle duplicates. You may recall that given any given a node `n`, the nodes in `n`'s left subtree will have values
+<= `n`'s value, meaning duplicates of a particular node will only appear in the node's left subtree. The tree on the right in the
+above example breaks this invariant because `6` has a duplicate in its right subtree when we promote it to the new root. In short,
+if we allow duplicates in the left subtree of a particular node, we must always choose our successor from the node-to-remove's left
+subtree to maintain this invariant. This is a minor but possibly important detail.
+
+Finally to finish off deleting this node.
+
+Draw analogy to linked lists
+  - First need to find the item (recursively is best)
+  - Removing requires access
 
 <a name="clear"></a>
 ### `void BST<T>::clear(T elem);`
