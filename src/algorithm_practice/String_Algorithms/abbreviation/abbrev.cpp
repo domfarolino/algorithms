@@ -4,8 +4,6 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/contests/world-codesprint-6/challenges/abbr
 
 /**
@@ -58,13 +56,13 @@ using namespace std;
  * Space complexity: O(1)
  */
 
-bool capitalsRelativeOrder(string& s1, string& s2) {
+bool capitalsRelativeOrder(std::string& s1, std::string& s2) {
   int pos = 0;
   for (int i = 0; i < s1.length(); ++i) {
     if (s1[i] >= 65 && s1[i] <= 90) { // if (s1[i] >= 'A' && s1[i] <= 'Z') {
-      if (s2.find(s1[i], pos) == string::npos) {
+      if (s2.find(s1[i], pos) == std::string::npos) {
         return false;
-      } else if (s2.find(s1[i], pos) != string::npos) {
+      } else if (s2.find(s1[i], pos) != std::string::npos) {
         pos = s2.find(s1[i], pos);
       }
     }
@@ -73,13 +71,13 @@ bool capitalsRelativeOrder(string& s1, string& s2) {
   return true;
 }
 
-bool canMakeAbbrev(string& s1, string& s2) {
+bool canMakeAbbrev(std::string& s1, std::string& s2) {
   if (!capitalsRelativeOrder(s1, s2)) return false;
   int pos = 0;
   for (int i = 0; i < s2.length(); ++i) {
-    if (s1.find(s2[i], pos) == string::npos && s1.find(char(s2[i] + 32), pos) == string::npos) {
+    if (s1.find(s2[i], pos) == std::string::npos && s1.find(char(s2[i] + 32), pos) == std::string::npos) {
       return false;
-    } else if (s1.find(s2[i], pos) != string::npos || s1.find(char(s2[i] + 32), pos) != string::npos) {
+    } else if (s1.find(s2[i], pos) != std::string::npos || s1.find(char(s2[i] + 32), pos) != std::string::npos) {
       pos = i;
     }
   }
@@ -89,17 +87,17 @@ bool canMakeAbbrev(string& s1, string& s2) {
 
 int main() {
   int q;
-  string s1, s2;
-  cin >> q;
+  std::string s1, s2;
+  std::cin >> q;
 
   for (int i = 0; i < q; ++i) {
-    cin >> s1 >> s2;
+    std::cin >> s1 >> s2;
     if (canMakeAbbrev(s1, s2)) {
-      cout << "YES";
+      std::cout << "YES";
     } else {
-      cout << "NO";
+      std::cout << "NO";
     }
-    cout << endl;
+    std::cout << std::endl;
   }
 
   return 0;
