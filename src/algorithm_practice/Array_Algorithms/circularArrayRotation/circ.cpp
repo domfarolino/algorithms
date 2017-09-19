@@ -2,8 +2,6 @@
 #include <cmath>
 #include <vector>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/challenges/circular-array-rotation
 
 /**
@@ -42,17 +40,17 @@ long realIndex(long negIndex, long arrSize) {
 int main() {
   long n, k;
   int queries, singleQuery; // ints to hold total # of queries, and each individual query
-  vector<long> arr;
-  cin >> n >> k >> queries;
+  std::vector<long> arr;
+  std::cin >> n >> k >> queries;
   arr.resize(n);
 
   for (int i = 0; i < n; ++i) {
-    cin >> arr[i];
+    std::cin >> arr[i];
   }
 
   for (int i = 0; i < queries; ++i) {
-    cin >> singleQuery;
-    cout << arr[realIndex(singleQuery - k, arr.size())] << endl;
+    std::cin >> singleQuery;
+    std::cout << arr[realIndex(singleQuery - k, arr.size())] << std::endl;
   }
 
   return 0;
