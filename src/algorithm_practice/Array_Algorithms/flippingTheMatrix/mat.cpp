@@ -4,8 +4,6 @@
 #include <iostream>
 #include <algorithm>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/contests/world-codesprint-6/challenges/flipping-the-matrix
 
 /**
@@ -26,21 +24,21 @@ using namespace std;
  * Space complexity: O(1)
  */
 
-void initMatrix(vector<vector<int> >& inputMatrix, int n) {
+void initMatrix(std::vector<std::vector<int> >& inputMatrix, int n) {
   inputMatrix.clear();
-  inputMatrix.resize(2*n, vector<int>(2*n));
+  inputMatrix.resize(2*n, std::vector<int>(2*n));
   for (int i = 0; i < 2*n; ++i) {
     for (int j = 0; j < 2*n; ++j) {
-      cin >> inputMatrix[i][j];
+      std::cin >> inputMatrix[i][j];
     }
   }
 }
 
 int max(int m1, int m2, int m3, int m4) {
-  return max(m4, max(m3, max(m1, m2)));
+  return std::max(m4, std::max(m3, std::max(m1, m2)));
 }
 
-long maxSum(vector<vector<int> >& matrix) {
+long maxSum(std::vector<std::vector<int> >& matrix) {
   long returnMaxSum = 0;
   int topLeft, topRight, bottomLeft, bottomRight;
 
@@ -59,13 +57,13 @@ long maxSum(vector<vector<int> >& matrix) {
 
 int main() {
   int q, n;
-  cin >> q;
-  vector<vector<int> > matrix;
+  std::cin >> q;
+  std::vector<std::vector<int> > matrix;
 
   for (int i = 0; i < q; ++i) {
-    cin >> n;
+    std::cin >> n;
     initMatrix(matrix, n);
-    cout << maxSum(matrix) << endl;
+    std::cout << maxSum(matrix) << std::endl;
   }
 
   return 0;
