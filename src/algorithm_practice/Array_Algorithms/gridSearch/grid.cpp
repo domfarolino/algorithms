@@ -2,8 +2,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/challenges/the-grid-search
 
 /**
@@ -57,7 +55,7 @@ using namespace std;
  * are essentially arrays are essentially vectors are essentially lit.
  */
 
-bool checkGridEquivalence(vector<string>& haystack, vector<string>& needle, int rows, int cols) {
+bool checkGridEquivalence(std::vector<std::string>& haystack, std::vector<std::string>& needle, int rows, int cols) {
   for (int r = rows; r < rows + needle.size(); ++r) {
     for (int c = cols; c < cols + needle[0].length(); ++c) {
       if (haystack[r][c] != needle[r - rows][c - cols]) return false;
@@ -67,7 +65,7 @@ bool checkGridEquivalence(vector<string>& haystack, vector<string>& needle, int 
   return true;
 }
 
-bool gridExists(vector<string>& haystack, vector<string>& needle) {
+bool gridExists(std::vector<std::string>& haystack, std::vector<std::string>& needle) {
   if ((!haystack.size() && !needle.size()) || !needle.size()) return true;
   if (needle.size() > haystack.size() || needle[0].size() > haystack[0].size()) return false;
 
@@ -82,30 +80,30 @@ bool gridExists(vector<string>& haystack, vector<string>& needle) {
 
 int main() {
   int t, gR, gC, pR, pC;
-  vector<string> G, P;
-  cin >> t;
+  std::vector<std::string> G, P;
+  std::cin >> t;
 
   // Main driver
   for (int i = 0; i < t; ++i) {
-    cin >> gR >> gC;
+    std::cin >> gR >> gC;
     G.resize(gR);
 
     // Fill G
     for (int j = 0; j < gR; ++j) {
-      cin >> G[j];
+      std::cin >> G[j];
     }
 
-    cin >> pR >> pC;
+    std::cin >> pR >> pC;
     P.resize(pR);
 
     // Fill P
     for (int j = 0; j < pR; ++j) {
-      cin >> P[j];
+      std::cin >> P[j];
     }
 
     // Get some answers
-    (gridExists(G, P)) ? cout << "YES" : cout << "NO";
-    cout << endl;
+    (gridExists(G, P)) ? std::cout << "YES" : std::cout << "NO";
+    std::cout << std::endl;
 
     G.clear();
     P.clear();
