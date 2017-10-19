@@ -127,6 +127,6 @@ int main() {
   minAndMax();
   bfs();
 
-  std::cout << "\x1B[32m✔ All tests pass\x1B[32m" << std::endl;
+  std::cout << "\x1B[32m✔ All tests pass\x1B[00m" << std::endl;
   return 0;
 }

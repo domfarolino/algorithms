@@ -259,12 +259,13 @@ Consider the following tree:
 Removing `5` from the above tree is a bit less obvious, mainly because its successor is not completely straightforward. It is
 tempting to think that we must pick either the `2` or `7` to replace the `5`, but that requires us to rearrange a lot of the
 tree afterwards. Instead we can pick a successor that requires practically no extra work, and that successor will be the closest
-value to the node we're removing. The two closest values to `5` in the tree will be the largest node in its left subtree
-(`4`), and the smallest node in its right subtree (`6`). Note that no matter which we choose as a successor, no rearranging will
-be required. This is because the smallest node in `5`'s right subtree (`6`) is still larger than all nodes in `5`'s left subtree,
-meaning `5`'s left subtree can also be the left subtree of `6`; and since `6` is the smallest node in `5`'s right subtree, all nodes
-in this subtree can equally comprise the right subtree of `6` once it replaces `5`. So the question at this point which do we choose,
-the `4` or the `6` as the successor? You might think it doesn't matter but it actually does! Consider the following tree:
+value to the node we're removing. The two closest values to `5` in the tree will be the maximum node in its left subtree (`4`),
+and the minimum node in its right subtree (`6`). Note that no matter which we choose as a successor, no rearranging will be
+required. This is because the smallest node in `5`'s right subtree (`6`) is still larger than all nodes in `5`'s left subtree,
+meaning `5`'s left subtree can also be the left subtree of `6`; and since `6` is the smallest node in `5`'s right subtree, all
+nodes in this subtree can equally comprise the right subtree of `6` upon succession. So the question at this point is which do
+we choose, the `4` or the `6` as the successor? You might think it doesn't matter but it actually does! Consider the following
+tree:
 
 ```
       5
@@ -289,14 +290,48 @@ The two trees we can get as a result of choosing either `3` or `6` as `5`'s succ
      6       |   3
 ```
 
-Note only one of the above trees is valid! Remember the invariant that we mentioned in the first paragraph introduction that talks
-about how we handle duplicates. You may recall that given any given a node `n`, the nodes in `n`'s left subtree will have values
-<= `n`'s value, meaning duplicates of a particular node will only appear in the node's left subtree. The tree on the right in the
-above example breaks this invariant because `6` has a duplicate in its right subtree when we promote it to the new root. In short,
-if we allow duplicates in the left subtree of a particular node, we must always choose our successor from the node-to-remove's left
-subtree to maintain this invariant. This is a minor but possibly important detail.
+Note only one of the above trees is valid! Remember the invariant that we introduced in the first paragraph that talks about how
+we handle duplicates? You may recall that given any given a node `n`, the nodes in `n`'s left subtree will have values <= `n`'s
+value, meaning duplicates of a particular node will only appear in the node's left subtree. The tree on the right in the above
+example breaks this invariant because `6` has a duplicate in its right subtree when we promote it to the new root. In short, if
+we allow duplicates in the left subtree of a particular node, we must always *choose our successor from the node-to-remove's left
+subtree* to maintain this invariant upon succession. This is a minor but possibly important detail.
 
-Finally to finish off deleting this node.
+Finally to actually achieve the structure above, we want to replace the value of `5` with the value of `3`. This will leave us with
+an extra `3` in the left subtree since we just copied its value. At this point we can call the delete algorithm on `3`, starting at
+the left subtree for the root. We know deleting the extra `3` will be a trivial operation, since it is the maximum value in the right
+subtree therefore it can have at most one child. Thus we've successfully boiled down the case of deleting a node with two children into
+deleting a node with at most one child after performing a simple copy step!
+
+#### Implementation
+
+The implementation of this algorithm is a little tricky so I'd like to start by looking at how we might recursively
+delete a node from a linked list.
+
+Consider the following list:
+
+```
++---+   +---+
+| 6 |-->| 7 |--> NULL
++---+   +---+
+```
+
+We can write a function to delete a node from a linked list iteratively rather simply, however since many algorithms involving
+tree are easily formulated recursively, let's focus on how we'd delete a node recursively. If we were to write a function to
+recursively delete a node from a linked list, it's important to realize that it's possible we may modify the head of our list
+if the node we wish to remove is the head. We should then make the function return a linked list node in case we modify the head
+they can get back a valid pointer. 
+
+```cpp
+  existingHead = deleteNode(existingHead, 20);
+```
+
+In many cases when we don't actually modify the head of the list, the value of `existingHead` will not change, but since the
+algorithm is recursive let's look at it from the perspective of an arbitrary stack frame (beginning, middle, or end, it doesn't
+matter). When we receive the `head` of a list, besides the possibility of it being `NULL`, there are two possibilities.
+
+ - The head is the node-to-delete
+ - The node-to-delete may exist somewhere further in the list
 
 Draw analogy to linked lists
   - First need to find the item (recursively is best)
