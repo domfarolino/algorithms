@@ -1,9 +1,7 @@
 #include <iostream>
 #include <climits>
 
-using namespace std;
-
-// My blog post on merging two sorted lists: https://chinocode.com/Merging-K-Sorted-Arrays-and-Linked-Lists/
+// My blog post on merging two sorted lists: https://blog.domfarolino.com/Merging-K-Sorted-Arrays-and-Linked-Lists/
 
 /**
  * Merge Sort
@@ -46,17 +44,17 @@ using namespace std;
 
 // Utility function to print array given size
 void printArray(int arr[], int size) {
-  cout << "{ ";
+  std::cout << "{ ";
 
   for (int i = 0; i < size; ++i) {
-    cout << arr[i];
+    std::cout << arr[i];
 
     if (i < size - 1) {
-      cout << ", ";
+      std::cout << ", ";
     }
   }
 
-  cout << " }" << endl;
+  std::cout << " }" << std::endl;
 }
 
 /**
@@ -171,6 +169,5 @@ int main() {
   int a[] = {5, 4, 3, 2, 1};
   mergeSort(a, 0, 4);
   printArray(a, 5);
-
   return 0;
 }
