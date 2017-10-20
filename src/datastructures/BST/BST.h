@@ -19,7 +19,6 @@ private:
   bool existsHelper(T, TreeNode<T>*);
   TreeNode<T>* removeHelper(T, TreeNode<T>*);
   void clearHelper(TreeNode<T>*);
-  void getParent(T, TreeNode<T>*, TreeNode<T>*&, TreeNode<T>*&);
 
   TreeNode<T>* minHelper(TreeNode<T>*);
   TreeNode<T>* maxHelper(TreeNode<T>*);
@@ -109,6 +108,8 @@ bool BST<T>::existsHelper(T elem, TreeNode<T>* root) {
   } else if (elem > root->val) {
     return existsHelper(elem, root->right);
   }
+
+  return false;
 }
 
 /**
@@ -155,20 +156,6 @@ TreeNode<T>* BST<T>::removeHelper(T elem, TreeNode<T> *root) {
   return root;
 }
 
-template <typename T>
-void BST<T>::getParent(T elem, TreeNode<T>* givenRoot, TreeNode<T>* &parent, TreeNode<T>* &current) {
-  current = givenRoot;
-  parent = NULL;
-  while (current && current->val != elem) {
-    parent = current;
-    if (elem < current->val) {
-      current = current->left;
-    } else {
-      current = current->right;
-    }
-  }
-}
-
 /**
  * Time complexity: O(n)
  * Space complexity: O(1)
@@ -177,69 +164,102 @@ template <typename T>
 void BST<T>::removeIterative(T elem) {
   if (!root) return;
 
-  // Set |curr| equal to the node-to-delete
-  TreeNode<T> *parent, *current;
-  getParent(elem, root, parent, current);
-
-  if (!current) {
-    std::cout << "Something is likely wrong!" << std::endl;
-    return;
+  /**
+   * Set current equal to the node-to-remove
+   * and parent equal to current's parent, or
+   * NULL if current is the root.
+   */
+  TreeNode<T> *parent = NULL, *current = root;
+  while (current && current->val != elem) {
+    parent = current;
+    if (elem < current->val) {
+      current = current->left;
+    } else {
+      current = current->right;
+    }
   }
 
+  if (!current) return;
+
+  /**
+   * If current has both children, it's parent
+   * doesn't matter and we must find its successor
+   * to replace its value, then delete the successor
+   */
   if (current->left && current->right) {
     // Find minimum in the right subtree
     TreeNode<T>* successor = minHelper(current->right);
 
-    // Replace node-to-delete's value with its successor's
+    // Replace node-to-remove's value with its successor's
     current->val = successor->val;
 
-    // Delete that value (dupe) from the current->right subtree
+    // Delete node which contained successor
+    // value, as this node is now a duplicate
     parent = current;
     current = current->right;
     while (current->left) {
       parent = current;
       current = current->left;
     }
+
+    // Bypass the node we're removing
     if (parent->left == current) {
       parent->left = current->right;
     } else if (parent->right == current) {
       parent->right = current->right;
     }
+
     delete current;
-  } else if (current->left) {
+  } else if (current->left) { // node-to-remove only has left child
     if (parent) {
+      /**
+       * If the node-to-remove has a parent
+       * we can use the parent to bypass the
+       * node before we delete it
+       */
       if (parent->left == current) {
         parent->left = current->left;
       } else {
         parent->right = current->left;
       }
     } else {
+      // Else we're dealing with the root
       root = current->left;
     }
+
     delete current;
   } else if (current->right) {
     if (parent) {
+      /**
+       * If the node-to-remove has a parent
+       * we can use the parent to bypass the
+       * node before we delete it
+       */
       if (parent->left == current) {
         parent->left = current->right;
       } else {
         parent->right = current->right;
       }
     } else {
+      // Else we're dealing with the root
       root = current->right;
     }
+
     delete current;
   } else {
+    // Removing a leaf node (maybe root)
     if (parent) {
+      // Similar logic to above
       if (parent->left == current) {
         parent->left = NULL;
       } else {
         parent->right = NULL;
       }
-      delete current;
     } else {
-      delete root;
+      // Dealing with the root
       root = NULL;
     }
+    delete current;
   }
 
   this->_size--;

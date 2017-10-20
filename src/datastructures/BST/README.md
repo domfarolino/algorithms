@@ -64,7 +64,7 @@ either the left or right subtree, or terminate. Initially they must be called wi
 node. This initial call requires access to private data (the tree's "`root`") to set the context for the first
 call. To avoid exposing an API that requires private data, often wrapper functions are used to make this
 initial call once for the user. For example, the public API for `add()` might accept a single value to add,
-and would call the recursive `addHelper()` function with this valuem, and the the tree's "`root`" node
+and would call the recursive `addHelper()` function with this value, and the the tree's "`root`" node
 (to set the initial context for the future recursive calls). The `addHelper` would take it from here, recursing
 down the tree as necessary. You'll see this pattern being used in the implementation in this repository.
 
@@ -79,6 +79,7 @@ down the tree as necessary. You'll see this pattern being used in the implementa
  - [`existsHelper()`](#exists-helper)
  - [`remove()`](#remove)
  - [`removeHelper()`](#remove-helper)
+ - [`removeIterative()`](#remove-iterative)
  - [`clear()`](#clear)
  - [`clearHelper()`](#clear-helper)
  - [`min()`](#min)
@@ -141,7 +142,7 @@ add(root = 5, value = 11)                  |
   if (value > root && root->right) {       | // if we can recurse further
     add(5->right, 11);                     |
     +---------stack frame------------------+
-    |add(root = 7, 11)                     |
+    |add(root = 7, value = 11)             |
     |   if (value > root && root->right) { | // if we can recurse furhter
     |     //doesn't get reached            |
     |   } else (!root->right) {            | // if we've hit a leaf node, give it a child
@@ -310,35 +311,35 @@ deleting a node with at most one child after performing a simple copy step!
 The implementation of this algorithm is a little tricky, but you'll notice that in the above sections we made many comparisons to
 removing nodes from a linked list. A BST is basically a more complex linked list, and the traversal required to find a node in a BST
 is similar to that of a linked list. Once found, deleting a node from a BST is basically the same as deleting one in a linked list in
-two out of three possible cases, and in the third more complicated case, we simply perform a value swap and boil the problem down into
-one of the other two trivial cases. Let's first consider how we'd iteratively and recursively delete a node from a linked list.
+two out of the three possible cases, and in the third more complicated case, we simply perform a value swap and boil the problem down
+into a trivial case. Let's first consider how we'd iteratively and recursively delete a node from a linked list.
 
-Consider the following list:
+We can write a function to iteratively delete a node from a linked list rather simply. Assuming the node-to-delete is not the list's
+head (an edge case), we'd create a temp node pointer `tmp`, initially set to the head of the list, and iterate forward until the
+`tmp->next` has the value we wish to delete. We stop when `tmp->next` is our target node because we must have a reference to the
+node before the one we wish to delete in order to seal the gap once we delete the node. We can implement basically the same logic
+with a BST (see the `removeIterative` method), however many tree algorithms are naturally recursive, which can actually cut down on
+the complexity (not asymptotic!) of our algorithm.
 
-```
-+---+   +---+   +---+
-| 5 |-->| 6 |-->| 7 |--> NULL
-+---+   +---+   +---+
-```
+When recursively deleting a node from a linked list, we'll start at the `head` node and recursive forward on each `head->next` until
+we find the node-to-delete. Since recursion is just an accumulation of stack frames, lets consider an arbitrary frame when thinking
+about how the algorithm works. Let's assume we're looking at the `head` of a list in some stack frame. If `head` contains the value
+we wish to remove, we'll simply delete it and return `head->next`. If it doesn't, we assume the node-to-remove exists somewhere later
+in the list and recurse onto `head->next`. Notice though, the value of `head->next` may change once the recursion is complete due to
+the nature of the algorithm. If `head->next` is removed, the node after `head->next` will be returned in its place. This means we
+should set `head->next = deleteNode(head->next, targetValue)` in case `head->next` was modified. This assignment is idempotent
+otherwise. Notice how in the iterative version we needed a reference to the node before the one we wished to delete, whereas with
+recursion this reference is kept implicitly for us, which can then  **simplify our logic**.
 
-We can write a function to delete a node from a linked list iteratively rather simply. Assuming the node-to-delete is not the head
-(an edge case), we'd create a temporary node pointer `tmp` initially set to the head of the list, and iterate through the list until
-the node `tmp->next` had the value we wish to delete. The reason we stop when `tmp->next` is at our target node is so that we have
-access to the node before it so we can seal the gap created once we delete the node. We can implement basically the same logic with
-a BST (see the `removeIterative` method), however many tree algorithms are naturally recursive, which can actually cut down on the
-complexity (not asymptotic!) of our algorithm.
+The recursive `removeHelper` member function behaves very similarly to the above mentioned algorithm, just with a little more logic
+to navigate the `->left` and `->right` children properly as opposed to `->next`, and some value-swapping logic for when we wish to
+delete a node which has two children. Once we perform the value swap, we can just call the recursive algorithm on the right subtree
+to remove the duplicate successor value.
 
-When recursively deleting a node from a linked list, we'll find the node in a similar way, basically moving forward until we reach it,
-however we'll move forward using recursion. Since recursion is just an accumulation of stack frames, this lets us consider any arbitrary
-frame when thinking about how the algorithm works. Let's assume we're looking at the `head` of a list in some stack frame. If this node
-contains the value we wish to remove, we'll simply delete it and return the node coming after it. If it doesn't, we assume the
-node-to-remove exists somewhere later in the list, and we recurse on the next node (`head->next`). Notice though, that if the next node
-is the node-to-remove (and for some frame, this will be true), the value of `head->next` will change. This means we have to assume that
-our recursive algorithm will modify `head->next`, and we'll want to set `head->next = deleteNode(head->next, targetValue)` just in case.
+<a name="remove-iterative"></a>
+### `void BST<T>::removeIterative(T elem);`
 
-Draw analogy to linked lists
-  - First need to find the item (recursively is best)
-  - Removing requires access
+This method is undocumented, though part of its logic is expressed in <a href="#remove-helper">removeHelper</a>.
 
 <a name="clear"></a>
 ### `void BST<T>::clear(T elem);`
@@ -353,15 +354,18 @@ Stuff here
 <a name="min"></a>
 ### `TreeNode<T> BST<T>::min(T elem, TreeNode<T> *root);`
 
-Stuff here
+This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
+as this is where smaller and smaller values will exist. The node returned should have a `NULL` left child.
 
 <a name="max"></a>
 ### `TreeNode<T> BST<T>::max();`
 
-Stuff here
+Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 
 <a name="traversals"></a>
 ### Traversals
+
+TODO(anyone): get to these
 
  - Pre-order ...etc
  - Post-order ...etc

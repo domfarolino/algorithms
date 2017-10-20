@@ -24,38 +24,52 @@ void addAndEmpty() {
 }
 
 void removeAndSize() {
-  BST<int> tree;
+  BST<int> tree1;
+  BST<int> tree2;
   std::vector<int> vec;
   const int treeSize = 200;
 
   for (int i = 0; i < treeSize; ++i) {
     vec.push_back(rand() % 2000);
-    tree.add(vec[vec.size() - 1]);
+    tree1.add(vec[vec.size() - 1]);
+    tree2.add(vec[vec.size() - 1]);
   }
 
   int indexToRemove;
   for (int i = treeSize - 1; i >= 0; --i) {
     indexToRemove = rand() % vec.size();
 
-    tree.removeIterative(vec[indexToRemove]);
+    tree1.remove(vec[indexToRemove]);
+    tree2.removeIterative(vec[indexToRemove]);
     vec.erase(vec.begin() + indexToRemove);
 
-    assert(tree.size() == i);
+    assert(tree1.size() == i);
+    assert(tree2.size() == i);
   }
 }
 
 void removeAndEmpty() {
-  BST<int> tree;
-  tree.add(1);
-  tree.add(2);
+  BST<int> tree1;
+  BST<int> tree2;
+  tree1.add(1);
+  tree2.add(1);
+  tree1.add(2);
+  tree2.add(2);
 
-  assert(!tree.empty());
-  tree.remove(1);
-  assert(!tree.empty());
-  tree.remove(2);
-  assert(tree.empty());
-  tree.remove(2);
-  assert(tree.empty());
+  assert(!tree1.empty());
+  assert(!tree2.empty());
+  tree1.remove(1);
+  tree2.remove(1);
+  assert(!tree1.empty());
+  assert(!tree2.empty());
+  tree1.remove(2);
+  tree2.remove(2);
+  assert(tree1.empty());
+  assert(tree2.empty());
+  tree1.remove(2);
+  tree2.remove(2);
+  assert(tree1.empty());
+  assert(tree2.empty());
 }
 
 void inorder() {
