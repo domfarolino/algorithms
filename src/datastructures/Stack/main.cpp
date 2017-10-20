@@ -150,6 +150,6 @@ int main() {
   copyConstructor();
   copyAssignment();
 
-  cout << "\x1B[32m✔ All tests pass\x1B[32m" << endl;
+  cout << "\x1B[32m✔ All tests pass\x1B[00m" << endl;
   return 0;
 }
