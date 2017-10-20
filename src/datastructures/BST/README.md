@@ -188,7 +188,7 @@ about to recurse to is NULL or not like we did with `add`; instead we can just r
 root is NULL. Doing both would yield in extraneous NULL checks. With this information, we know the wrapper function `exists` doesn't
 have to provide any logic at all, and can just simply kick off the first call of the `existsHelper` function with the private `root`
 of the tree.
- 
+
 <a name="remove"></a>
 ### `void BST<T>::remove(T elem);`
 
@@ -217,7 +217,7 @@ Consider the following tree:
 ```
 
 Removing `6` from the above tree is as easy as navigating to the node (we've already seen how to do this), and simply deleting it
-as its removal doesn't affect any other part of the tree.
+as its removal doesn't affect any other part of the tree. This is very similar to deleting the tail of a linked list.
 
 #### Removing a node with one child
 
@@ -243,6 +243,8 @@ Removing `6` from the above tree is as easy as making the 5->right pointer point
    / \
   7   9
 ```
+
+This is very similar to deleting any non-head node in a linked list.
 
 ### Removing a node with two children (most complex case)
 
@@ -305,33 +307,34 @@ deleting a node with at most one child after performing a simple copy step!
 
 #### Implementation
 
-The implementation of this algorithm is a little tricky so I'd like to start by looking at how we might recursively
-delete a node from a linked list.
+The implementation of this algorithm is a little tricky, but you'll notice that in the above sections we made many comparisons to
+removing nodes from a linked list. A BST is basically a more complex linked list, and the traversal required to find a node in a BST
+is similar to that of a linked list. Once found, deleting a node from a BST is basically the same as deleting one in a linked list in
+two out of three possible cases, and in the third more complicated case, we simply perform a value swap and boil the problem down into
+one of the other two trivial cases. Let's first consider how we'd iteratively and recursively delete a node from a linked list.
 
 Consider the following list:
 
 ```
-+---+   +---+
-| 6 |-->| 7 |--> NULL
-+---+   +---+
++---+   +---+   +---+
+| 5 |-->| 6 |-->| 7 |--> NULL
++---+   +---+   +---+
 ```
 
-We can write a function to delete a node from a linked list iteratively rather simply, however since many algorithms involving
-tree are easily formulated recursively, let's focus on how we'd delete a node recursively. If we were to write a function to
-recursively delete a node from a linked list, it's important to realize that it's possible we may modify the head of our list
-if the node we wish to remove is the head. We should then make the function return a linked list node in case we modify the head
-they can get back a valid pointer. 
+We can write a function to delete a node from a linked list iteratively rather simply. Assuming the node-to-delete is not the head
+(an edge case), we'd create a temporary node pointer `tmp` initially set to the head of the list, and iterate through the list until
+the node `tmp->next` had the value we wish to delete. The reason we stop when `tmp->next` is at our target node is so that we have
+access to the node before it so we can seal the gap created once we delete the node. We can implement basically the same logic with
+a BST (see the `removeIterative` method), however many tree algorithms are naturally recursive, which can actually cut down on the
+complexity (not asymptotic!) of our algorithm.
 
-```cpp
-  existingHead = deleteNode(existingHead, 20);
-```
-
-In many cases when we don't actually modify the head of the list, the value of `existingHead` will not change, but since the
-algorithm is recursive let's look at it from the perspective of an arbitrary stack frame (beginning, middle, or end, it doesn't
-matter). When we receive the `head` of a list, besides the possibility of it being `NULL`, there are two possibilities.
-
- - The head is the node-to-delete
- - The node-to-delete may exist somewhere further in the list
+When recursively deleting a node from a linked list, we'll find the node in a similar way, basically moving forward until we reach it,
+however we'll move forward using recursion. Since recursion is just an accumulation of stack frames, this lets us consider any arbitrary
+frame when thinking about how the algorithm works. Let's assume we're looking at the `head` of a list in some stack frame. If this node
+contains the value we wish to remove, we'll simply delete it and return the node coming after it. If it doesn't, we assume the
+node-to-remove exists somewhere later in the list, and we recurse on the next node (`head->next`). Notice though, that if the next node
+is the node-to-remove (and for some frame, this will be true), the value of `head->next` will change. This means we have to assume that
+our recursive algorithm will modify `head->next`, and we'll want to set `head->next = deleteNode(head->next, targetValue)` just in case.
 
 Draw analogy to linked lists
   - First need to find the item (recursively is best)

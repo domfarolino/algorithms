@@ -19,6 +19,7 @@ private:
   bool existsHelper(T, TreeNode<T>*);
   TreeNode<T>* removeHelper(T, TreeNode<T>*);
   void clearHelper(TreeNode<T>*);
+  void getParent(T, TreeNode<T>*, TreeNode<T>*&, TreeNode<T>*&);
 
   TreeNode<T>* minHelper(TreeNode<T>*);
   TreeNode<T>* maxHelper(TreeNode<T>*);
@@ -42,6 +43,7 @@ public:
   void add(T);
   bool exists(T);
   void remove(T);
+  void removeIterative(T);
   void clear();
 
   TreeNode<T>* min();
@@ -151,6 +153,96 @@ TreeNode<T>* BST<T>::removeHelper(T elem, TreeNode<T> *root) {
   }
 
   return root;
+}
+
+template <typename T>
+void BST<T>::getParent(T elem, TreeNode<T>* givenRoot, TreeNode<T>* &parent, TreeNode<T>* &current) {
+  current = givenRoot;
+  parent = NULL;
+  while (current && current->val != elem) {
+    parent = current;
+    if (elem < current->val) {
+      current = current->left;
+    } else {
+      current = current->right;
+    }
+  }
+}
+
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+template <typename T>
+void BST<T>::removeIterative(T elem) {
+  if (!root) return;
+
+  // Set |curr| equal to the node-to-delete
+  TreeNode<T> *parent, *current;
+  getParent(elem, root, parent, current);
+
+  if (!current) {
+    std::cout << "Something is likely wrong!" << std::endl;
+    return;
+  }
+
+  if (current->left && current->right) {
+    // Find minimum in the right subtree
+    TreeNode<T>* successor = minHelper(current->right);
+
+    // Replace node-to-delete's value with its successor's
+    current->val = successor->val;
+
+    // Delete that value (dupe) from the current->right subtree
+    parent = current;
+    current = current->right;
+    while (current->left) {
+      parent = current;
+      current = current->left;
+    }
+    if (parent->left == current) {
+      parent->left = current->right;
+    } else if (parent->right == current) {
+      parent->right = current->right;
+    }
+    delete current;
+  } else if (current->left) {
+    if (parent) {
+      if (parent->left == current) {
+        parent->left = current->left;
+      } else {
+        parent->right = current->left;
+      }
+    } else {
+      root = current->left;
+    }
+    delete current;
+  } else if (current->right) {
+    if (parent) {
+      if (parent->left == current) {
+        parent->left = current->right;
+      } else {
+        parent->right = current->right;
+      }
+    } else {
+      root = current->right;
+    }
+    delete current;
+  } else {
+    if (parent) {
+      if (parent->left == current) {
+        parent->left = NULL;
+      } else {
+        parent->right = NULL;
+      }
+      delete current;
+    } else {
+      delete root;
+      root = NULL;
+    }
+  }
+
+  this->_size--;
 }
 
 /**

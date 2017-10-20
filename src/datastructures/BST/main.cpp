@@ -37,7 +37,7 @@ void removeAndSize() {
   for (int i = treeSize - 1; i >= 0; --i) {
     indexToRemove = rand() % vec.size();
 
-    tree.remove(vec[indexToRemove]);
+    tree.removeIterative(vec[indexToRemove]);
     vec.erase(vec.begin() + indexToRemove);
 
     assert(tree.size() == i);
