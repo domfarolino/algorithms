@@ -104,27 +104,19 @@ void Vector<T>::push_back(T val) {
  */
 template <typename T>
 void Vector<T>::push_front(T val) {
-  if (this->_size < this->_capacity) {
+  bool maxSize = this->_size == this->_capacity;
+  T *tmpData = this->_data;
 
-    int tmp = this->_data[0], tmp2;
-
-    for (int i = 1; i < this->_size + 1; ++i) {
-      tmp2 = this->_data[i];
-      this->_data[i] = tmp;
-      tmp = tmp2;
-    }
-
-  } else {
-    T *tmpData = new T[this->_capacity * 2];
-
-    for (int i = 0; i < this->_size; ++i) {
-      tmpData[i + 1] = this->_data[i];
-    }
-
-    delete[] this->_data;
-    this->_data = tmpData;
+  if (maxSize) {
+    this->_data = new T[this->_capacity * 2];
     this->_capacity *= 2;
   }
+
+  for (int i = this->_size - 1; i >= 0; --i) {
+    this->_data[i + 1] = tmpData[i];
+  }
+
+  if (maxSize) delete[] tmpData;
 
   this->_data[0] = val;
   this->_size++;
