@@ -8,6 +8,10 @@ last recursive bit is the important part!). The exact semantics of this definiti
 duplicate values, or if so, how we handle them) are implementation-specific and not relevant when capturing the
 basic mechanics of this fundamental datastructure.
 
+Note that a binary tree is really a specific type of Directed Acyclic Graph (DAG) when relating to graph theory.
+While traversals on general graphs apply to all trees, some of the algorithms and traversals in this
+implementation are specific to the binary (search) tree data structure.
+
 ### Implementation
 
 Binary trees have the benefit of being really efficient datastructures for lookup and find
