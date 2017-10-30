@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/happy-number/
 
 /**
@@ -45,7 +43,7 @@ bool isHappy(int n) {
 
 int main() {
   int n;
-  cin >> n;
-  cout << isHappy(n) << endl;
+  std::cin >> n;
+  std::cout << isHappy(n) << std::endl;
   return 0;
 }
