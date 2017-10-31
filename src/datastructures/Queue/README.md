@@ -1,13 +1,13 @@
 # Queue
 
-The queue datastructure functions just like a line at the store, in that the `first` item in is the
+The queue data structure functions just like a line at the store, in that the `first` item in is the
 `first` item out. Equivalently, the `last` item in is the `last` item out. Consequently, queues are
-known as `FIFO` or `LILO` containers. This datastructure is used in graph/tree BFS traversals among
+known as `FIFO` or `LILO` containers. This data structure is used in graph/tree BFS traversals, among
 other applications.
 
-Queues are often implemented with a singly linked list as the underlying datastructure, as is this particular
-implementation. We maintain an internal linked list which has all of the methods our Queue datastructure will
-need to use. Again, the Queue datastructure is merely a SLL wrapper.
+Queues are often implemented with a singly linked list as the underlying data structure, as is this particular
+implementation. We maintain an internal linked list which has all of the methods our Queue data structure will
+need to use. Again, the Queue data structure is merely a SLL wrapper.
 
 ## Supported operations
 
@@ -20,7 +20,7 @@ need to use. Again, the Queue datastructure is merely a SLL wrapper.
  - [`clear()`](#clear)
 
 *Note this class does not explicitly declare a copy constructor or copy-assignment operator because the underlying
-datastructures implement these sufficiently. This class is simply a wrapper of the `SLL` class.*
+data structures implement these sufficiently. This class is simply a wrapper of the `SLL` class.*
 
 ----
 
@@ -76,9 +76,9 @@ This method returns the value of the first element (one that has been there the 
 list by taking advantage of [`SLL<T>::begin`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/SLL#begin)
 which returns an instance of [`SLLIterator`](https://github.com/domfarolino/algorithms/blob/master/src/datastructures/SLL/SLLIterator.h).
 
-The reason we throw when the list is empty is because we MUST return some real instance of type `T`, therefore `NULL`
-would not work since we're not returning a pointer, and we cannot return some sentinal value the user will magically
-understand indicates that the list is empty because:
+The reason we throw when the list is empty is because we MUST return some real instance of type `T`. Therefore, `NULL`
+would not work, since we're not returning a pointer, and we cannot return some sentinal value the user will magically
+understand indicating the list is empty because:
 
 1. These sentinal values (`-1`, `INT_MAX`, `INT_MIN`, etc) may mean different things to different users
 1. We don't know what type `T` the user will be using!
