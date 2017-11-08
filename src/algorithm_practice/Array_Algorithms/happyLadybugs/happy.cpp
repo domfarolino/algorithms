@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/challenges/happy-ladybugs
 
 /**
@@ -45,7 +43,7 @@ using namespace std;
  *   2.) The next character after some space (whether its the same color as the previous one or not)
  * If each found character has at least one identical neighbor then the string is happy.
  */
-bool isHappy(string board) {
+bool isHappy(std::string board) {
   char currentColor;
   bool spaceFlag;
 
@@ -76,7 +74,7 @@ bool isHappy(string board) {
   return true;
 }
 
-bool canBeHappy(string board) {
+bool canBeHappy(std::string board) {
   if (isHappy(board)) return true; // if its happy, don't move on (might fail our space check)
 
   int boardMap[26] = {0}; // init to 0
@@ -99,20 +97,20 @@ bool canBeHappy(string board) {
 
 int main() {
   int queries, n;
-  string b;
-  cin >> queries;
+  std::string b;
+  std::cin >> queries;
 
   for (int i = 0; i < queries; ++i) {
-    cin >> n;
-    cin >> b;
+    std::cin >> n;
+    std::cin >> b;
 
     if (canBeHappy(b)) {
-      cout << "YES";
+      std::cout << "YES";
     } else {
-      cout << "NO";
+      std::cout << "NO";
     }
 
-    cout << endl;
+    std::cout << std::endl;
   }
 
   return 0;
