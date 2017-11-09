@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/contests/w28/challenges/the-great-xor/submissions
 
 /**
@@ -35,14 +33,15 @@ using namespace std;
 
 int main(){
   int q;
-  cin >> q;
+  std::cin >> q;
   long x, nearestLog;
   for (int i = 0; i < q; i++) {
-    cin >> x;
+    std::cin >> x;
     nearestLog = pow(2, ceil(log2(x)));
 
-    (nearestLog - x == 0) ? cout << x - 1 : cout << (nearestLog - x - 1);
-    cout << endl;
+    (nearestLog - x == 0) ? std::cout << x - 1 : std::cout << (nearestLog - x - 1);
+    std::cout << std::endl;
   }
+
   return 0;
 }
