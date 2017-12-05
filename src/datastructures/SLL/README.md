@@ -163,9 +163,9 @@ When removing the first element that matches some criteria from *any* position i
 there is at least one node in the list.
 
 Next, we'll want to employ the same logic of iterating a temporary pointer through the list. Since deleting the head is a special case
-(as we cannot obtain a pointer to a node before the head), we'll check to see if the head meets our criteria first. Then let one of
-our previous methods handle the logic for that case. We know that this method will handle all invariants properly so we can make the call
-and return with no worries.
+(as we cannot obtain a pointer to a node before the head), we'll check to see if the head meets our criteria first. If it does, we'll
+let one of our previous methods handle the logic for that case. We know that this method will handle all invariants properly so we can
+make the call and return with no worries.
 
 In the average case, we'll do our regular iteration. In the prior method (<a href="#removeFromTail">removeFromTail</a>), we stopped iterating
 through the list when the temporary's next field equaled the tail pointer. In this case, we'll stop iterating when `temp->next` equals a node

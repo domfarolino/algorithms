@@ -168,7 +168,7 @@ root in the average case. This means we won't have to perform any `NULL` checks 
 accessing things like `root->left` and `root->right`, since root will always be non-null.
 
 Now it's time to consider the edge case in which the root of the actual tree is `NULL` (tree is empty). How can our algorithm
-handle this? We could of course add a `NULL` check at the beginning of our function. Though this is a little wasteful since we'd
+handle this? We could of course add a `NULL` check at the beginning of our function, though this is a little wasteful since we'd
 only *need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given
 a non-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the
 recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root` variable so we can check to see if
@@ -340,7 +340,7 @@ assignment is idempotent otherwise. Notice how in the iterative version we neede
 to delete, whereas with recursion this reference is kept implicitly for us in the form of stack frames. This simplifies our logic
 because we can focus on deleting the current `head` of any arbitrary stack frame and navigate accordingly.
 
-The recursive `removeHelper` member function behaves very similarly to the aforementioned algorithm. Though, there is additional
+The recursive `removeHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
 logic to navigate the `left` and `right` children properly, as opposed to `next`, and some value copying logic for when
 we wish to delete a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the
 left subtree to remove the duplicate successor's value (the trivial case).

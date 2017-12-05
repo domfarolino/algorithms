@@ -80,7 +80,7 @@ The reason we throw when the list is empty is because we MUST return some real i
 would not work, since we're not returning a pointer, and we cannot return some sentinal value the user will magically
 understand indicating the list is empty because:
 
-1. These sentinal values (`-1`, `INT_MAX`, `INT_MIN`, etc) may mean different things to different users
+1. Common sentinal values (`-1`, `INT_MAX`, `INT_MIN`, etc) may mean different things to different users
 1. We don't know what type `T` the user will be using!
 
 <a name="clear"></a>

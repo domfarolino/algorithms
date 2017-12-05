@@ -1,10 +1,10 @@
 # Heap (Min Heap)
 
-Heaps are critical datastructures and, in this document (and repository), we will be discussing an implementation of a heap called
-a min heap (MinHeap). Min heaps are commonly an implementation of a priority queue. Heaps can be thought of as a binary tree in
-which every node has a higher priority than both of its children. This is known as our heap invariant and should always be maintained
-for the heap to be valid. In a min heap, a node with the highest priority will have the lowest value; thus the root of a min heap will
-have the smallest value in the heap.
+Heaps are critical data structures and, in this document (and repository), we will be discussing an implementation of a heap called
+a min heap (MinHeap). Min heaps are often used to implement priority queues. Heaps can be thought of as a binary tree in which every
+node has a higher priority than both of its children. This is known as our heap invariant and should always be maintained for the
+heap to be valid. In a min heap, a node with the highest priority will have the lowest value; thus the root of a min heap will have
+the smallest value in the heap.
 
 ### Implementation
 
@@ -129,9 +129,9 @@ child, else we won't be maintaining our heap invariant (this can be seen with a 
 
 Since there are a lot of conditions in the previous paragraph, it is easy to get into a huge hairy conditional soup in which a
 lot of logic gets duplicated! This can be avoided by not enumerating through each possible outcome with nested conditionals. We
-instead run tests linearly and independent of each other while keeping sentinal variables alongside to help you continue. We
-can then create a variable whose assignment takes the place of the duplicated logic we'd have in a nested mess, and put our swap
-logic after everything.
+instead run tests linearly and independent of each other while keeping sentinal variables alongside to help us continue. We can
+then create a variable whose assignment takes the place of the duplicated logic we'd have in a nested mess, and put our swap logic
+after everything.
 
 Note the problem is similar to performing some logic with the max of two variables. Instead of writing:
 
