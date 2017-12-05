@@ -1,12 +1,12 @@
 # Binary Search Tree
 
-Binary search trees are very important and popular datastructures, and in this document (and repository) we
-will be discussing the operations associated with BSTs and their implementations. A binary search tree is a
-binary tree with the condition that given a root node, every node in the root's left subtree is <= the root's
-value, and every node in the root's right subtree is > than the root's value, for every node in the tree (that
-last recursive bit is the important part!). The exact semantics of this definition (whether or not we allow
-duplicate values, or if so, how we handle them) are implementation-specific, and in this implementation we'll
-be allowing duplicates to appear in the left subtree of a given node.
+Binary search trees are very important and popular data structures. In this document (and repository), we
+will be discussing the operations associated with BST's and their implementations. A binary search tree is a
+binary tree with the condition that, given a root node, every node in the root's left subtree is <= the root's
+value and every node in the root's right subtree is > than the root's value. This should hold true for every
+node in the tree (this recursive bit is the important part!). The exact semantics of this definition (whether
+or not we allow duplicate values, or if so, how we handle them) are implementation-specific. In this
+implementation, we'll be allowing duplicates to appear in the left subtree of a given node.
 
 Note that a binary tree is really a specific type of Directed Acyclic Graph (DAG) when relating to graph theory.
 While traversals on general graphs apply to all trees, some of the algorithms and traversals in this
@@ -14,14 +14,14 @@ implementation are specific to the binary (search) tree data structure.
 
 ### Implementation
 
-Binary trees have the benefit of being really efficient datastructures for lookup and find
-operations under the right conditions. Their common operations can have a time complexity
+Binary trees have the benefit of being really efficient data structures for lookup and find
+operations, under the right conditions. Their common operations can have a time complexity
 of `Θ(log(n))` in the best/average case, where `n` is the total number of nodes in the tree.
-A common misconception about this datastructure is that these and operations alike are *always*
+A common misconception about this data structure is that these and operations alike are *always*
 `O(log(n))`, or `Θ(log(n))` in the worst case. This is not true. Many operations associated with
-this data structure are `O(n)`, because without some extra work there is nothing guaranteeing that
-the tree is balanced, and that is when we achieve optimal performance. For example, if I were to
-insert 5 increasing values in a row into an empty binary search tree I'll end up with the following
+this data structure are `O(n)` because, without some extra work, there is nothing guaranteeing that
+the tree is balanced, which is when we achieve optimal performance. For example, if I were to
+insert 5 increasing values in a row into an empty binary search tree, I'll end up with the following
 structure:
 
 ```
@@ -50,27 +50,27 @@ up with the following structure:
 ```
 
 ...which is perfectly balanced, thus allowing us to take advantage of the BST's structure. With the
-above structure we can get `O(log(n))` insertions, removals, and lookups since the perfect balance allows
-us to cut the number of nodes we have to deal with in half at each recursive call. This is how we obtain
-`O(log(n))` operations. Often we say in the average case a BST is relatively close to being balanced, thus
-giving us efficient `O(log(n))` operations. Of course in the actual worst case (completely linear), we cannot
-do better `O(n)`. There also exist self-balancing BSTs which maintain a near-perfect balance throughout their
+above structure, we can get `O(log(n))` insertions, removals, and lookups since the perfect balance allows
+us to cut the number of examined nodes in half at each recursive call. This is how we obtain
+`O(log(n))` operations. Often, we say in the average case a BST is relatively close to being balanced, thus
+giving us efficient `O(log(n))` operations. Of course, in the actual worst case (completely linear), we cannot
+do better than `O(n)`. There also exist self-balancing BST's which maintain a near-perfect balance throughout their
 life, thus *always* giving us (amortized) `O(log(n))` operations. Maintaining a balanced structure is a little
-more difficult and out of the scope of the fundamentals :).
+more difficult and out of the scope of the fundamentals. :)
 
 I'll also talk about some of the trends found in implementations of tree-style data structures. A lot
-of generic algorithms that reside in data structures like `add()` and `remove()` only need to accept
-a single value, the data to insert or delete. With tree-based data structures, a lot of these algorithms
-are recursive; this is a result of the underlying data structure being defined recursively. These algorithms
+of generic algorithms that reside in data structures, like `add()` and `remove()`, only need to accept
+a single value, being the data to insert or delete. With tree-based data structures, a lot of these algorithms
+are recursive. This is a result of the underlying data structure being defined recursively. These algorithms
 start at some node in the tree and figure out how to recurse further down the tree with some logic. The
 algorithms are given a node to act as the "`root`" for the current call being made, and recurse down to
-either the left or right subtree, or terminate. Initially they must be called with the tree's actual "`root`"
+either the left or right subtree, or terminate. Initially, they must be called with the tree's actual "`root`"
 node. This initial call requires access to private data (the tree's "`root`") to set the context for the first
-call. To avoid exposing an API that requires private data, often wrapper functions are used to make this
+call. To avoid exposing an API that requires private data, wrapper functions are often used to make this
 initial call once for the user. For example, the public API for `add()` might accept a single value to add,
-and would call the recursive `addHelper()` function with this value, and the the tree's "`root`" node
+and then call the recursive `addHelper()` function with this value along with the tree's "`root`" node
 (to set the initial context for the future recursive calls). The `addHelper` would take it from here, recursing
-down the tree as necessary. You'll see this wrapper function pattern being used in the implementation in 
+down the tree as necessary. You'll see this wrapper function pattern being used in the implementation in
 this repository.
 
 ## Supported operations
@@ -121,7 +121,7 @@ we empty the entire tree yet our `root` is not `NULL` or the `_size` variable is
 <a name="add-helper"></a>
 ### `void BST<T>::addHelper(T elem, TreeNode<T> *root);`
 
-To add a node to binary search tree it is best to consider the average case first. So let's take the
+To add a node to a binary search tree, it is best to consider the average case first. So let's take the
 following BST:
 
 ```
@@ -134,9 +134,9 @@ following BST:
 
 Assuming we want to add the value 11 to the tree, we'll start with the root and realize 11 will need
 to be placed in 5's right subtree, as it is greater than 5. We'll then repeat this logic at the tree
-rooted at 5's right subtree, 7. Again 11 is greater than 7 so we'll need to place 11 in 7's right subtree
-however 7's subtree is `NULL`. In this case we don't want to recurse down another level and give a `NULL`
-root to our function as the current root, because we'd just end up setting this `NULL` pointer equal to a
+rooted at 5's right subtree, 7. Again, 11 is greater than 7 so we'll need to place 11 in 7's right subtree,
+however, 7's subtree is `NULL`. In this case, we don't want to recurse down another level and give a `NULL`
+root to our function as the current root. We'd just end up setting this `NULL` pointer equal to a
 new node and it would never actually be attached to anything. When adding a child node to a parent, we
 need to have the parent in context so that we can attach the child directly to it. In other words, we
 want to stop recursing at the last non-null node and attach a new child to it. Here's a quick visualization
@@ -163,17 +163,17 @@ add(root = 5, value = 11)                  |
 Note the above function must take in a root, which will be the tree's private `root` initially. This means that it
 must be called from our `add` wrapper function the first time in order to get the private `root`.
 
-With the above statements, it is clear that in general the `addHelper` function will never have to deal with a `NULL`
-root in the average case; this means we won't have to perform any `NULL` checks in the beginning of our function before
+With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `NULL`
+root in the average case. This means we won't have to perform any `NULL` checks in the beginning of our function before
 accessing things like `root->left` and `root->right`, since root will always be non-null.
 
 Now it's time to consider the edge case in which the root of the actual tree is `NULL` (tree is empty). How can our algorithm
-handle this? We could of course add a `NULL` check at the beginning of our function but is a little wasteful since we'd only
-*need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given a
-null-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add`, that calls the
-recursive `addHelper` algorithm. Here we're going to be dealing with the private `root` variable so we can check to see if
-the actual tree's `root = NULL` or not before passing it along. If so, we can create the root, thus adding the very first
-node in the tree, and if not we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
+handle this? We could of course add a `NULL` check at the beginning of our function, though this is a little wasteful since we'd
+only *need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given
+a non-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the
+recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root` variable so we can check to see if
+the actual tree's `root = NULL` before passing it along. If so, we can create the root, thus adding the very first
+node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
 handling logic so we're not performing extraneous NULL checks when unnecessary.
 
 <a name="exists"></a>
@@ -182,18 +182,18 @@ handling logic so we're not performing extraneous NULL checks when unnecessary.
 <a name="exists-helper"></a>
 ### `void BST<T>::existsHelper(T elem, TreeNode<T> *root);`
 
-The `exists` and `existsHelper` methods are similar in mechanics to the `add` method above so a lot of the boilerplate will
-be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either
+The `exists` and `existsHelper` methods have similar mechanics to the `add` method above, so a lot of the boilerplate will
+be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
  1. Or get to a `NULL` node (the one we're looking for didn't exist)
 
 In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
-we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree
+we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree,
 suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
-about to recurse to is `NULL` or not before we recurse like we did with `add`; instead we can just recurse to it, and check in the
+about to recurse to is `NULL` before we recurse like we did with `add`; instead we can just recurse to it and check in the
 next frame if that root is `NULL`. Doing both would yield in extraneous `NULL` checks. With this information, we know the wrapper
-function `exists` doesn't have to provide any logic at all, and can just simply kick off the first call of the `existsHelper`
+function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
 function with the private `root` of the tree.
 
 <a name="remove"></a>
@@ -202,16 +202,16 @@ function with the private `root` of the tree.
 <a name="remove-helper"></a>
 ### `void BST<T>::removeHelper(T elem, TreeNode<T> *root);`
 
-Removing a node from a BST is more difficult than adding or finding, and since most sources tend to show the solution with little
-or poor explanation, I intend to start with the basics and explain how this algorithm works. There are only three cases to consider
+Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
+or poor explanation, I intend to start with the basics to explain how this algorithm works. There are only three cases to consider
 when removing a node from a binary search tree:
 
   1. The node-to-remove has no children (is a leaf node)
   1. The node-to-remove has one child
   1. The node-to-remove has two children
 
-Of course there is the trivial case in which the node-to-remove does not exist in the tree, however that's not what we're focusing
-on as we pretty much get that for free.
+Of course, there is the trivial case in which the node-to-remove does not exist in the tree. However that's not what we're focusing
+on, as we pretty much get that for free.
 
 #### Removing a node with no children
 
@@ -223,7 +223,7 @@ Consider the following tree:
     6
 ```
 
-Removing `6` from the above tree is as easy as navigating to the node (we've already seen how to do this), and simply deleting
+Removing `6` from the above tree is as easy as navigating to the node (we've already seen how to do this) and simply deleting
 it, as its removal doesn't affect any other part of the tree. This is very similar to deleting the tail of a linked list.
 
 #### Removing a node with one child
@@ -267,11 +267,11 @@ Consider the following tree:
 
 Removing `5` from the above tree is a bit less obvious, mainly because its successor is not completely straightforward. It is
 tempting to think that we must pick either the `2` or `7` to replace the `5`, but that requires us to rearrange a lot of the
-tree afterwards. Instead we can pick a successor that requires practically no extra work, and that successor will be the closest
+tree afterwards. Instead, we can pick a successor that requires practically no extra work, the closest
 value to the node we're removing. The two closest values to `5` in the tree will be the maximum node in its left subtree (`4`),
 and the minimum node in its right subtree (`6`). Note that no matter which we choose as a successor, no rearranging will be
 required. This is because the smallest node in `5`'s right subtree (`6`) is still larger than all nodes in `5`'s left subtree,
-meaning `5`'s left subtree can also be the left subtree of `6`; and since `6` is the smallest node in `5`'s right subtree, all
+meaning `5`'s left subtree can also be the left subtree of `6`. Since `6` is the smallest node in `5`'s right subtree, all
 nodes in this subtree can equally comprise the right subtree of `6` upon succession. So the question at this point is which do
 we choose, the `4` or the `6` as the successor? You might think it doesn't matter but it actually does! Consider the following
 tree:
@@ -304,33 +304,33 @@ we handle duplicates? You may recall that given any node `n`, the nodes in `n`'s
 value, meaning duplicates of a particular node will only appear in the node's left subtree. The tree on the right in the above
 example breaks this invariant because `6` has a duplicate in its right subtree when we promote it to the new root. In short, if
 we allow duplicates in the left subtree of a particular node, we must always *choose our successor from the node-to-remove's left
-subtree* to maintain this invariant upon succession. This is a minor but possibly important detail that as stated in the first
+subtree* to maintain this invariant upon succession. This is a minor but possibly important detail that, as stated in the first
 paragraph of this document, depends on exactly how an implementation chooses to handle duplicates.
 
-Finally to actually achieve the structure above, we want to replace the value of `5` with the value of `3`. This will leave us with
-an extra `3` in the left subtree since we just copied its value. At this point we can call the `removeHelper` algorithm on `3`,
-starting at the left subtree of the node whose value just got replaced. Removing the extra `3` is guaranteed to be a trivial operation,
-since it is the maximum value in the left subtree therefore it can have at most one child. Thus we've successfully boiled down the
-case of deleting a node with two children into performing a simple copy, and deleting a node with at most one child!
+Finally, to actually achieve the structure above, we want to replace the value of `5` with the value of `3`. This will leave us with
+an extra `3` in the left subtree since we just copied its value. At this point, we can call the `removeHelper` algorithm on `3`,
+starting at the left subtree of the node whose value just got replaced. Removing the extra `3` is guaranteed to be a trivial
+operation since it is the maximum value in the left subtree, therefore it can have at most one child. Thus, we've successfully
+boiled down the case of deleting a node with two children into performing a simple copy, and deleting a node with at most one child!
 
 #### Implementation
 
 The implementation of this algorithm is a little tricky, but you'll notice that in the above sections we made many comparisons to
 removing nodes from a linked list. A BST is basically a more complex linked list, and the traversal required to find a node in a BST
 is similar to that of a linked list. Once found, deleting a node from a BST is basically the same as deleting one in a linked list in
-`2/3` possible cases, and in the third more complicated case, we simply perform a value copy and boil the problem down into a trivial
+`2/3` possible cases. In the third more complicated case, we simply perform a value copy and boil the problem down into a trivial
 case. Let's first consider how we'd iteratively and recursively delete a node from a linked list.
 
 We can write a function to iteratively delete a node from a linked list rather simply. Assuming the node-to-remove is not the
 list's `head` (an edge case), we'd create a temp node pointer `tmp`, initially set to the `head` of the list, and iterate forward
-until the `tmp->next` points to the node-to-remove. We stop when `tmp->next` is our target node because we must have a
+until `tmp->next` points to the node-to-remove. We stop when `tmp->next` is our target node because we must have a
 reference to the node before the one we wish to delete in order to seal the gap once we delete it. We can implement basically
 the same logic with a BST (see the `removeIterative` method), however many tree algorithms are naturally recursive,
 which can actually cut down on the complexity of our logic. The space complexity of the iterative solution will also be much
 cheaper.
 
 When recursively deleting a node from a linked list, we'll start at the `head` node and recurse forward on each `head->next` until
-we find the node-to-remove. Since recursion is just an accumulation of stack frames, lets consider an arbitrary frame when thinking
+we find the node-to-remove. Since recursion is just an accumulation of stack frames, let's consider an arbitrary frame when thinking
 about how this algorithm works. Let's assume we're looking at the `head` of a list in some stack frame. If `head` contains the value
 we wish to remove, we'll simply delete it and return `head->next`. If it doesn't, we assume the node-to-remove exists somewhere later
 in the list and recurse onto `head->next`. Notice though, `head->next` may be a different node once the recursion is complete due to
@@ -338,12 +338,12 @@ the nature of the algorithm. If `head->next` is removed, the node after `head->n
 should set `head->next = deleteNode(head->next, targetValue)` when we recurse forward in case the next node did get deleted. This
 assignment is idempotent otherwise. Notice how in the iterative version we needed a reference to the node before the one we wished
 to delete, whereas with recursion this reference is kept implicitly for us in the form of stack frames. This simplifies our logic
-because we can focus on deleting the current `head` of any arbitrary stack frame, and navigate accordingly.
+because we can focus on deleting the current `head` of any arbitrary stack frame and navigate accordingly.
 
-The recursive `removeHelper` member function behaves very similarly to the above mentioned algorithm, just with a little more logic
-to navigate the `left` and `right` children properly as opposed to `next`, and some value copying logic for when we wish to delete
-a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the left subtree to
-remove the duplicate successor's value (the trivial case).
+The recursive `removeHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
+logic to navigate the `left` and `right` children properly, as opposed to `next`, and some value copying logic for when
+we wish to delete a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the
+left subtree to remove the duplicate successor's value (the trivial case).
 
 <a name="remove-iterative"></a>
 ### `void BST<T>::removeIterative(T elem);`
@@ -357,7 +357,7 @@ This method is undocumented, though part of its logic is expressed in <a href="#
 ### `void BST<T>::clearHelper(T elem, TreeNode<T> *root);`
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
-subtrees are completely deleted, and since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
+subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
 a node once both of its subtrees are cleared and it's time to delete the local root. The internal `_size` variable should decrement
 every time a node is deleted.
 
