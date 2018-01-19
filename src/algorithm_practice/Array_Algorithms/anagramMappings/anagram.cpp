@@ -46,7 +46,7 @@
  * Time complexity: O(n)
  * Space complexity: O(n)
  */
-std::vector<int> anagramMappings(std::vector<int> a, std::vector<int> b) {
+std::vector<int> anagramMappings(const std::vector<int>& a, const std::vector<int>& b) {
   std::vector<int> returnVec;
   std::unordered_map<int, int> uMap;
 
@@ -63,7 +63,7 @@ std::vector<int> anagramMappings(std::vector<int> a, std::vector<int> b) {
 }
 
 int main() {
-  std::vector<int> a = {33, 55, 26, 85, 5, 11};
+  std::vector<int> a = {33, 55, 26, 85, 5, 11}; // -std=c++0x
   std::vector<int> b = {55, 5, 11, 33, 26, 85};
   std::vector<int> p = anagramMappings(a, b);
 
