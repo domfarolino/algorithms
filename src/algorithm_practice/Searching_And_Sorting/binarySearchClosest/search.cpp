@@ -57,7 +57,7 @@ using namespace std;
  * the two previous conditional tests before this one!
  */
 
-int binarySearchClosest(vector<int>& arr, int val) {
+int binarySearchClosest(const vector<int>& arr, int val) {
   int l = 0, r = arr.size() - 1, mid;
 
   while (l <= r) {
@@ -82,7 +82,7 @@ int binarySearchClosest(vector<int>& arr, int val) {
   }
 }
 
-int binarySearchOrNextLargest(vector<int>& arr, int val) {
+int binarySearchOrNextLargest(const vector<int>& arr, int val) {
   int l = 0, r = arr.size() - 1, mid;
 
   while (l <= r) {
