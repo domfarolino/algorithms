@@ -62,7 +62,7 @@ bool capitalsRelativeOrder(std::string& s1, std::string& s2) {
       if (s2.find(s1[i], pos) == std::string::npos) {
         return false;
       } else if (s2.find(s1[i], pos) != std::string::npos) {
-        pos = s2.find(s1[i], pos);
+        pos = s2.find(s1[i], pos) + 1;
       }
     }
   }
