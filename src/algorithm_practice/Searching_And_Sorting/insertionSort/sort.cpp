@@ -2,8 +2,6 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
-
 // Source: CLRS
 
 /**
@@ -47,20 +45,20 @@ using namespace std;
  * Realize that if our value is already in the right place, nums[j+1] = key will technically do nothing
  */
 
-void insertionSort(vector<int>& nums) {
+void insertionSort(std::vector<int>& nums) {
   int j;
   for (int i = 1; i < nums.size(); ++i) {
 
     j = i - 1;
     while(j >= 0 && nums[j] > nums[j+1]) {
-      swap(nums[j], nums[j+1]);
+      std::swap(nums[j], nums[j+1]);
       j--;
     }
   }
 }
 
 // Corman solution
-void insertionSortAlt(vector<int>& nums) {
+void insertionSortAlt(std::vector<int>& nums) {
   int j, key;
   for (int i = 1; i < nums.size(); ++i) {
     key = nums[i];
@@ -76,13 +74,13 @@ void insertionSortAlt(vector<int>& nums) {
 }
 
 int main() {
-  vector<int> v = {5, 7, 8, 6}; // -std=c++0x
+  std::vector<int> v = {5, 7, 8, 6}; // -std=c++0x
   insertionSort(v);
 
   for (int i = 0; i < v.size(); ++i) {
-    cout << v[i] << ", ";
+    std::cout << v[i] << ", ";
   }
 
-  cout << endl;
+  std::cout << std::endl;
   return 0;
 }
