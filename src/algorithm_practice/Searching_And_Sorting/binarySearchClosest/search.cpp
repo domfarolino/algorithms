@@ -2,8 +2,6 @@
 #include <vector>
 #include <cmath>
 
-using namespace std;
-
 // Source: ??
 
 /**
@@ -57,7 +55,7 @@ using namespace std;
  * the two previous conditional tests before this one!
  */
 
-int binarySearchClosest(const vector<int>& arr, int val) {
+int binarySearchClosest(const std::vector<int>& arr, int val) {
   int l = 0, r = arr.size() - 1, mid;
 
   while (l <= r) {
@@ -75,14 +73,14 @@ int binarySearchClosest(const vector<int>& arr, int val) {
     return r;
   } else if (r < 0) { // r is out of bounds
     return l;
-  } else if (arr[l] - val < abs(arr[r] - val)) { // abs() on arr[r] since arr[r] is next lowest value
+  } else if (arr[l] - val < std::abs(arr[r] - val)) { // abs() on arr[r] since arr[r] is next lowest value
     return l;
   } else {
     return r;
   }
 }
 
-int binarySearchOrNextLargest(const vector<int>& arr, int val) {
+int binarySearchOrNextLargest(const std::vector<int>& arr, int val) {
   int l = 0, r = arr.size() - 1, mid;
 
   while (l <= r) {
@@ -102,25 +100,26 @@ int binarySearchOrNextLargest(const vector<int>& arr, int val) {
 
 int main() {
   int T, n, searchValue, resultClosest, resultNextLargest;
-  vector<int> test;
-  cin >> T;
+  std::vector<int> test;
+  std::cin >> T;
 
   // Driver loop
   for (int i = 0; i < T; ++i) {
-    cin >> n >> searchValue;
+    std::cin >> n >> searchValue;
     test.resize(n);
     for (int j = 0; j < n; ++j) {
-      cin >> test[j];
+      std::cin >> test[j];
     }
 
     resultClosest = binarySearchClosest(test, searchValue);
     resultNextLargest = binarySearchOrNextLargest(test, searchValue);
 
-    cout << "Closest to " << searchValue << " is: " << test[resultClosest] << " at index: " << resultClosest << endl;
-    cout << "Value >= to " << searchValue << " is: " << test[resultNextLargest] << " at index: " << resultNextLargest << endl;
-    cout << endl;
+    std::cout << "Closest to " << searchValue << " is: " << test[resultClosest] << " at index: " << resultClosest << std::endl;
+    std::cout << "Value >= to " << searchValue << " is: " << test[resultNextLargest] << " at index: " << resultNextLargest << std::endl;
+    std::cout << std::endl;
 
     test.clear();
   }
+
   return 0;
 }

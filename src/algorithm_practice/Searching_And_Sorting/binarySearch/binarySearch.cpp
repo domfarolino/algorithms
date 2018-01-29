@@ -12,8 +12,6 @@
  * does not.
  */
 
-using namespace std;
-
 template <typename T>
 int binarySearch(T arr[], int length, T val) {
   int l = 0, r = length - 1, mid;
@@ -40,24 +38,24 @@ int binarySearch(T arr[], int length, T val) {
 
 int main() {
   int a[7] = {1, 2, 3, 4, 5, 6, 7};
-  int size = sizeof(a)/sizeof(a[0]);
+  int size = sizeof(a) / sizeof(a[0]);
 
   // Print array
-  cout << "{ ";
+  std::cout << "{ ";
 
   for (int i = 0; i < size; ++i) {
-    cout << a[i];
+    std::cout << a[i];
 
     if (i < size - 1) {
-      cout << ", ";
+      std::cout << ", ";
     }
   }
 
-  cout << " }" << endl;
+  std::cout << " }" << std::endl;
 
   // "Test" binary search
   for (int i = 0; i < 10; ++i) {
-    cout << "Index of " << i << ": " << binarySearch(a, 7, i) << endl;
+    std::cout << "Index of " << i << ": " << binarySearch(a, 7, i) << std::endl;
   }
 
   return 0;
