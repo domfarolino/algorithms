@@ -1,9 +1,9 @@
 CC=g++
-PROGRAMS=binarySearchClosest
-CFLAGS= -g
+PROGRAMS=sort
+CFLAGS= -std=c++0x -g
 all: $(PROGRAMS)
 
-binarySearchClosest: binarySearchClosest.cpp
+sort: sort.cpp
 	$(CC) $^ -o $@ $(CFLAGS)
 
 

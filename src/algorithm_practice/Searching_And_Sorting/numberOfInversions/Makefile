@@ -1,9 +1,9 @@
 CC=g++
-PROGRAMS=binarySearchClosest
+PROGRAMS=inv
 CFLAGS= -g
 all: $(PROGRAMS)
 
-binarySearchClosest: binarySearchClosest.cpp
+inv: inv.cpp
 	$(CC) $^ -o $@ $(CFLAGS)
 
 

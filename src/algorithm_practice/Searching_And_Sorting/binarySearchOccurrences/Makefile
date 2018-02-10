@@ -3,9 +3,9 @@ PROGRAMS=binarySearchOccurrences
 CFLAGS= -g
 all: $(PROGRAMS)
 
-binarySearch: binarySearchOccurrences.cpp
+binarySearchOccurrences: binarySearchOccurrences.cpp
 	$(CC) $^ -o $@ $(CFLAGS)
 
 
 clean:
-	rm $(PROGRAMS)
+	rm -r $(PROGRAMS) *.dSYM

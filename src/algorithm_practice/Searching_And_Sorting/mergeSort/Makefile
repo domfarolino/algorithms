@@ -1,9 +1,9 @@
 CC=g++
-PROGRAMS=binarySearchClosest
-CFLAGS= -g
+PROGRAMS=mergeSort
+CFLAGS= -std=c++0x -g
 all: $(PROGRAMS)
 
-binarySearchClosest: binarySearchClosest.cpp
+mergeSort: mergeSort.cpp
 	$(CC) $^ -o $@ $(CFLAGS)
 
 

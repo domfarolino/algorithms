@@ -8,4 +8,4 @@ binarySearch: binarySearch.cpp
 
 
 clean:
-	rm $(PROGRAMS)
+	rm -r $(PROGRAMS) *.dSYM
