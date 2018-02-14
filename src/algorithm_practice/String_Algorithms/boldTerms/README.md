@@ -2,7 +2,7 @@
 
 Write a function that takes in a document in the form of a string, and a list of
 search terms. The algorithm should modify the document such that character sequences
-matching any of the given terms are wrapped in HTML <b></b> tags similar to how a search
+matching any of the given terms are wrapped in HTML `<b></b>` tags similar to how a search
 engine will behave.
 
 ### Some clarifications and edge cases:
@@ -22,7 +22,7 @@ engine will behave.
 ### Edge case with possible solutions:
 
 In this algorithm, if we bold some search term, and then later search for the
-terms "<b>" or "</b>", this, for simplicity, can be considered valid text and
+terms `<b>` or `</b>`, this, for simplicity, can be considered valid text and
 we can bold these symbols as well.
 
 In a real-world algorithm we'd probably want to ensure we don't bold
@@ -40,10 +40,10 @@ two good options:
     that of a valid HTML tag.
 
 One solution is to simply for each term, find all occurrences of it
-in the document, and before the occurrence add the characters "<b>"
-after add "</b>". This can be done by using std::string::find to find
+in the document, and before the occurrence add the characters `<b>`
+after add `</b>`. This can be done by using std::string::find to find
 an occurrence, performing the aforementioned operations, and doing the
-same for future occurrences. std::string::find takes an optional second
+same for future occurrences. `std::string::find` takes an optional second
 parameter which is an index to start searching from which we can use to
 find later occurrences of a term. We can maintain some `findIdx` which can
 keep track of the index a current term has found, and start start searching
