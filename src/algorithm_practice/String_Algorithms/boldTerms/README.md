@@ -9,6 +9,11 @@ engine will behave.
 
 Here are some good assumptions and clarifications to consider:
 
+ - Will we want to only match search terms that are their own word
+   (define word)? Or if we have the term `dom` and we have document
+   text `dominic` will we want to bol the occurrence of `dom` within
+   `dominic`? This is a good question to ask, and the algorithm in this
+   repository bolds *any* occurrence of a term.
  - We'll want our passed-in terms list to consist only of
    unique terms so that we don't bold the same term multiple
    times (as many as it appears in the terms list). Making this
@@ -27,12 +32,21 @@ Here are some good assumptions and clarifications to consider:
    from the source document, stripped of all HTML markup, we can skip this check and bold terms
    as we wish, as no `<b>` or `</b>` character sequences will ever be present in our document's
    text.
+ - What should we do if a search term happens to be a subset of another term, and both are matching
+   in the document? For example, given the terms `mini` and `minimum`, should we return:
+     - `<b>minimum</b>`
+     - `<b><b>mini</b>mum</b>`
+     - `<b>mini</b>mum`
+  In this case we'll say it doesn't matter however it would be go to look into this if we were
+  implementing this in the real world. A good method here would be to process the longest search
+  terms first, which would produce the second output above, which is still valid HTML.
 
 ## Edge case with possible solutions:
 
 This section is a deeper dive into the real-world edge cases that we may want our algorithm to
 cater to. In this trivial interview-style implementation of this algorithm we won't be implementing
 
+### Searching for terms that match characters the algorithm adds
 
 In this algorithm, if we bold some search term (by surrounding it with `<b>` and `</b>`),
 and then later search for the terms `<b>` or `</b>`, we'll bold these inserted tag sequences
@@ -72,10 +86,50 @@ To address this concern in the real world, we have a few (good?) options:
 
 ## Proposed Solutions
 
+### Naive Solution (implemented)
+
 One solution is to simply for each term, find all occurrences of it in the document,
-and before the occurrence add the characters `<b>` after add `</b>`. This can be done
-by using std::string::find to find an occurrence, performing the aforementioned
-operations, and doing the same for future occurrences. `std::string::find` takes an
-optional second parameter which is an index to start searching from which we can use to
-find later occurrences of a term. We can maintain some `findIdx` which can keep track of
-the index a current term has found, and start start searching
+and before each occurrence, add the characters `<b>`, and after add `</b>`. This can
+be done by using `std::string::find` to find an occurrence, performing the aforementioned
+operations, and doing the same for future occurrences.
+
+The `std::string::find` method takes an optional second parameter which is an index to start
+searching from which we can use to find later occurrences of a term. We can maintain some `findIdx`,
+initially `0`, which can keep track of the index from which the current term has been found. Once we
+find an occurrence, at say position `x`, we'll want to:
+
+ - Insert `<b>` right before term (at position `findIdx`)
+ - Set `findIdx = findIdx + 3` to account for adding three characters behind the occurrence
+ - Insert `</b>` right after the term (at position `findIdx + termLength`)
+ - Set `findIdx = findIdx + termLength + 4` to start searching for the next term `termLength + 4` positions
+   away, or right after the term we've found plus our character additions
+
+It's important to realize that we'd want to generalize our offsets and character additions if we wanted to support
+the adding of more than one type of HTML tag in our document.
+
+### Complexity Analysis
+
+Note that we're traversing the entire document `k` times, if there are `k` search terms. This gives us:
+
+Time complexity: `O(n*k)`, if `n` is the length of the document
+Space complexity: `O(n)`, since we're returning a new modified copy of the document
+
+### Optimized solution
+
+We could potentially save ourselves from iterating over the document so many times if we were able to perform
+the task in one single pass of the document. To do this we'd want to traverse the document with the ability to
+match each search term as they come up. In this case we'd probably want to match the longest terms first, so we'd
+likely need some way to look ahead. For example, in the document `minimum`, with search terms `m`, and `minimum`, we'd
+clearly have a match of `m` right away, but instead of greedily acting on this match right away, it would be nice if we
+could save our spot, and keep looking ahead while current string we're looking at matches some part of another, longer
+search term. If we match some longer search terms on the way, we can save this information somewhere, but we don't want
+to act on a match until we've either matched or failed to match with the longest so-far-matching search term.
+
+The implementation of this would likely be messy and non-trivial, but would produce excellent efficiencies. We might be
+able to keep track of the longest so-far-matching search term by using a trie, but I'm just spitballing here.
+
+### Complexity Analysis
+
+Time complexity: `O(n)`
+Space complexity: `O(k)`, since we'd need to store our search terms in a new structure capable of the look ahead technique
+we previously talked about.
