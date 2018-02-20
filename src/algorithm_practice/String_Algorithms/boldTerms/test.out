@@ -1,0 +1,9 @@
+this should have no bold tags
+this should also have no bold tags
+this should have <b>one</b> bold tag
+this should have <b>two</b> <b>bold</b> tags
+this document should have <b>bolded<b></b></b> end-bold tags
+this is the <b><b>mini</b>mum</b> example our algorithm is not well-defined for
+this is the <b>mini</b>mum example our algorithm is not well-defined for
+in this sentence we end up bolding characters that our algorithm added! that's not <b><b></b>good</b>
+in this sentence we don't end up bolding characters our algorithm added because of the order of the terms! that's not <b>good</b> either

@@ -1,0 +1,37 @@
+9
+0
+this should have no bold tags
+5
+this should also have no bold tags
+apple
+zoo
+teacher
+student
+shouldn't
+1
+this should have one bold tag
+one
+3
+this should have two bold tags
+two
+two
+bold
+1
+this document should have <b>bolded</b> end-bold tags
+</b>
+2
+this is the minimum example our algorithm is not well-defined for
+mini
+minimum
+2
+this is the minimum example our algorithm is not well-defined for
+minimum
+mini
+2
+in this sentence we end up bolding characters that our algorithm added! that's not good
+<b>
+good
+2
+in this sentence we don't end up bolding characters our algorithm added because of the order of the terms! that's not good either
+good
+<b>
