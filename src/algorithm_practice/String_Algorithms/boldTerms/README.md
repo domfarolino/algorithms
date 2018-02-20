@@ -38,9 +38,10 @@ Here are some good assumptions and clarifications to consider:
      - `<b><b>mini</b>mum</b>`
      - `<b>mini</b>mum`
 
-  In this case we'll say it doesn't matter however it would be go to look into this if we were
-  implementing this in the real world. A good method here would be to process the longest search
-  terms first, which would produce the second output above, which is still valid HTML.
+**[Regarding the final point above]** In this case we'll say it doesn't matter however it would be
+go to look into this if we were implementing this in the real world. A good method here would be to
+process the longest search terms first, which would produce the second output above, which is still
+valid HTML.
 
 ## Edge case with possible solutions:
 
