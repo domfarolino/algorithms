@@ -9,11 +9,11 @@
  * Write a function that takes in a string and returns
  * a stringified boolean ("true" or "false"). The boolean
  * should indicate whether or not between every pair of single
- * digit numbers in the string, there are exactly three question
- * marks. The question marks do not have to be consecutive. It's
- * always wise to come up with a few different solutions, discuss
- * their performance and possibly implementation, and then figure
- * out which one to go with.
+ * digit numbers in the string that add to 10, there are exactly
+ * three question marks. The question marks do not have to be consecutive.
+ * It's always wise to come up with a few different solutions, discuss their
+ * performance and possibly implementation, and then figure out which one to
+ * go with.
  *
  * 1.) The naive approach that is not the most optimized but would
  * easily get us the right answer is to have a vector of pairs, where
@@ -71,7 +71,7 @@ std::string questionMarks(const std::string& input) {
           if (qCount != 3) return "false";
         }
 
-        // Rest firstNum and qCount for next pair
+        // Reset firstNum and qCount for next pair
         firstNum = charAsInt;
         qCount = 0;
       } else if (input[i] == '?') qCount++;
