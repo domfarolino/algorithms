@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/challenges/sock-merchant
 
 /**
@@ -22,18 +20,18 @@ using namespace std;
 int main() {
   int n, tmpItem;
   int list[101] = {0};
-  cin >> n;
+  std::cin >> n;
   for (int i = 0; i < n; ++i) {
-    cin >> tmpItem;
+    std::cin >> tmpItem;
     list[tmpItem]++;
   }
 
   int totalPairs = 0;
-  for (int i = 0; i < 101; ++i) {
-    totalPairs += list[i]/2;
+  for (int i = 1; i < 101; ++i) {
+    totalPairs += list[i] / 2;
   }
 
-  cout << totalPairs << endl;
+  std::cout << totalPairs << std::endl;
 
   return 0;
 }
