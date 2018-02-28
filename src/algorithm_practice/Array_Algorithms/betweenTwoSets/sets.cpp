@@ -2,8 +2,6 @@
 #include <stdexcept>
 #include <vector>
 
-using namespace std;
-
 // Source: https://www.hackerrank.com/challenges/between-two-sets
 
 /**
@@ -20,8 +18,35 @@ using namespace std;
  * both set values before (a bit of preprocessing), and then we
  * run through all multiples of the LCM <= GCD and keep track
  * how many multiples of the LCM are factors of the GCD.
+ *
+ * This implementation has a few optimizations left out that I
+ * did not think of:
+ *
+ *  - An early-out check to see if the LCM of set `A` divides (is
+ *    a factor of) the GCD of set `B`. This means that all of the
+ *    numbers of set `A` must divide (be factors of) all of the numbers
+ *    in set `B`. If they are not, they share no common factors and such
+ *    "in between" value we're seeking does not exist. It also takes care
+ *    of the case where LCM of set `A` < GCD of set `B`, because a larger
+ *    number cannot divide a smaller one.
+ *  - This implementation currently loops from LCM => GCD, looking at all
+ *    multiples of LCM in between checking to see how many divide (are factors
+ *    of) GCD. There is a more optimized way to find the number of divisors in some
+ *    range, and in this case it would be possible to do so in O(sqrt(c)) time, where
+ *    `c` is the GCD of the second set. See the `numberOfDivisors` algorithm in this
+ *    repository.
+ *
+ * Complexity analysis:
+ * Time complexity: O(n + c) (would be O(n + sqrt(c) if we used the above optimization)
+ *                  where `n` is the larger.
  */
 
+/**
+ * Unoptimized Euclidean GCD
+ *
+ * Time complexity: O(n); n = max(a, b)
+ * Space complexity: O(1)
+ */
 int gcd(unsigned int a, int b) {
   while (a != b) {
     if (a > b) {
@@ -34,8 +59,8 @@ int gcd(unsigned int a, int b) {
   return a;
 }
 
-unsigned int lcmOfSet(vector<int>& set) {
-  if (set.size() == 0) throw logic_error("The set must have at least one element");
+unsigned int lcmOfSet(const std::vector<int>& set) {
+  if (set.size() == 0) throw std::logic_error("The set must have at least one element");
 
   unsigned int returnLCM = set[0];
 
@@ -46,8 +71,8 @@ unsigned int lcmOfSet(vector<int>& set) {
   return returnLCM;
 }
 
-int gcdOfSet(vector<int>& set) {
-  if (set.size() == 0) throw logic_error("The set must have at least one element");
+int gcdOfSet(const std::vector<int>& set) {
+  if (set.size() == 0) throw std::logic_error("The set must have at least one element");
 
   int returnGCD = set[0];
 
@@ -61,15 +86,15 @@ int gcdOfSet(vector<int>& set) {
 int main() {
   int n, m;
   unsigned int setLCM, setGCD;
-  cin >> n >> m;
-  vector<int> a(n), b(m);
+  std::cin >> n >> m;
+  std::vector<int> a(n), b(m);
 
   for (int i = 0; i < a.size(); ++i) {
-    cin >> a[i];
+    std::cin >> a[i];
   }
 
   for (int i = 0; i < b.size(); ++i) {
-    cin >> b[i];
+    std::cin >> b[i];
   }
 
   setLCM = lcmOfSet(a);
@@ -91,7 +116,7 @@ int main() {
     i++;
   }
 
-  cout << count << endl;
+  std::cout << count << std::endl;
 
   return 0;
 }
