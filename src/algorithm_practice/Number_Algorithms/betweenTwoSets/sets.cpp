@@ -22,6 +22,9 @@
  * This implementation has a few optimizations left out that I
  * did not think of:
  *
+ *  - We could be using the optimized Euclidean GCD algorithm to
+ *    compute GCD values in O(log(n)) instead of O(n), where n is
+ *    the larger of the two passedin values.
  *  - An early-out check to see if the LCM of set `A` divides (is
  *    a factor of) the GCD of set `B`. This means that all of the
  *    numbers of set `A` must divide (be factors of) all of the numbers
@@ -37,8 +40,17 @@
  *    repository.
  *
  * Complexity analysis:
- * Time complexity: O(n + c) (would be O(n + sqrt(c) if we used the above optimization)
- *                  where `n` is the larger.
+ * Time complexity: O(n*b + gcd); n = length of the longest set, b = largest number from any set
+ *                              gcd = GCD of second set. We get the n*b because for every value in
+ *                              each set, we have to run the GCD algorithm which is O(max(x, y)).
+ *                              After this, we have to compute all divisors of GCD that are multiples
+ *                              of LCM, which takes O(gcd) time in the worst case. If we were to use the
+ *                              optimized Euclidean GCD algorithm we could get this down to O(n*log(b) + c),
+ *                              and we could further reduce this to O(n*log(b) + sqrt(gcd)) if we were to use
+ *                              a more optimized approach to finding all divisors of GCD that are multiples of
+ *                              LCM.
+ * TODO(domfarolino): confirm this complexity
+ * Space complexity: O(1)
  */
 
 /**
@@ -117,6 +129,5 @@ int main() {
   }
 
   std::cout << count << std::endl;
-
   return 0;
 }
