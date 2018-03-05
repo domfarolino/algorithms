@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <string>
 
-using namespace std;
-
 // Source: N/A
 // SO: http://stackoverflow.com/questions/41654305/recursive-base-conversion-time-complexity-analysis
 
@@ -39,39 +37,40 @@ using namespace std;
  * Space complexity: O(n) (n = logb(p))
  */
 
-string convertIntToBaseRecursive(int number, int base) {
+std::string convertIntToBaseRecursive(int number, int base) {
   // Base case
   if (!number) return "";
 
   // Adding least significant digit to "the rest" computed recursively
   // Could reverse these operations if we wanted the string backwards.
   if (number % base > 10) return convertIntToBaseRecursive(number / base, base) + char(number % base + 55);
-  return convertIntToBaseRecursive(number / base, base) + to_string(number % base);
+  return convertIntToBaseRecursive(number / base, base) + std::to_string(number % base);
 }
 
-string convertIntToBaseIterative(int number, int base) {
-  string retString = "";
+std::string convertIntToBaseIterative(int number, int base) {
+  std::string retString = "";
 
   while (number) {
     if (number % base > 10) {
       retString += char(number % base + 55);
     } else {
-      retString += to_string(number % base);
+      retString += std::to_string(number % base);
     }
     number /= base;
   }
 
   // Only needed if least significant should be at the end
-  reverse(retString.begin(), retString.end());
+  std::reverse(retString.begin(), retString.end());
   return retString;
 }
 
 int main() {
   for (int i = 2; i <= 36; ++i) {
-    cout << "Base " << i << ":" << endl;
-    cout << convertIntToBaseRecursive(2017, i) << endl;
-    cout << convertIntToBaseIterative(2017, i) << endl;
-    cout << "---" << endl;
+    std::cout << "Base " << i << ":" << std::endl;
+    std::cout << convertIntToBaseRecursive(2017, i) << std::endl;
+    std::cout << convertIntToBaseIterative(2017, i) << std::endl;
+    std::cout << "---" << std::endl;
   }
+
   return 0;
 }
