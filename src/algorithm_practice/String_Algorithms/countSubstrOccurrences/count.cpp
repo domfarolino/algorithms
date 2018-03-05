@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 /**
  * This algorithm counts the number of times
  * some substring appears in a string. It utilizes
@@ -15,7 +13,7 @@ using namespace std;
  * Space complexity: O(1)
  */
 
-int numTimesExists(const string& haystack, const string& needle) {
+int numTimesExists(const std::string& haystack, const std::string& needle) {
   int count = 0;
   int pos = haystack.find(needle, 0);
 
@@ -28,8 +26,14 @@ int numTimesExists(const string& haystack, const string& needle) {
 }
 
 int main() {
-  string haystack = "domdodom";
-  string needle = "dom";
-  cout << numTimesExists(haystack, needle) << endl;
+  std::string needle;
+  std::string haystack;
+
+  std::cout << "Input the haystack (string to search within)" << std::endl;
+  std::cin >> haystack;
+  std::cout << "Input the needle (search substring)" << std::endl;
+  std::cin >> needle;
+
+  std::cout << numTimesExists(haystack, needle) << std::endl;
   return 0;
 }
