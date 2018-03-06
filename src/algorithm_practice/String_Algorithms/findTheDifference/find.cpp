@@ -2,15 +2,13 @@
 #include <string>
 #include <algorithm> // std::sort
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/find-the-difference/
 
 /**
  * Find the difference
  * You are given to strings s and t. Both are composed
  * of only lowercase letters and string t is generated
- * by ranomdly shuffling string s and inserting a single
+ * by randomly shuffling string s and inserting a single
  * character into a random position. The goal of the algorithm
  * is to find the single character in t that is not in s.
  *
@@ -40,9 +38,9 @@ using namespace std;
  * Note this problem can be solved just like Single Number https://leetcode.com/problems/single-number/
  */
 
-char findTheDifferenceSort(string& s, string& t) {
-  sort(s.begin(), s.end());
-  sort(t.begin(), t.end());
+char findTheDifferenceSort(std::string& s, std::string& t) {
+  std::sort(s.begin(), s.end());
+  std::sort(t.begin(), t.end());
 
   int i = 0;
   for (; i < s.length(); ++i) {
@@ -54,7 +52,7 @@ char findTheDifferenceSort(string& s, string& t) {
   return t[i];
 }
 
-char findTheDifferenceHash(string s, string t) {
+char findTheDifferenceHash(const std::string &s, const std::string &t) {
   int charMap[26] = {0}; // init all values to 0
   char returnChar;
 
@@ -74,10 +72,10 @@ char findTheDifferenceHash(string s, string t) {
 }
 
 int main() {
-  string s, t;
-  cin >> s >> t;
+  std::string s, t;
+  std::cin >> s >> t;
 
-  cout << findTheDifferenceSort(s, t) << endl;
-  cout << findTheDifferenceHash(s, t) << endl;
+  std::cout << findTheDifferenceSort(s, t) << std::endl;
+  std::cout << findTheDifferenceHash(s, t) << std::endl;
   return 0;
 }
