@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://leetcode.com/contest/9/problems/reconstruct-original-digits-from-english/
 
 /**
@@ -43,11 +41,11 @@ public:
   //unordered_map<char, long> inputMap;
   long inputMap[26];
 
-  Solution(string& inputString) {
+  Solution(std::string& inputString) {
     initMap(inputString);
   }
 
-  bool findAndRemove(string haystack) {
+  bool findAndRemove(const std::string& haystack) {
     for (int i = 0; i < haystack.length(); ++i) {
       if (inputMap[haystack[i] - 97] == 0) return false;
     }
@@ -59,7 +57,8 @@ public:
     return true;
   }
 
-  void initMap(string& s) {
+  void initMap(const std::string& s) {
+    // This can probably be moved to the ctor's initialization list
     for (int i = 0; i < 26; ++i) {
       inputMap[i] = 0;
     }
@@ -69,8 +68,8 @@ public:
     }
   }
 
-  string originalDigits() {
-    string out0 = "",
+  std::string originalDigits() {
+    std::string out0 = "",
       out1 = "",
       out2 = "",
       out3 = "",
@@ -98,9 +97,9 @@ public:
 };
 
 int main() {
-  string inputString;
-  cin >> inputString;
+  std::string inputString;
+  std::cin >> inputString;
   Solution sol(inputString);
-  cout << sol.originalDigits();
+  std::cout << sol.originalDigits();
   return 0;
 }
