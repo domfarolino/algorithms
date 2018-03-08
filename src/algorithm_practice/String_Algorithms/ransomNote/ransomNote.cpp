@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/ransom-note/
 
 /**
@@ -24,7 +22,7 @@ using namespace std;
  * Space complexity O(n) // has table
  */
 
-bool canConstruct(string ransomNote, string magazine) {
+bool canConstruct(const std::string& ransomNote, const std::string& magazine) {
   int hashTable[26] = {0}; // init elements => 0
   for (int i = 0; i < magazine.size(); ++i) {
     hashTable[magazine[i] - 'a']++;
@@ -39,15 +37,15 @@ bool canConstruct(string ransomNote, string magazine) {
     }
   }
 
-    return true;
+  return true;
 }
 
 int main() {
-  string note, bank;
+  std::string note, bank;
 
-  while (cin >> note >> bank) {
-    canConstruct(note, bank) ? cout << "true" : cout << "false";
-    cout << endl;
+  while (std::cin >> note >> bank) {
+    canConstruct(note, bank) ? std::cout << "true" : std::cout << "false";
+    std::cout << std::endl;
   }
 
   return 0;
