@@ -14,13 +14,11 @@
  * https://docs.google.com/document/d/14XTvLPcKRSUGka-v_u9rItGlI4AAHsASe_bwvcfwwf0/edit?usp=sharing
  */
 
-using namespace std;
-
 // We use this helper to guarantee that `a` is the smaller element here
 // This gives us O(min(|a|, |b|)) space complexity
-vector<int> intersectionOfTwoArraysHashingHelper(vector<int>& a, vector<int>& b) {
-  unordered_set<int> uSet;
-  vector<int> returnVector;
+std::vector<int> intersectionOfTwoArraysHashingHelper(const std::vector<int>& a, const std::vector<int>& b) {
+  std::unordered_set<int> uSet;
+  std::vector<int> returnVector;
 
   for (int i = 0; i < a.size(); ++i) {
     uSet.insert(a[i]);
@@ -40,7 +38,7 @@ vector<int> intersectionOfTwoArraysHashingHelper(vector<int>& a, vector<int>& b)
  * Time complexity: O(a + b)
  * Space complexity: O(min(|a|, |b|))
  */
-vector<int> intersectionOfTwoArraysHashing(vector<int>& a, vector<int>& b) {
+std::vector<int> intersectionOfTwoArraysHashing(std::vector<int>& a, std::vector<int>& b) {
   if (a.size() < b.size()) {
     return intersectionOfTwoArraysHashingHelper(a, b);
   } else {
@@ -52,10 +50,10 @@ vector<int> intersectionOfTwoArraysHashing(vector<int>& a, vector<int>& b) {
  * Time complexity: O(nlog(n))
  * Space complexity: O(n)
  */
- vector<int> intersectionOfTwoArraysSorting(vector<int>& a, vector<int>& b) {
-  sort(a.begin(), a.end());
-  sort(b.begin(), b.end());
-  vector<int> returnVector;
+std::vector<int> intersectionOfTwoArraysSorting(std::vector<int>& a, std::vector<int>& b) {
+  std::sort(a.begin(), a.end());
+  std::sort(b.begin(), b.end());
+  std::vector<int> returnVector;
 
   // Counter variable for vector `b`
   int i = 0, j = 0;
@@ -76,21 +74,20 @@ vector<int> intersectionOfTwoArraysHashing(vector<int>& a, vector<int>& b) {
 }
 
 int main() {
-  vector<int> a = {1, 2, 2, 1}, b = {2, 2};
-  vector<int> intersectionFromHashing = intersectionOfTwoArraysHashing(a, b);
-  vector<int> intersectionFromSorting = intersectionOfTwoArraysSorting(a, b);
+  std::vector<int> a = {1, 2, 2, 1}, b = {2, 2};
+  std::vector<int> intersectionFromHashing = intersectionOfTwoArraysHashing(a, b);
+  std::vector<int> intersectionFromSorting = intersectionOfTwoArraysSorting(a, b);
 
   for (int i = 0; i < intersectionFromHashing.size(); ++i) {
-    cout << intersectionFromHashing[i] << ", ";
+    std::cout << intersectionFromHashing[i] << ", ";
   }
 
-  cout << endl;
+  std::cout << std::endl;
 
   for (int i = 0; i < intersectionFromSorting.size(); ++i) {
-    cout << intersectionFromSorting[i] << ", ";
+    std::cout << intersectionFromSorting[i] << ", ";
   }
 
-  cout << endl;
-
+  std::cout << std::endl;
   return 0;
 }
