@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/island-perimeter/
 
 /**
@@ -13,7 +11,7 @@ using namespace std;
  * Space complexity: O(1)
  */
 
-int islandPerimeterNaive(vector<vector<int> >& grid) {
+int islandPerimeterNaive(const std::vector<std::vector<int> >& grid) {
   int totalPerimCount = 0;
   for (int i = 0; i < grid.size(); ++i) {
     for (int j = 0; j < grid[i].size(); ++j) {
@@ -31,18 +29,17 @@ int islandPerimeterNaive(vector<vector<int> >& grid) {
 
 int main() {
   int n, m;
-  cin >> n >> m;
+  std::cin >> n >> m;
 
   // Setup multi vec with appropriate size
-  vector<vector<int> > grid(n, vector<int>(m));
+  std::vector<std::vector<int> > grid(n, std::vector<int>(m));
 
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < m; ++j) {
-      cin >> grid[i][j];
+      std::cin >> grid[i][j];
     }
   }
 
-  cout << islandPerimeterNaive(grid) << endl;
-
+  std::cout << islandPerimeterNaive(grid) << std::endl;
   return 0;
 }
