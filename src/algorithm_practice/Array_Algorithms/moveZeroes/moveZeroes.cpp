@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/move-zeroes/
 
 /* Move Zeroes
@@ -39,7 +37,7 @@ using namespace std;
 //   while(current != nums.size()) nums[current++] = 0;
 // }
 
-void moveZeroesWithLoop(vector<int>& nums) {
+void moveZeroesWithLoop(std::vector<int>& nums) {
   int j = 0;
   for (int i = 0; i < nums.size(); ++i) {
     if (nums[i]) {
@@ -54,7 +52,7 @@ void moveZeroesWithLoop(vector<int>& nums) {
   }
 }
 
-void moveZeroes(vector<int>& nums) {
+void moveZeroes(std::vector<int>& nums) {
   int j = 0;
   for (int i = 0; i < nums.size(); ++i) {
     if (nums[i]) {
@@ -69,7 +67,7 @@ void moveZeroes(vector<int>& nums) {
 }
 
 int main() {
-  vector<int> test;
+  std::vector<int> test;
   test.push_back(1);
   test.push_back(0);
   test.push_back(0);
@@ -78,10 +76,9 @@ int main() {
   moveZeroes(test);
 
   for (int i = 0; i < test.size(); ++i) {
-    cout << test[i] << " ";
+    std::cout << test[i] << " ";
   }
 
-  cout << endl;
-
+  std::cout << std::endl;
   return 0;
 }
