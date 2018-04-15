@@ -25,6 +25,13 @@ Since the primary datastructure and concept involved in this algorithm is agilit
 it will appear in the [`Array_Algorithms`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Array_Algorithms)
 folder. Inside this folder there is a folder for each problem of this category.
 
+Often a problem may be representative of multiple categories. For example, an algorithm that requires a dynamic programming solution
+that utilizes an array clearly represents both the
+[`Dynamic_Programming`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Dynamic_Programming) and
+[`Array_Algorithms`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Array_Algorithms) categories. Choosing
+the more specific category generally makes the most since, since it likely best describes the problem. If necessary, file an issue to
+make a new category.
+
 # Adding a problem to the repository
 
 Once categorized, the folder name for a specific problem should be a camelcase name or short description of
