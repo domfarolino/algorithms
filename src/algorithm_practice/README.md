@@ -15,15 +15,23 @@ The folders appearing here sort the algorithms by the main concept or technique 
 For example, consider an algorithmic problem whose description is:
 
 > Rotate function
-> Given an array of integers A and let n to be its length.
-> Assume Bk to be an array obtained by rotating the array
-> A k positions clock-wise, we define a "rotation function"
-> F on A as follow: F(k) = 0 * Bk[0] + 1 * Bk[1] + ... + (n-1) * Bk[n-1].
+>
+> You're given an array of integers, *A*, of length *n*.
+> Assume *B<sub>k</sub>* is the array obtained by rotating
+> the *A*, *k* positions clock-wise. We define a "rotation function"
+> *F* on *A* as follows: F(k) = 0 * B<sub>k</sub>[0] + 1 * B<sub>k</sub>[1] + ... + (n-1) * B<sub>k</sub>[n-1].
 > Calculate the maximum value of F(0), F(1), ..., F(n-1).
 
-Since the primary datastructure and concept involved in this algorithm is agility with the Array or Vector ADT,
+Since the primary data structure and concept involved in this algorithm is agility with the Array or Vector ADT,
 it will appear in the [`Array_Algorithms`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Array_Algorithms)
-folder. Inside this folder there is a folder for each problem of this category.
+folder. Inside this folder, there is a folder for each problem of this category.
+
+Often a problem may be representative of multiple categories. For example, an algorithm that requires a dynamic programming
+solution that utilizes an array, clearly represents both the
+[`Dynamic_Programming`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Dynamic_Programming) and
+[`Array_Algorithms`](https://github.com/domfarolino/algorithms/tree/master/src/algorithm_practice/Array_Algorithms) categories.
+Choosing the more specific category generally makes the most sense, since it likely best describes the problem. If necessary,
+file an issue to make a new category.
 
 # Adding a problem to the repository
 
