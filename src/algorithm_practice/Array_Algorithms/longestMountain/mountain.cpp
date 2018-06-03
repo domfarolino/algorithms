@@ -46,6 +46,13 @@
  * until our start position is out of bounds (this will be an all-encompassing while loop). We can actually do it
  * `while` our start index is < mountain.size() - 2, meaning it is the third-to-the-last index, since a mountain must
  * be at least three elements long.
+ *
+ * Complexity analysis
+ * Time compleixty: O(n), we can guarantee that we'll do this in one-pass given how we update our start position after
+ *   iterating.
+ * Space complexity: O(1), we only have a few counting variables, none of which are proportional to the size of the input
+ *
+ * There are a few nice two- and three-pass solutions as well, but I found this one to be the most intuitive and efficient.
  */
 
 int longestMountain(const std::vector<int>& mountain) {
