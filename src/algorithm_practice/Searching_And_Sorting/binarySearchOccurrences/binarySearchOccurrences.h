@@ -42,7 +42,7 @@ int lastOccurrence(const std::vector<int>& arr, int value) {
       left = mid + 1;
     } else if (arr[mid] > value) {
       right = mid - 1;
-    } else if (left + 1 < right) {
+    } else if (left != mid) { // same as (left + 1 >= right)
       left = mid;
     } else {
       return (arr[right] == value) ? right : left;
