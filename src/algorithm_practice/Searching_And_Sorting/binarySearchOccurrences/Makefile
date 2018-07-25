@@ -1,9 +1,9 @@
 CC=g++
-PROGRAMS=binarySearchOccurrences
+PROGRAMS=main
 CFLAGS= -g
 all: $(PROGRAMS)
 
-binarySearchOccurrences: binarySearchOccurrences.cpp
+main: main.cpp
 	$(CC) $^ -o $@ $(CFLAGS)
 
 
