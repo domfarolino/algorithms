@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/same-tree/
 
 /**
@@ -14,8 +12,8 @@ using namespace std;
  * equivalene checks and subtrees is very similar to `symmetricTree`.
  *
  * Complexity analysis:
- * Time complexity: O(n)
- * Space complexity: O(n)
+ * Time complexity: O(n); n = size of the smaller tree
+ * Space complexity: O(n); n = size of the smaller tree (imagine stack frames growing as long as the smallest tree itself)
  */
 
 template <typename T>
@@ -50,9 +48,8 @@ int main() {
   Node<int> *root2 = new Node<int>(0);
   root1->right = new Node<int>(2);
   root2->left = new Node<int>(1);
-  root2->right = new Node<int>(2);
 
-  cout << isSameTree(root1, root2) << endl;
+  std::cout << isSameTree(root1, root2) << std::endl;
 
   deleteTree(root1);
   deleteTree(root2);
