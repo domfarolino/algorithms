@@ -70,7 +70,7 @@ Returns the number of elements in the internal array.
 <a name="capacity"></a>
 ### `int Vector<T>::capacity() const;`
 
-Returns the number of elements the internal array can hold before a resize is necessary.
+Returns the number of elements the internal array can hold before a resize is necessary. Will always be a power of two.
 
 <a name="empty"></a>
 ### `bool Vector<T>::empty() const;`
