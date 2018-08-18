@@ -1,7 +1,5 @@
 #include <iostream>
 
-using namespace std;
-
 // Source: https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
 /**
@@ -33,7 +31,7 @@ using namespace std;
  * 1 -> 2 -> 3, n = 1
  *
  * In this case we'll want the second (slower) pointer to be at `2` when we wish to delete `3`. So we'll send
- * the first pointer exactly `n` nodes ahead. This way the second pointer will be at the (n - 1)th node from last
+ * the first pointer exactly `n` nodes ahead. This way the second pointer will be at the (n + 1)th node from last
  * when the first pointer is at the nth from last. In these cases we'll perform a regular delete operation on the nth
  * from last node and return the head. In the case where n is invalid, we'll just return the head. In the case where we
  * must delete the head of the list (n = length of list) we could catch this early and handle it separately. An alternative
@@ -43,7 +41,7 @@ using namespace std;
  * fH -> 1 -> 2, n = 1
  *
  * We know the second (slower) pointer will start at the fH pointer, so that we can delete the head if need be, but where will
- * first pointer start. Well, we could have it start at either the fH pointer, or at the regular head. Let's say we want it to start
+ * first pointer start? Well, we could have it start at either the fH pointer, or at the regular head. Let's say we want it to start
  * at the regular head. If we wanted to delete the tail, since the first pointer will already be one pointer ahead of the second one
  * we'll only send it ahead n-1 nodes before they both advance together. This is the most basic case, as we know we'll always want the
  * second pointer to be 1 node behind the second pointer, and since it starts out 1 behind, they should move together off the bat. This
@@ -171,22 +169,22 @@ int main() {
   Node<int> *tmp = head;
 
   while (tmp) {
-    cout << tmp->val << " -> ";
+    std::cout << tmp->val << " -> ";
     tmp = tmp->next;
   }
 
-  cout << endl;
+  std::cout << std::endl;
 
   head = removeNthFromLastRecursive(head, 2);
 
   tmp = head;
 
   while (tmp) {
-    cout << tmp->val << " -> ";
+    std::cout << tmp->val << " -> ";
     tmp = tmp->next;
   }
 
-  cout << endl;
+  std::cout << std::endl;
 
   deleteList(head);
   return 0;
