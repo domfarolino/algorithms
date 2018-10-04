@@ -1,0 +1,5 @@
+set title "Maximum Subarray Solution Analysis"
+set xlabel "Array Size"
+set ylabel "Time (ms)"
+set output "plot.svg"
+plot "data.txt" using 1:2 title 'Naive' smooth unique, "data.txt" using 1:3 title "Linear" with linespoints
