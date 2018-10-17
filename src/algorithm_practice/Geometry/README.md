@@ -1,6 +1,6 @@
 # Geometry Algorithms
 
-Geometry algorithms are those that deal with geometric entities often in 2D space,
+Geometry algorithms are those that deal with geometric entities, often in 2D space,
 and employ algorithms that solve problems related to those entities. Some examples:
 
  - Given two line segments, determine whether they intersect at all
