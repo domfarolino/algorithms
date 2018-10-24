@@ -8,12 +8,9 @@
 class Graph {
 private:
   int numVertices;
-  bool **adjacencyMatrix;
-  int **distanceMatrix;
+  std::vector<std::vector<bool>> adjacencyMatrix;
+  std::vector<std::vector<int>> distanceMatrix;
   bool distanceMatrixComputed;
-
-  void initAdjacencyMatrix();
-  void initDistanceMatrix();
 
   bool computeDistanceMatrix();
   std::unordered_map<int, int> bfsWithDistance(int);

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <queue>
 #include <vector>
 #include <unordered_set>
@@ -6,48 +7,14 @@
 
 #include "Graph.h"
 
-#define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a >= _b ? _a : _b; })
-#define MIN(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a <= _b ? _a : _b; })
+Graph::Graph(int inNumVertices): numVertices(std::max(inNumVertices, 0)),
+                                 adjacencyMatrix(numVertices, std::vector<bool>(numVertices, false)),
+                                 distanceMatrix(numVertices, std::vector<int>(numVertices, -1)),
+                                 distanceMatrixComputed(false) {}
 
-Graph::Graph(int inNumVertices): numVertices(MAX(inNumVertices, 0)), distanceMatrixComputed(false) {
-  this->initAdjacencyMatrix();
-  this->initDistanceMatrix();
-}
-
-/**
- * Allocate memory for adjacency matrix
- */
-void Graph::initAdjacencyMatrix() {
-  this->adjacencyMatrix = new bool*[this->numVertices];
-
-  for (int i = 0; i < this->numVertices; ++i) {
-    this->adjacencyMatrix[i] = new bool[this->numVertices];
-  }
-}
-
-/**
- * Allocate memory for distance matrix
- */
-void Graph::initDistanceMatrix() {
-  this->distanceMatrix = new int*[this->numVertices];
-
-  for (int i = 0; i < this->numVertices; ++i) {
-    this->distanceMatrix[i] = new int[this->numVertices];
-
-    for (int j = 0; j < this->numVertices; ++j) {
-      this->distanceMatrix[i][j] = -1;
-    }
-  }
-}
-
-/**
- * Since this graph implementation is undirected,
- * our adjacency matrix must remain symmetrical.
- */
 void Graph::addEdge(int i, int j) {
-  this->adjacencyMatrix[i][j] = true;
-  this->adjacencyMatrix[j][i] = true;
-  this->distanceMatrixComputed = false;
+  adjacencyMatrix[i][j] = true; // Directed edge.
+  distanceMatrixComputed = false;
 }
 
 std::vector<int> Graph::dfs(int vertex) {
@@ -64,8 +31,8 @@ void Graph::dfsHelper(int vertex, std::vector<int> &vec, std::unordered_set<int>
   vec.push_back(vertex);
   visited.insert(vertex);
 
-  for (int j = 0; j < this->numVertices; ++j) {
-    if (this->adjacencyMatrix[vertex][j]) {
+  for (int j = 0; j < numVertices; ++j) {
+    if (adjacencyMatrix[vertex][j]) {
       dfsHelper(j, vec, visited);
     }
   }
@@ -79,6 +46,7 @@ std::vector<int> Graph::bfs(int vertex) {
   q.push(vertex);
 
   while (!q.empty()) {
+    // TODO(domfarolino): Do this the other way mate.
     if (visited.find(q.front()) != visited.end()) {
       q.pop();
       continue;
@@ -87,8 +55,8 @@ std::vector<int> Graph::bfs(int vertex) {
     returnVec.push_back(q.front());
 
     // Push all of q.front()'s children
-    for (int j = 0; j < this->numVertices; ++j) {
-      if (this->adjacencyMatrix[q.front()][j]) {
+    for (int j = 0; j < numVertices; ++j) {
+      if (adjacencyMatrix[q.front()][j]) {
         q.push(j);
       }
     }
@@ -109,6 +77,7 @@ std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
   int count, distance = 0;
 
   while (!q.empty()) {
+    // TODO(domfarolino): Do this the other way mate.
     if (visited.find(q.front()) != visited.end()) {
       q.pop();
       continue;
@@ -141,15 +110,15 @@ std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
 bool Graph::computeDistanceMatrix() {
   std::unordered_map<int, int> visited;
 
-  for (int i = 0; i < this->numVertices; ++i) {
+  for (int i = 0; i < numVertices; ++i) {
     visited = bfsWithDistance(i);
     for (auto it : visited) {
-      this->distanceMatrix[i][it.first] = it.second;
+      distanceMatrix[i][it.first] = it.second;
     }
   }
 
-  this->distanceMatrixComputed = true;
-  return (visited.size() == this->numVertices);
+  distanceMatrixComputed = true;
+  return (visited.size() == numVertices);
 }
 
 int Graph::shortestPath(int v1, int v2) {
@@ -160,14 +129,14 @@ int Graph::shortestPath(int v1, int v2) {
 }
 
 int Graph::getDiameter() {
-  bool isConnected = this->computeDistanceMatrix();
+  bool isConnected = computeDistanceMatrix();
   if (!isConnected) return -1;
 
   int diameter = 0;
 
-  for (int i = 0; i < this->numVertices; ++i) {
-    for (int j = 0; j < this->numVertices; ++j) {
-      diameter = MAX(diameter, this->distanceMatrix[i][j]);
+  for (int i = 0; i < numVertices; ++i) {
+    for (int j = 0; j < numVertices; ++j) {
+      diameter = std::max(diameter, distanceMatrix[i][j]);
     }
   }
 
@@ -175,13 +144,13 @@ int Graph::getDiameter() {
 }
 
 void Graph::printComponents() {
-  if (!this->distanceMatrixComputed) this->computeDistanceMatrix();
+  if (!distanceMatrixComputed) computeDistanceMatrix();
 
-  std::vector<std::unordered_map<int, int> > connectedComponents;
+  std::vector<std::unordered_map<int, int>> connectedComponents;
   std::unordered_map<int, int> allVisited, component;
 
   // Gather connected components
-  for (int i = 0; i < this->numVertices; ++i) {
+  for (int i = 0; i < numVertices; ++i) {
     // Component with root i is its own component if we've never seen it before
     if (allVisited.find(i) == allVisited.end()) {
       component = bfsWithDistance(i);
@@ -191,51 +160,43 @@ void Graph::printComponents() {
   }
 
   // Print all connected components
-  std::cout << "The graph has " << connectedComponents.size() << " connected components" << '\n';
+  std::cout << "The graph has " << connectedComponents.size() << " connected components" << std::endl;
 
   for (int i = 0; i < connectedComponents.size(); ++i) {
-    std::cout << "Connected component " << i + 1 << '\n';
+    std::cout << "Connected component " << i + 1 << std::endl;
 
     for (auto it = connectedComponents[i].begin(); it != connectedComponents[i].end(); ++it) {
       std::cout << it->first << " -> ";
     }
 
-    std::cout << '\n';
+    std::cout << std::endl;
   }
 }
 
 void Graph::printAdjacencyMatrix() {
   std::cout << "Adjacency matrix:" << '\n';
-  for (int i = 0; i < this->numVertices; ++i) {
-    for (int j = 0; j < this->numVertices; ++j) {
-      std::cout << this->adjacencyMatrix[i][j] << " ";
+  for (int i = 0; i < numVertices; ++i) {
+    for (int j = 0; j < numVertices; ++j) {
+      std::cout << adjacencyMatrix[i][j] << " ";
     }
 
-    std::cout << '\n';
+    std::cout << std::endl;
   }
 
-  std::cout << '\n';
+  std::cout << std::endl;
 }
 
 void Graph::printDistanceMatrix() {
   std::cout << "Distance matrix:" << '\n';
-  for (int i = 0; i < this->numVertices; ++i) {
-    for (int j = 0; j < this->numVertices; ++j) {
-      std::cout << this->distanceMatrix[i][j] << " ";
+  for (int i = 0; i < numVertices; ++i) {
+    for (int j = 0; j < numVertices; ++j) {
+      std::cout << distanceMatrix[i][j] << " ";
     }
 
-    std::cout << '\n';
+    std::cout << std::endl;
   }
 
-  std::cout << '\n';
+  std::cout << std::endl;
 }
 
-Graph::~Graph() {
-  for (int i = 0; i < this->numVertices; ++i) {
-    delete[] this->adjacencyMatrix[i];
-    delete[] this->distanceMatrix[i];
-  }
-
-  delete[] this->adjacencyMatrix;
-  delete[] this->distanceMatrix;
-}
+Graph::~Graph() {}
