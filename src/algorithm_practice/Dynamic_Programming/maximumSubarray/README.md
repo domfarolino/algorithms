@@ -64,7 +64,7 @@ by starting over at the next not-so-bad solo value. To read more about Kadane's 
 Of course the difference between O(n<sup>2</sup>) and O(n) is probably obvious to most of the
 readers here, but since it's fun creating and analyzing data, here's a nifty chart I made with gnuplot:
 
-![alt text](plot.png)
+![plot should be here](plot.png)
 
 For more reading, check out my [blog post](https://blog.domfarolino.com/Maximum-Subarray-Study/) post which
 goes into a little more detail.

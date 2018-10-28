@@ -107,7 +107,7 @@ int main() {
 
       std::cout << i << '\t';
       std::cout << (float)(clock_a_stop - clock_a_start)/(CLOCKS_PER_SEC/1000) << '\t';
-      //cout << (float)(clock_b_stop - clock_b_start)/(CLOCKS_PER_SEC/1000) << '\t';
+      //std::cout << (float)(clock_b_stop - clock_b_start)/(CLOCKS_PER_SEC/1000) << '\t';
       std::cout << (float)(clock_c_stop - clock_c_start)/(CLOCKS_PER_SEC/1000) << std::endl;
 
       a.clear();
