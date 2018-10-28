@@ -1,0 +1,27 @@
+Input the number of vertices in the graph
+Input both vertices for edge #1 or -1 to stop
+Input both vertices for edge #2 or -1 to stop
+Input both vertices for edge #3 or -1 to stop
+Printing DFS: 
+0 -> 1 -> 
+Printing BFS: 
+0 -> 1 -> 
+Adjacency matrix:
+0 1 0 0 
+0 0 0 0 
+0 0 0 1 
+0 0 0 0 
+
+Distance matrix:
+0 1 -1 -1 
+-1 0 -1 -1 
+-1 -1 0 1 
+-1 -1 -1 0 
+
+Graph is disconnected
+The graph has 2 connected components
+Connected component 1
+0 -> 1 -> 
+Connected component 2
+2 -> 3 -> 
+-1

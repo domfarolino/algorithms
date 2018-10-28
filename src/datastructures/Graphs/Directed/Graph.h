@@ -27,8 +27,6 @@ public:
   void printAdjacencyMatrix();
   void printDistanceMatrix();
   void printComponents();
-
-  ~Graph();
 };
 
 #endif

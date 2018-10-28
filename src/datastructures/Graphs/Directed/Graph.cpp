@@ -13,6 +13,11 @@ Graph::Graph(int inNumVertices): numVertices(std::max(inNumVertices, 0)),
                                  distanceMatrixComputed(false) {}
 
 void Graph::addEdge(int i, int j) {
+  if (i < 0 || j < 0 || i >= numVertices || j >= numVertices) {
+    std::cerr << "Node for edge is out-of-bounds" << std::endl;
+    return;
+  }
+
   adjacencyMatrix[i][j] = true; // Directed edge.
   distanceMatrixComputed = false;
 }
@@ -26,13 +31,12 @@ std::vector<int> Graph::dfs(int vertex) {
 }
 
 void Graph::dfsHelper(int vertex, std::vector<int> &vec, std::unordered_set<int> &visited) {
-  if (visited.find(vertex) != visited.end()) return;
-
   vec.push_back(vertex);
   visited.insert(vertex);
 
+  // Only DFS recurse on unvisited nodes.
   for (int j = 0; j < numVertices; ++j) {
-    if (adjacencyMatrix[vertex][j]) {
+    if (adjacencyMatrix[vertex][j] && visited.find(j) == visited.end()) {
       dfsHelper(j, vec, visited);
     }
   }
@@ -44,25 +48,19 @@ std::vector<int> Graph::bfs(int vertex) {
   std::queue<int> q;
 
   q.push(vertex);
+  visited.insert(vertex);
 
   while (!q.empty()) {
-    // TODO(domfarolino): Do this the other way mate.
-    if (visited.find(q.front()) != visited.end()) {
-      q.pop();
-      continue;
-    }
-
     returnVec.push_back(q.front());
 
-    // Push all of q.front()'s children
+    // Push all of q.front()'s children.
     for (int j = 0; j < numVertices; ++j) {
-      if (adjacencyMatrix[q.front()][j]) {
+      if (adjacencyMatrix[q.front()][j] && visited.find(j) == visited.end()) {
         q.push(j);
+        visited.insert(j);
       }
     }
 
-    // Visit q.front()
-    visited.insert(q.front());
     q.pop();
   }
 
@@ -73,35 +71,26 @@ std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
   std::unordered_map<int, int> visited;
   std::queue<int> q;
 
-  q.push(vertex);
   int count, distance = 0;
+  q.push(vertex);
+  visited.insert({vertex, distance});
 
   while (!q.empty()) {
-    // TODO(domfarolino): Do this the other way mate.
-    if (visited.find(q.front()) != visited.end()) {
-      q.pop();
-      continue;
-    }
-
     count = q.size();
+    distance++;
 
     while (count) {
-      // Push all of q.front()'s children
-      for (int j = 0; j < this->numVertices; ++j) {
-        if (this->adjacencyMatrix[q.front()][j]) {
+      // Push all of q.front()'s children.
+      for (int j = 0; j < numVertices; ++j) {
+        if (adjacencyMatrix[q.front()][j] && visited.find(j) == visited.end()) {
           q.push(j);
+          visited.insert({j, distance});
         }
       }
 
-      // Visit q.front()
-      // This works nicely because insert will
-      // not update an already existing value
-      visited.insert({q.front(), distance});
       q.pop();
       count--;
     }
-
-    distance++;
   }
 
   return visited;
@@ -118,6 +107,7 @@ bool Graph::computeDistanceMatrix() {
   }
 
   distanceMatrixComputed = true;
+  // Return whether graph is connected or not.
   return (visited.size() == numVertices);
 }
 
@@ -198,5 +188,3 @@ void Graph::printDistanceMatrix() {
 
   std::cout << std::endl;
 }
-
-Graph::~Graph() {}
