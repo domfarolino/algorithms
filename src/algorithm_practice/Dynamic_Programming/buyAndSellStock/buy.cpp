@@ -1,5 +1,4 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 
 // Source: https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
