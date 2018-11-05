@@ -104,7 +104,7 @@ As with many dynamic programming problems, bottom-up approaches are relatively c
 create an array the same size as our input list, and each entry memo[i] will contain the max loot path from houses [0, i].
 We'll build this array up iteratively with the logic we previously uncovered, and the final value will be the one we want
 to return. In fact, we can actually use our input array as the memo, and overwrite the house loot values in it with the
-max loot path values ending at a given house.
+max loot path values ending at a given house. Watch out for edge cases.
 
 ## Complexity analysis
 
