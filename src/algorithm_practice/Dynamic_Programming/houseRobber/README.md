@@ -44,6 +44,8 @@ robbing house 20, so let's build our path backwards on that premise, and not rob
 to rob the bountiful 400 house.
 </details>
 
+<br>
+
 So what determines whether or not we can rob a house? Well, we're better off robbing a house if
 we're _not_ better off robbing the immediately previous house. In other words, if robbing the
 immediately previous house is _super super_ good, we'll choose to _not_ rob its neighbor.
@@ -73,16 +75,17 @@ that may influence our answer as we talked about:
  - Out: 17
 
 17 is the answer, because when it comes to considering the house with 9 loot, we know we can also
-take the houes with 8. Otherwise, we have to skip out on the 9, and take 10. So, 8 + 7 > 10, therefore
-we take it. Now we can think what it would be like to generalize this solution:
+take the house with 8. Otherwise we can take 10 and skip 9. Since 8 + 7 > 10, we take it. Now we
+can think what it would be like to generalize this solution:
 
  - In: [..., ......., 8, 10, 9]
  - Out: max(9 + maxLoot(8), maxLoot(10))
 
-Note, with a ton more elements in the array, we can't just consider the previous house _values_, but
-instead we need to consider the previous end path values up to that point. We're taking earlier and
-smaller subsolutions, and extending them by adding another house to the end, and making the best
-decision. This gives us the following recurrence relation:
+In our previous example with 3 houses, when we "looked backwards", we looked at the previous house
+loot values. With a ton of houses in the array though, we can't just consider the previous house
+_values_, but instead we need to consider the previous end path values up to that point. We're taking
+earlier and smaller subsolutions, and extending them by adding another house to the end, and making the
+best decision. This gives us the following recurrence relation:
 
 ```maxLoot(n) = max(maxLoot(n - 2) + currentLoot, maxLoot(n - 1))```
 
@@ -92,7 +95,8 @@ Now we just need the answers to the subproblems `maxLoot(n - 2)` and `maxLoot(n 
 naively gives us a very wasteful solution, similar to the naive fibonacci, because we're computing subsolutions
 over and over again. After we solve a subproblem, we can save the answer for O(1) future look-up, since it'll
 be needed again. Just like with the [climbing stairs](../climbingStairs) problem, we can see that we'll be building
-up our memoized subproblem solutions from the bottom up, indicating that we can also implement a bottom-up approach.
+up our memoized subproblem solutions from the bottom up, in order,, indicating that we can also implement a
+bottom-up approach.
 
 ## Bottom-up approach
 
