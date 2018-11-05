@@ -16,9 +16,9 @@ a lower amount of loot than their neighbors.
 
 We could generate all 2<sup>n</sup> possible combinations of houses to rob, and see
 which ones provide the biggest amount of loot. Of course some of the 2<sup>n</sup>
-combinations will not be valid (we may choose to "rob" too houses in a row), so we'll
-need to only consider combinations/paths that don't rob consecutive houses, as candidate
-paths while we try and find the max.
+combinations will not be valid (they may imply "robbing" two houses in a row), so we'll
+need to only consider combinations/paths that don't rob consecutive houses as candidate
+paths, while we search for the max path.
 
 ## Complexity analysis
 
@@ -27,17 +27,22 @@ paths while we try and find the max.
 
 # Dynamic programming
 
-Again this seems very much like a back tracking problem where we need to look at each
+This seems very much like a back tracking problem where we need to look at each
 possible path from the end. We know we'll get to the very last house and either rob
 it, or we won't rob it because it was more beneficial to rob the house before it and
 leave the last one alone. A simple example can be constructed to show that always choosing
-the most bountiful house to rob does not always work: [8, 20, 1000]. In this case, we can
-start by robbing either 8 or 20. 20 is obviously larger, however if we choose it solely on
-that merit, we cannot rob 1000 or 8, and robbing both of those would be much more ideal. Same
-goes for the end houses: [400, 20, 10]. If we're looking backwards, we might say "Oh we definitely
-want to end by robbing house 20, so let's build our path backwards on that premise, and not rob
-400", when in fact it would be more advantageous to rob 10 in the end, so that we're able to rob
-the bountiful 400 house.
+the most bountiful house to rob does not always work.
+
+<details>
+  <summary>Greedy doesn't always pay off</summary>
+Consider the houses: [8, 20, 1000]. In this case, we can start by robbing either 8 or 20.
+20 is obviously larger, however if we choose it solely on that merit, we cannot rob 1000
+or 8, and robbing both of those would be much more ideal. Same goes for the end houses:
+[400, 20, 10]. If we're looking backwards, we might say "Oh we definitely want to end by
+robbing house 20, so let's build our path backwards on that premise, and not rob
+400", when in fact it would be more advantageous to rob 10 in the end, so that we're able
+to rob the bountiful 400 house.
+</details>
 
 So what determines whether or not we can rob a house? Well, we're better off robbing a house if
 we're _not_ better off robbing the immediately previous house. In other words, if robbing the
