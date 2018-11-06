@@ -51,9 +51,9 @@ we're _not_ better off robbing the immediately previous house. In other words, i
 immediately previous house is _super super_ good, we'll choose to _not_ rob its neighbor.
 We also have to look at the other possibility: robbing the current house is more beneficial than
 robbing the previous. In other words, adding the current house's loot value to the max loot path
-ending at the _previous previous_ house is more beneficial than just taking the previous's max path
-loot value and not robbing the current house. That sounds very confusing, but let's look at some examples
-to see:
+ending at the _previous previous_ house is more beneficial than just taking the previous max loot
+path and not robbing the current house. That sounds very confusing, but let's look at some examples
+that exercise our inputs to see:
 
 Two houses:
 
@@ -88,6 +88,28 @@ earlier and smaller subsolutions, and extending them by adding another house to 
 best decision. This gives us the following recurrence relation:
 
 ```maxLoot(n) = max(maxLoot(n - 2) + currentLoot, maxLoot(n - 1))```
+
+<details>
+  <summary>Some thoughts on the "key" intuition for this problem</summary>
+The key to this problem IMO is realizing that we can _only_ add our current house's loot to the max loot
+path of the _previous previous_ house. This max loot path might be smaller than the immediately prior max
+loot path, however it allows us to rob the current house, and if this _previous previous_ max loot path +
+the current house value can supercede the prior max loot path (which may very well have resulted in robbing
+the previous house), then we take it. When I was thinking of this problem at first I thought it was a little
+tricky because I figured even if I knew the max loot paths of ending at all prior houses, I'd still need to know
+whether I robbed the previous house or not. For example, what if I am examining house _i_, and I want to take the
+max loot path ending at house _i - 1_ and add my house loot to it. I can totally do this as long as I can know
+whether or the _previous_ max loot path (at _i - 1_) ended in robbing house _i - 1_ or not. This made me feel
+that I needed to keep track of more information, but then I realized, if I did _not_ rob house _i - 1_, then
+_previous_ max loot path ending at _i - 1_ would be the exact same as the _previous previous_ max loot path
+ending it at _i - 2_, which means I do not need this information after all. The _previous_ max loot path
+ending at _i - 1_ will only be more desireable than the _previous previous_ max loot path at _i - 2_ if
+I robbed house _i - 1_, so really I have all the information I need to compare my options :) These are
+the ramblings of my mind while I ride a plane to SJC, so while it helped me work out some thoughts, it
+probably wasn't terrible clear from the outside.
+</details>
+
+<br>
 
 ## Top-down approach
 
