@@ -1,0 +1,7 @@
+# This has been tested with gnuplot installed on macOS, so it _may_ need some tweaking on Linux.
+set title "All fibonacci paths"
+set xlabel "N"
+set ylabel "Time (ms)"
+set output "plot.svg"
+set terminal svg size 800, 600
+plot "data.csv" using 1:2 title "All paths top-down (memoization)" smooth unique lc rgb "red", "data.csv" using 1:3 title "All paths bottom-up" smooth unique lc rgb "blue"

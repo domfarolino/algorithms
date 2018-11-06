@@ -1,0 +1,52 @@
+How many tests do you want to run?: Enter n: Paths returned from top-down solution:
+
+Paths returned from bottom-up solution:
+
+Enter n: Paths returned from top-down solution:
+1 -> 
+Paths returned from bottom-up solution:
+1 -> 
+Enter n: Paths returned from top-down solution:
+1 -> 2 -> 
+2 -> 
+Paths returned from bottom-up solution:
+1 -> 2 -> 
+2 -> 
+Enter n: Paths returned from top-down solution:
+1 -> 2 -> 3 -> 
+2 -> 3 -> 
+1 -> 3 -> 
+Paths returned from bottom-up solution:
+1 -> 2 -> 3 -> 
+2 -> 3 -> 
+1 -> 3 -> 
+Enter n: Paths returned from top-down solution:
+1 -> 2 -> 3 -> 4 -> 
+2 -> 3 -> 4 -> 
+1 -> 3 -> 4 -> 
+1 -> 2 -> 4 -> 
+2 -> 4 -> 
+Paths returned from bottom-up solution:
+1 -> 2 -> 3 -> 4 -> 
+2 -> 3 -> 4 -> 
+1 -> 3 -> 4 -> 
+1 -> 2 -> 4 -> 
+2 -> 4 -> 
+Enter n: Paths returned from top-down solution:
+1 -> 2 -> 3 -> 4 -> 5 -> 
+2 -> 3 -> 4 -> 5 -> 
+1 -> 3 -> 4 -> 5 -> 
+1 -> 2 -> 4 -> 5 -> 
+2 -> 4 -> 5 -> 
+1 -> 2 -> 3 -> 5 -> 
+2 -> 3 -> 5 -> 
+1 -> 3 -> 5 -> 
+Paths returned from bottom-up solution:
+1 -> 2 -> 3 -> 4 -> 5 -> 
+2 -> 3 -> 4 -> 5 -> 
+1 -> 3 -> 4 -> 5 -> 
+1 -> 2 -> 4 -> 5 -> 
+2 -> 4 -> 5 -> 
+1 -> 2 -> 3 -> 5 -> 
+2 -> 3 -> 5 -> 
+1 -> 3 -> 5 -> 
