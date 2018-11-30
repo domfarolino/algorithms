@@ -4,6 +4,10 @@ Source:
 
  - https://leetcode.com/problems/min-cost-climbing-stairs/description/
 
+Note: This problem is closely related to the [houseRobber](../../houseRobber) Leetcode
+problem, which has a modification [houseRobber/maxPath](../../houseRobber/maxPath)
+that solves for the max path, which is essentially the same as this problem.
+
 This problem is quite quite similar indeed to the normal climbing stairs problem.
 In this case, we are interested in the path to the end of the staircase that provides
 the least "cost" possible. We can start from either of the first two steps (at index 0
