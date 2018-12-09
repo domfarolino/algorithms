@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 
-// Source: https://leetcode.com/problems/house-robber/description/
+// Source: Modification of https://leetcode.com/problems/house-robber/description/
+// Source: Related: https://leetcode.com/problems/min-cost-climbing-stairs/description/
 
 std::vector<int> rob(std::vector<int>& loots) {
   std::vector<int> first, second;

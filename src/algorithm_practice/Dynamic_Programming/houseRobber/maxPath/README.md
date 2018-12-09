@@ -1,9 +1,14 @@
 # Max Path
 
+Source:
+
+ - Modification of https://leetcode.com/problems/house-robber/description/
+
 This a modification of the [house robber](..) problem, where we not
 only want to find the maximum amount of loot we can steal, but we also want to
 return the list of houses in the order to rob, that provides said maximum amount
-of loot.
+of loot. It is also very closely related to the
+[min cost climbing stairs](../../climbingStairs/minCostClimbingStairs).
 
 Really this can be done by just extending our solution to [house robber](..). Like
 the typical bottom-up dynamic programming solution, we can maintain our loots array
