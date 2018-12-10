@@ -22,19 +22,44 @@ out from said unit, and if the DFS eventually reaches a unit of land that:
 
 ...we know the unit we started from should be included in our returned list of pairs.
 The DFS will be O(n\*m), and we'll be carrying it out for each unit of land in the grid
-(O(n\*m) times. This is really expensive because we're not saving any of our work anywhere.
+(O(n\*m) times. This is really expensive because we're not saving any of our work, and
+are constantly computing the same problems over and over.
 
-DFS will recursively trigger other DFSs. It would be ideal to save the result of those DFSs and we could save the result of those DFSs somewhere
-to ensure we don't re-compute results we've already come across, repeating a ton of work. This
-brings some implementation complexity, but...
+DFS will recursively trigger other DFSs, and it would be ideal to save the result of sub-DFSs
+somewhere as we go along to avoid duplication of work, however this introduces cycle issues that
+would be encountered mid-traversal, which could leave us with incomplete answers (from what I've
+encountered in my experimentation).
+
+## Complexity analysis
 
  - Time complexity: O((n\*m)<sup>2</sup>)
- - Space complexity: O(n\*m) (it is tempting to say O(1) here, since we don't maintain an
-   copy of the grid during our computation, but you still have to count the size of the returned pairs)
+ - Space complexity: O(n\*m) (to keep track of "visited" grid spots during each DFS traversal)
 
 # Optimized
+
+The reason our previous-but-inefficient solution worked is because it found our whether or not
+some unit of land _could reach_ the pacific or atlantic, by seeing if it could every reach one
+of the borders of our grid. We can make our solution more efficient by looking at the problem
+the other way around; we can start with the ocean-bordering units of land that we guarantee can
+reach their corresponding ocean, and DFS outward marking nodes that can reach these nodes as
+reachable with regards to a specific ocean.
+
+Once finished, we'll have all nodes that can reach the pacific _marked_, same as all nodes that
+can reach the atlantic. The intersection of these two lists are units of land that we want to
+return. The list of pacific- or atlantic-reachable units of land can just be another grid of
+equal size to our input matrix, simply marking true or false for reachability. This gives us
+fast look-up, an easy implementation, but at the expense of always using 2\*(n\*m) extra space.
+This isn't too bad though, since if we were to use a hash table or unordered map to store the
+coordinates, we'd be in the worst case using the same amount of space.
+
+This type of solution is really powerful: instead of always looking for complex conditions to
+be met from each individual point, go to the actual source, and find all positions that can reach
+said source, and go from there. Implementation of this is relatively simple as well.
 
 ## Complexity analysis
 
  - Time complexity: O(n\*m)
  - Space complexity: O(n\*m)
+
+![performance graph](plot.svg)
+// TODO(domfarolino): Add the picture here
