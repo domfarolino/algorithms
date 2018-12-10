@@ -62,4 +62,3 @@ said source, and go from there. Implementation of this is relatively simple as w
  - Space complexity: O(n\*m)
 
 ![performance graph](plot.svg)
-// TODO(domfarolino): Add the picture here
