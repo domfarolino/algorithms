@@ -1,74 +1,59 @@
 #include <iostream>
+#include <cstdlib> // for rand()
+#include <cassert>
 #include <climits>
 #include <utility>
 #include <vector>
 
 // Source: https://leetcode.com/problems/pacific-atlantic-water-flow/description/
 
-// 0: Touches nothing
-// 1: |       Pacific
-// 2: |       Atlantic
-// 3: |       Pacific & Atlantic
-int dfs(std::vector<std::vector<int>>& matrix, int r, int c, int parent = INT_MAX) {
+#include "pacificNaiveInclude.cpp"
+
+void dfs(const std::vector<std::vector<int>>& matrix,
+         std::vector<std::vector<bool>>& ocean,
+         int r, int c, int parent = INT_MIN) {
   if (r < 0 || c < 0 || r >= matrix.size() || c >= matrix[r].size() ||
-      matrix[r][c] == -1 || matrix[r][c] > parent) {
-    return 0;
+      ocean[r][c] || matrix[r][c] < parent) {
+    return;
   }
 
-  bool isPacific = false, isAtlantic = false;
-  // Base cases
-  if ((r == 0 && c == 0) && (r == matrix.size() - 1 && c == matrix[r].size() - 1)) return 3;
-  if (r == 0 || c == 0) isPacific = true;
-  if (r == matrix.size() - 1 || c == matrix[r].size() - 1) isAtlantic = true;
+  // Assert: (r, c) is in bounds
+  ocean[r][c] = true;
 
-  // Mark (r, c) as "visited".
-  int tmp = matrix[r][c];
-  matrix[r][c] = -1;
-
-  // Recurse
-  int top = dfs(matrix, r - 1, c, tmp), left = dfs(matrix, r, c - 1, tmp),
-      bottom = dfs(matrix, r + 1, c, tmp), right = dfs(matrix, r, c + 1, tmp);
-
-  matrix[r][c] = tmp;
-
-  // Return relevant values.
-  bool touchesBoth     = ((isPacific && isAtlantic) || top == 3 || left == 3 || bottom == 3 || right == 3);
-  bool touchesPacific  = (isPacific || top == 1 || left == 1 || bottom == 1 || right == 1);
-  bool touchesAtlantic = (isAtlantic || top == 2 || left == 2 || bottom == 2 || right == 2);
-
-  if (touchesBoth || (touchesPacific && touchesAtlantic)) {
-    return 3;
-  } else if (touchesPacific) {
-    return 1;
-  } else if (touchesAtlantic) {
-    return 2;
-  }
-
-  return 0;
-}
-
-// Naive algorithm.
-// Complexity analysis:
-//  - Time complexity: O(n^2)
-//  - Space complexity: O(1)
-std::vector<std::pair<int, int>> pacificAtlanticNaive(std::vector<std::vector<int>>& matrix) {
-  std::vector<std::pair<int, int>> returnPairs;
-  for (int r = 0; r < matrix.size(); ++r) {
-    for (int c = 0; c < matrix[r].size(); ++c) {
-      if (dfs(matrix, r, c) == 3)
-        returnPairs.push_back(std::make_pair(r, c));
-    }
-  }
-
-  return returnPairs;
+  // Recurse.
+  dfs(matrix, ocean, r - 1, c, matrix[r][c]);
+  dfs(matrix, ocean, r, c - 1, matrix[r][c]);
+  dfs(matrix, ocean, r + 1, c, matrix[r][c]);
+  dfs(matrix, ocean, r, c + 1, matrix[r][c]);
 }
 
 // Optimized algorithm.
 // Complexity analysis:
-//  - Time complexity: O(n)
-//  - Space complexity: O(n)
-std::vector<std::pair<int, int>> pacificAtlantic(std::vector<std::vector<int>>& matrix) {
+//  - Time complexity: O(n*m)
+//  - Space complexity: O(n*m)
+std::vector<std::pair<int, int>> pacificAtlantic(const std::vector<std::vector<int>>& matrix) {
   std::vector<std::pair<int, int>> returnPairs;
+  if (!matrix.size()) return returnPairs;
+  std::vector<std::vector<bool>> touchesPacific(matrix.size(), std::vector<bool>(matrix[0].size(), false)),
+                                 touchesAtlantic(matrix.size(), std::vector<bool>(matrix[0].size(), false));
+
+  for (int r = 0; r < matrix.size(); ++r) {
+    dfs(matrix, touchesPacific, r, 0);
+    dfs(matrix, touchesAtlantic, r, matrix[r].size() - 1);
+  }
+
+  for (int c = 0; c < matrix[0].size(); ++c) {
+    dfs(matrix, touchesPacific, 0, c);
+    dfs(matrix, touchesAtlantic, matrix.size() - 1, c);
+  }
+
+  for (int r = 0; r < matrix.size(); ++r) {
+    for (int c = 0; c < matrix[r].size(); ++c) {
+      if (touchesPacific[r][c] && touchesAtlantic[r][c])
+        returnPairs.push_back(std::make_pair(r, c));
+    }
+  }
+
   return returnPairs;
 }
 
@@ -79,6 +64,7 @@ void printResults(std::vector<std::pair<int, int>>& pairs) {
 }
 
 int main() {
+  /*
   int r, c;
 
   std::cout << "Enter the number of rows: " << std::endl;
@@ -96,7 +82,36 @@ int main() {
     }
   }
 
-  std::vector<std::pair<int, int>> pairs = pacificAtlanticNaive(matrix);
-  printResults(pairs);
+  std::vector<std::pair<int, int>> pairsNaive = pacificAtlanticNaive(matrix);
+  std::vector<std::pair<int, int>> pairs = pacificAtlantic(matrix);
+  printResults(pairsNaive);
+  */
+  srand(time(NULL));
+  int n;
+  std::vector<std::vector<int>> matrix;
+  for (n = 0; n < 55; n += 1) {
+    matrix = std::vector<std::vector<int>>(n, std::vector<int>(n, 0));
+    for (int r = 0; r < n; ++r) {
+      for (int c = 0; c < n; ++c) {
+        matrix[r][c] = rand() % 4;
+      }
+    }
+
+    // Run the algorithms with the newly randomized matrix.
+    clock_t clock_a_start = clock();
+    std::vector<std::pair<int, int>> pairsNaive = pacificAtlanticNaive(matrix);
+    clock_t clock_a_stop = clock();
+
+    clock_t clock_b_start = clock();
+    std::vector<std::pair<int, int>> pairs = pacificAtlantic(matrix);
+    clock_t clock_b_stop = clock();
+
+    assert(pairsNaive == pairs);
+
+    std::cout << n*n << '\t';
+    std::cout << (float)(clock_a_stop - clock_a_start) / (CLOCKS_PER_SEC / 1000) << '\t';
+    std::cout << (float)(clock_b_stop - clock_b_start) / (CLOCKS_PER_SEC / 1000) << std::endl;
+  }
+
   return 0;
 }
