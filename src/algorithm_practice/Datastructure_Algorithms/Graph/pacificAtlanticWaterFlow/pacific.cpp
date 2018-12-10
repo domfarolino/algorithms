@@ -64,6 +64,9 @@ void printResults(std::vector<std::pair<int, int>>& pairs) {
 }
 
 int main() {
+  // Uncomment the below section, and comment-out the below-below section
+  // in order to test the algorithms on input from stdin (like test.in for
+  // example).
   /*
   int r, c;
 
