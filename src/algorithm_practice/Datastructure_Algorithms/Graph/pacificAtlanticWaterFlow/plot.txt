@@ -1,0 +1,7 @@
+# This has been tested with gnuplot installed on macOS, so it _may_ need some tweaking on Linux.
+set title "Pacific-Atlantic complexity analysis"
+set xlabel "Matrix row size"
+set ylabel "Time (ms)"
+set output "plot.svg"
+set terminal svg size 800, 600
+plot "data.csv" using 1:2 title "DFS naive O(n^2)" smooth unique lc rgb "red", "data.csv" using 1:3 title "Compute ocean reachables O(n)" smooth unique lc rgb "blue"
