@@ -1,5 +1,11 @@
 # Euclidean and Extended Euclidean Algorithms
 
+Sources:
+
+ - [Lecture 11: Number Theory ...](https://www.youtube.com/watch?v=fq6SXByItUI)
+ - [This YouTube video](https://www.youtube.com/watch?v=6KmhCKxFWOs)
+ - [The Wikipedia page](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
+
 The Euclidean algorithm, and its extension, are extremely useful algorithms
 for finding the GCD of two numbers, and modular multiplicative inverces
 respectively.
@@ -45,7 +51,4 @@ The extended euclidean algorithm can be performed essentially by "reversing" the
 standard Euclidean algorithm. Alternatively, it can be done iteratively by
 inchworming initial values of `s` and `t` throughout the GCD computation, such
 that they are the correct values that complement `a` and `b` from the beginning.
-For more information, see:
-
- - [This YouTube video](https://www.youtube.com/watch?v=6KmhCKxFWOs)
- - [The Wikipedia page](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
+For more information, see the sources listed at the beginning of this article.
