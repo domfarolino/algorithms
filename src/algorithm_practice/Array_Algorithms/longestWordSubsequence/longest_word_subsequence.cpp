@@ -32,11 +32,13 @@ int searchOrLargest(const std::vector<int>& arr, int val) {
 
 bool is_subsequence(std::unordered_map<char, std::vector<int>>& u_map,
                     const std::string& word) {
-  int last_matched_index = 0, matched_index;
+  int last_matched_index = -1;
   for (const char& c: word) {
-    matched_index = searchOrLargest(u_map[c], last_matched_index);
+    // We do |last_matched_index| + 1 because we have to find the next character
+    // strictly _after_ the index we found the last one out.
+    last_matched_index = searchOrLargest(u_map[c], last_matched_index + 1);
 
-    if (matched_index == -1)
+    if (last_matched_index == -1)
       return false;
   }
 

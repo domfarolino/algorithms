@@ -12,8 +12,7 @@ in-depth exposition.
 
 The naive solution would be to iterate through each word in the word list,
 and just perform some is-a-subsequence check on the given word and the given
-string `s`. This subsequence check is relatively simple, and an implementation
-can be found in my C++ file.
+string `s`. This subsequence check is relatively simple, as you may imagine.
 
 A small optimization we could do here is maybe sort the given list of words by
 the length of each word, such that the longer words appear at the beginning
@@ -40,7 +39,7 @@ word is a subsequence or not. Realize that the question of subsequence is a
 membership problem. We just need to quickly know if a given letter at index `i`
 of the word `w` exists at an index >= `i` in `s`.
 
-We can solve membership-style problems efficiently by maintaining a
+We can solve this membership-style problem efficiently by maintaining a
 map-representation of the given string `s`, `{letter: [all, occurring, indices]}`.
 Now, when examining a word `w` in the list of given words, for each character at
 index `i`, we can binary search the list given by `map[word[i]]` to determine
@@ -58,7 +57,7 @@ situations.
 ### Complexity analysis
 
 Let n = size of the given word list, and s = length of the given string.
-Let k = constant bound of the size of a given word appearing in the word list.
+Let k = constant bound of the size of a word appearing in the given list.
 
  - Time complexity: O(s + n\*k\*log(s))
  - Space complexity: O(s)
