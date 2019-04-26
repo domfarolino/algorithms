@@ -5,8 +5,8 @@ Source:
 
 This is a pretty interesting problem; the input is two strings, `initial` and `target`
 consisting of only 'A's and 'B's. The goal is to return whether or not you can create
-the `target` string from `initial`, by only performing one of two operations to the
-string at any given time:
+the `target` string from `initial`, by only performing one of two operations on the
+`initial` string at any given time:
 
  1. You can add an 'A' to the end of the string
  2. You can reverse the string and add 'B' to the end of it
@@ -20,7 +20,10 @@ Out: true; by rule (2) you can reverse the string, producing "A", and add "B" to
 ----
 
 In: "AB", "BABA"
+
 Out: true; by rule (2) you can produce "BAB", and by rule (1) you can produce "BABA"
+
+----
 
 ## Naive Search Approach
 
