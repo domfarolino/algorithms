@@ -5,11 +5,11 @@ Source:
 
 This is a pretty interesting problem; the input is two strings, `initial` and `target`
 consisting of only 'A's and 'B's. The goal is to return whether or not you can create
-the `target` string from `initial`, by only performing one of two operations on the
-`initial` string at any given time:
+the `target` string from `initial`, by only performing one of two operations on
+`initial` at any given time:
 
  1. You can add an 'A' to the end of the string
- 2. You can reverse the string and add 'B' to the end of it
+ 1. You can reverse the string and add 'B' to the end of it
 
 ### Examples
 
@@ -27,9 +27,9 @@ Out: true; by rule (2) you can produce "BAB", and by rule (1) you can produce "B
 
 ## Naive Search Approach
 
-The naive approach to this solution (not implemented here) is to basically from the
+The naive approach to this solution (not implemented here) is to basically, from the
 `initial` string, generate all possible strings as long as `target`, and check to see
-if any of them equal target. This is of course very expensive, but we can do so in a
+if any of them equal `target`. This is of course very expensive, but we can do so in a
 BFS fashion. First, consider the binary tree that can be made from `initial`:
 
 In: "AB", "BABA"
@@ -51,9 +51,8 @@ optimization.
 
 Since we're constructing a perfect binary tree, we know that the complexity of this
 algorithm is going to be bounded by the number of nodes in the tree. Trivially we know
-The number of levels in the tree is directly proportional to length difference of
-`target` and
-`initial`, which we'll call `k` (that is, `k = target.size() - init.size()`.
+the number of levels in the tree is directly proportional to the length difference of
+`target` and `initial`, which we'll call `k` (that is, `k = target.size() - init.size()`.
 Specifically, there are `k` levels in the tree we can produce, which means:
 
  - The number of leaf nodes will be 2^k; [proof](https://blog.domfarolino.com/Binary-Tree-Inductive-Proofs/#perfect-binary-tree-proof-3)
@@ -74,7 +73,7 @@ Therefore:
 
 As mentioned, the previous solution is very naive and misses a lot of opportunity for
 optimization. For example, my first realization was that if `initial` even had a chance
-to evolve as `target` it should definitely appear as a substring of `target`. From here,
+to evolve into `target` it should definitely appear as a substring of `target`. From here,
 we could find this substring, and inchworm our way outwards from the ends of the substring
 to determine if the subsequently outter letters could be legally added.
 
@@ -83,17 +82,18 @@ For example, really simple instances of this is are:
 In: "ABB", "ABBAA"
 
 We can find the substring "ABB" in "ABBAA" at indices [0, 2]. We'll call these `i` and `j`,
-and we can slowly inch outwards to the ends, in this case examining "A", and "A", determining
-at each step if it is possible to add the "A" to the substring [0, 2]. It is possible to add
-"A", so we expand the substring to [0, 3], and so on.
+and we can slowly inch outwards to the ends, in this case examining the 'A's, determining
+at each step if we can add them to the substring [0, 2]. Here we expand the substring to
+[0, 3] and so on.
 
-Another example:
+Introducing 'B's make it a little more complicated, consider another example:
 
 In: "XY", "BXYB" (just using "XY" here to make a clear distinction between `initial` and `target`)
 
 Note that we can produce "BXYB" from "XY" just by applying rule 2 (the "B" rule) twice.
 
 ```
+      (2)     (2)
 XY => YXB => BXYB
 
 
@@ -114,7 +114,7 @@ Clearly we can see what kind of steps we'd need to perform when we find `initial
 substring in `target`, and it forms an algorithm. We find the substring, and depending
 on the surrounding characters, either increment `j` to simulate rule (1), or reverse the
 indices and decrement `j` to simulate rule (2). We'll have similar rules for when our
-indices are reversed. The algorithm may look like this:
+indices are inverted. The algorithm may look like this:
 
 1. If i < j
     1. If target[j + 1] == "A"
@@ -129,19 +129,19 @@ indices are reversed. The algorithm may look like this:
         1. Reverse indices
         1. j++ // rule (2)
 
-We'll want to run this until the spread between `i` and `j` is maximal. At this point,
-if `i < j`, we know we can produce `target` from `initial`. Else, we cannot.
+We'll want to run this until `i` and `j` span the entirety of `target`. At this point,
+if `i < j`, we know we can produce `target` from `initial`. Else, we cannot. (Note we'll
+also need some bounds checking, but the above algorithm is just a rough outline).
 
-It works, but is a little complicated because of what the "B"s can do. For example, consider
-the example:
+It works, but is a little complicated because of what the 'B's can do. For example, consider:
 
 In: "AB", "BABA"
 
 We find `initial` as a substring of `target` from [1, 2]. From here we look at the following
-"A" and determine that we can produce [1, 3] from [1, 2]. However now we realize it is
-impossible to add "B" at index 0 here, so we'd have to stop. This analysis isn't sufficient
-since we can show that "BABA" _can indeed_ be produced by "AB" by applying rule (2) and then
-rule (1):
+'A' and determine that we can produce [1, 3] from [1, 2]. However now we realize it is
+impossible to add 'B' at index 0 here, indicating we cannot legally the substring [1, 2] to
+`target`. This analysis isn't sufficient since we can show that "BABA" _can indeed_ be produced
+by "AB" by applying rule (2) and then rule (1).
 
 ```
 Step 1.)
@@ -149,42 +149,44 @@ i j
 A B
 
 Step 2.) (from applying rule 2)
-j   i
+j i
 B A B
 
 Step 3.) (from applying rule 1)
-j     i
+j i
 B A B A
 ```
 
-Here we can see that it is possible for `initial` to be reversed in the final mutation that
-forms `target`, and we need to account for this. Instead of always looking for normal substrings
+Here we can see that it is possible for `initial` to be reversed in the substring of `target`
+and we need to account for this. Instead of always looking for normal substrings
 of `target` that match `initial` and simulating the mutations with our `i` and `j`, we also need
-to consider all reverse substrings that match `initial`, and simulate mutations from _there_.
+to consider all reverse substrings that match `initial`, and continue in the same way.
 
 We'd run our algorithm on all `i`s and `j`s corresponding to the forward and reverse substrings
 of `target` that match `initial` and if any of them return true, we know we can stop. This is
-a bit tedious though.
+a bit tedious though, as there can be many many substrings to try out.
 
 ### Optimization
 
 A better way of handling this is to think of the problem backwards. If we start with `target`
-and try to reduce it to `initial`, we have considerably less to consider. We know that both of
-the rules can only add characters to the end of a string, so we can just look at the last character,
-of `target` at any given time, and act accordingly.
+and try to reduce it to `initial`, we have much less to consider. We know that both of the rules
+can only add characters to the end of a string, so we can just look at the last character of
+`target` at any given time, and act accordingly.
 
- - If last character is "A", remove it (`std::string::pop_back` will do)
- - If last character is "B", remove it and reverse the string
+ - If last character is 'A', remove it (`std::string::pop_back` will do)
+ - If last character is 'B', remove it and reverse the string
 
 We'll do this until the size of `target` is reduced to the size of `initial`, and do an equality
-check between `initial` and the new `target` at the end of our mutations. Note that the worst case
-is a string full of "B"s, and will lead to O(n^<sup>2</sup>) reversals.
+check between `initial` and the new `target` after our mutations. Note that the worst case is a
+string full of 'B's, and will lead to O(n) reversals, each taking O(n) time, a grand total of
+O(n<sup>2</sup>).
 
 As an optimization, we can use index variables `i` and `j` to represent the bounds of `target`
 without actually mutating it. This turns each O(n) reversal into an O(1) variable swap (more or less),
 giving us a big performance improvement, since we're not actually mutating `target`. When we're
 finished, we need to perform an equality check between `initial` and the substring of target [i, j].
-(We also need to account for when `i` and `j` are inverted!)
+(We also need to account for when `i` and `j` are inverted, since as we demonstrated, `initial` may
+appear as a reverse substring in `target).
 
 ### Complexity analysis
 
