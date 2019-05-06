@@ -143,24 +143,10 @@ impossible to add 'B' at index 0 here, indicating we cannot legally the substrin
 `target`. This analysis isn't sufficient since we can show that "BABA" _can indeed_ be produced
 by "AB" by applying rule (2) and then rule (1).
 
-```
-Step 1.)
-i j
-A B
-
-Step 2.) (from applying rule 2)
-j i
-B A B
-
-Step 3.) (from applying rule 1)
-j i
-B A B A
-```
-
-Here we can see that it is possible for `initial` to be reversed in the substring of `target`
-and we need to account for this. Instead of always looking for normal substrings
-of `target` that match `initial` and simulating the mutations with our `i` and `j`, we also need
-to consider all reverse substrings that match `initial`, and continue in the same way.
+With that example we can see that `initial` may appear as a reversed substring in `target`.
+Instead of always looking for forward substrings matching `initial` in `target` and simulating
+the mutations with our `i` and `j`, we also need to consider all reverse substrings that match
+`initial`.
 
 We'd run our algorithm on all `i`s and `j`s corresponding to the forward and reverse substrings
 of `target` that match `initial` and if any of them return true, we know we can stop. This is
