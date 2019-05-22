@@ -59,6 +59,14 @@ This is because, even if there is no majority element, `count` is guaranteed to 
 when we get to the end. Then, we'll just have to see if the element we've landed on actually
 appears more than `n/2` times, or if it just _happened to be the last element_.
 
+Note the above example is pretty simple but mess with the ordering of the array for a bit to
+convince yourself that the concept holds no matter what.
+
+The Boyer-Moore Voting concept generalizes really well, and can be used to find all of the
+`k` elements that appear more than `n/k` times. See
+[this article](https://cs.stackexchange.com/questions/91803) for a good explanation of how
+this works.
+
 ## Complexity analysis
 
  - Time complexity: O(n)
