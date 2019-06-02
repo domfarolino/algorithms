@@ -1,4 +1,5 @@
 // Source: https://leetcode.com/contest/smarking-algorithm-contest-3/problems/minimum-moves-to-equal-array-elements/
+// This solution is bulky. See the "leaner" version alongside this file.
 class Solution {
 public:
     int minMoves(vector<int>& nums) {

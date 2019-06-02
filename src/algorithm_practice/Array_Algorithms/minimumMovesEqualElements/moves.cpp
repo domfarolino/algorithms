@@ -62,12 +62,20 @@
     // [5, 6, 7, 7]
     // [6, 7, 7, 8]
     // [7, 8, 8, 8]
+    // [8, 8, 9, 9]
+    // [9, 9, 9, 10]
+    // [10, 10, 10, 10]
  *
  * See below algorithms for complexity analysis
  *
  */
 
 /**
+ * Some of the documentation that relates to the idea behind
+ * this non-optimal algorithm can be found below, in the docs
+ * for the optimal algorithm.
+ *
+ * Complexity analysis:
  * Time complexity: O(nlog(n))
  * Space complexity: depends on implementation of sort
  */
@@ -85,51 +93,27 @@ int minMovesSort(std::vector<int>& nums) {
 }
 
 /**
+ * This solution utilizes the fact that each non-min element
+ * has an effect on the number of moves it will take. My original
+ * "breakthrough" with this problem exploited the fact that we know
+ * for a fact we will take *at least* |max - min + 1| moves, because
+ * of the "range" of the array, and each non-min value could contribute
+ * more moves, proportional to its distance from |min|. Therefore we can
+ * set |moves| equal to this value initially, and iterate through the values
+ * adjusting |moves| (incrementing) when necessary. We have to do this for all
+ * duplicates of |max| too, instead of the one we just counted. This required
+ * keeping track of the-|max|-we-first-counted's location. But this is more work.
+ * Instead it is easier to just not count it first, and go through the entire array
+ * adjusting |moves| as necessary, and not worrying about double-counting any value.
+ *
+ * Complexity analysis:
  * Time complexity: O(n)
  * Space complexity: O(1)
- */
-int minMoves(std::vector<int>& nums) {
-  int minElem = INT_MAX, minIndex, maxElem = INT_MIN, maxIndex;
-
-  // Establish min and max elements and indices in one pass
-  for (int i = 0; i < nums.size(); ++i) {
-    if (nums[i] > maxElem) {
-      maxElem = nums[i];
-      maxIndex = i;
-    }
-
-    if (nums[i] < minElem) {
-      minElem = nums[i];
-      minIndex = i;
-    }
-  }
-
-  int retMoves = maxElem - minElem + 1;
-
-  // For every element that is not min or max,
-  // calculate its effect on the number of moves
-  for (int i = 0; i < nums.size(); ++i) {
-    if (i != minIndex && i != maxIndex) {
-      retMoves += nums[i] - minElem;
-    }
-  }
-
-  return retMoves - 1;
-}
-
-/**
- * This solution does not keep track of the
- * min and max indices. We get around this by
- * not setting moves equal to anything and just
- * calculating each value in the array's effect
- * on the number of moves. Slightly less work here
- * but same complexity as the above version.
  */
 int minMovesLeaner(std::vector<int>& nums) {
   int moves = 0, min = INT_MAX, max = INT_MIN;
   for (int i = 0; i < nums.size(); ++i) {
     if (nums[i] < min) min = nums[i];
-    if (nums[i] > max) max = nums[i];
   }
 
   for (int i = 0; i < nums.size(); ++i) {
