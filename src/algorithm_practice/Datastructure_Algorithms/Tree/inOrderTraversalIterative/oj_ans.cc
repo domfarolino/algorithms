@@ -1,3 +1,5 @@
+// This was my original approach to the problem. In some ways it is more
+// intuitive to me, though introduces an extra stack unnecessarily.
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
