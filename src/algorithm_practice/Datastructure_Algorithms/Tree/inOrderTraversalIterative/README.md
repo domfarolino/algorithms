@@ -59,10 +59,10 @@ To "recurse" down the right subtree, we simply set the "current root" to the
 There are two possible cases:
 
 1. The "current root" is non-null
-   1. Typical case. Algorithm restarts, attempting to iterate down the left subtree
+   1. Typical case. Algorithm restarts, attempting to iterate down the left subtree until null
 1. The "current root" is null
-   1. This is valid. Algorithm restarts, and cannot iterate down the left subtree anymore.
-      We then pop from the stack, and run the visiting steps on the closest un-visted parent.
+   1. This is valid. Algorithm restarts, and "current root" is _already_ null. We pop from the
+      stack, and run the visiting steps on the closest un-visted parent as usual
 
 Only when the "current root" is null and we don't have any unvisted parents in the stack to
 "unwind" to, the entire tree has been fully exhausted. Beautiful.
