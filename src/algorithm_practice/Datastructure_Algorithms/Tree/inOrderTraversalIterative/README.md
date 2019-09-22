@@ -6,7 +6,7 @@ Source:
 
 Performing an inorder traversal on a binary tree recursively is trivial, but
 a more interesting version of this is doing it iteratively. We know that all
-*recursion can be simulated with a stack*, so let's figure out how we can
+**recursion can be simulated with a stack**, so let's figure out how we can
 approach this problem with a stack.
 
 Example:
@@ -21,14 +21,13 @@ Example:
 correct inorder traversal: [1, 5, 9, 3, 8, 4, 7]
 ```
 
-Since an inorder traversal must first "visit" the left-most node in the tree,
+Since an inorder traversal first "visits" the left-most node in the tree,
 we know that our algorithm must simulate recursing left immediately. Recursion
 is naturally performed by pushing values on a stack (in stack frames), so that
 when the recursion unwinds, previous values can be re-visited in the reverse
-order that they were pushed. We can "simulate" recursing down the left-subtree
-of a given node by iterating down the left subtree of a node as far as we can,
-pushing each node to a stack for later use. We do this until we cannot get any
-further.
+order that they were pushed. Iteratively, we can walk down the left pointers of
+a subtree pushing each node we encounter to a stack for later use. We do this
+until we cannot go any further.
 
 ```
 stack:
@@ -41,30 +40,29 @@ stack:
        /   \
       5     x
      / \
-    1  x
+    1   x
 ```
 
-At some point, we'll no longer be able to iterate any further down the left
-subtree, and the current node will be null. In this case, we can simulate
-unwinding our recursion by popping a value from the stack (`1`) and considering
-this to be our "current root".
+At some point, we can no longer traverse the left pointers, and the "current root"
+will be null. In this case, we can simulate unwinding our recursion from our base-case
+by popping the top node from the stack (`1`) and considering this to be our "current root".
 
 When we pop a node from the stack, we know we've exhausted its left subtree,
 so we can continue the inorder traversal like so:
 
 1. "Visit" the node
-  1. In this case, just push the node's value to the back of a vector
+   1. In this case, just push the node's value to the back of a vector
 1. Recurse down the right subtree
 
-When we "recurse" down the right subtree, we simply set the "current root" to the
+To "recurse" down the right subtree, we simply set the "current root" to the
 "current root"'s right child and start our algorithm over from the new "current root".
 There are two possible cases:
 
 1. The "current root" is non-null
-  1. Typical case. Algorithm restarts, attempting to iterate down the left subtree
+   1. Typical case. Algorithm restarts, attempting to iterate down the left subtree
 1. The "current root" is null
-  1. This is valid. Algorithm restarts, and cannot iterate down the left subtree anymore.
-     We then pop from the stack, and run the visiting steps on the closest un-visted parent.
+   1. This is valid. Algorithm restarts, and cannot iterate down the left subtree anymore.
+      We then pop from the stack, and run the visiting steps on the closest un-visted parent.
 
 Only when the "current root" is null and we don't have any unvisted parents in the stack to
 "unwind" to, the entire tree has been fully exhausted. Beautiful.
