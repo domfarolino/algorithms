@@ -71,8 +71,8 @@ sorted list of remaining distinct characters. The number of iterations in this i
 O(n) as well, giving us O(n<sup>2</sup>) operations. However, since we're performing binary search
 for each inner loop iteration, it is more accurately O(n<sup>2</sup>log(n)).
 
-<sup><sub>![#1589F0](https://placehold.it/15/1589F0/000000?text=+)I say O(n), because the number of
-distinct characters can be at most the size of the input, and therefore is proportional to O(n)</sub></sup>
+![#1589F0](https://placehold.it/15/1589F0/000000?text=+)I say O(n), because the number of distinct
+characters can be at most the size of the input, and therefore is proportional to O(n).
 
 This solution beats 100% on leetcode, passing all 65 test cases with a runtime < 0ms.
 
