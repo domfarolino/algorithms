@@ -64,8 +64,7 @@ Let's look at the operations we want to perform, and see how we can carry them o
       last-indices. We can eagerly build a std::set of last-indices for each distinct character in O(nlog(n))
       time. The set is ordered, so we can query its minimum in O(1) time for a constant comparison.
 
-Note that we can build up all of our data structures in O(nlog(n)) time. For each of the O(n)**\***
-style="color:blue">\*</span> characters that we'll need to push to our return subsequence string, we'll
+Note that we can build up all of our data structures in O(nlog(n)) time. For each of the O(n) ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) characters that we'll need to push to our return subsequence string, we'll
 need to find the best one, which requires iterating over our sorted list of remaining distinct characters.
 The number of iterations in this inner loop can be O(n) as well, giving us O(n<sup>2</sup>) operations.
 However, since we're performing binary search for each inner loop iteration, it is more accurately
