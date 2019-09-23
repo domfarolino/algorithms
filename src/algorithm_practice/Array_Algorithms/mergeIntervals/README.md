@@ -16,7 +16,7 @@ The idea I had for this was to roughly:
 
  1. First sort the intervals by first number
  1. Start an index variable at the beginning of the list (`i = 0`)
- 1. Start `j` at `i + 1`, and increment it while `intervals[j]` overlaps with the span of `intervals[i]`
+ 1. Start `j` at `i + 1`, and increment it while `intervals[j]` overlaps with the span covered by `intervals[i]`
     1. If they overlap, update our "span" to account for merging the two.
     1. The "span"'s first number should be `intervals[i][0]`, and the second number should be
        `std::max(intervals[i][1], intervals[j][1])` to account for the span possibly increasing.
@@ -72,7 +72,7 @@ output = [[1, 9]]
 
 5.)
 
-Return output (because |i| is already out-of-bounds
+Return output (because |i| is already out-of-bounds)
 ```
 
 Some interesting test cases to consider are:
@@ -90,6 +90,8 @@ Some interesting test cases to consider are:
 # Complexity analysis
 
  - Time complexity: O(nlog(n))
+   - Because we sort, and use an two-finger or "inchworm"
+     approach to iterating over the sorted list once
  - Space complexity: O(n)
     - This is due to both the auxiliary space of sorting, as well
       as the output consisting of at most `n` elements (consider the
