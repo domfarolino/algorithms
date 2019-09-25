@@ -26,7 +26,7 @@ DFS-manner with these simulated rolls and updated targets, until we get to the t
 case where we have one die to roll, and a given target. We *can* roll the target sum
 with one die if the target is within the range [1, f]. This gives us a tree like so:
 
-![tree.png](tree)
+![tree](tree.png)
 
 When we get to the bottom level, we know how many ways there are to roll `target` (if
 any) with all dice/target combinations `<d, target>` in the current DFS path. As we unwind
