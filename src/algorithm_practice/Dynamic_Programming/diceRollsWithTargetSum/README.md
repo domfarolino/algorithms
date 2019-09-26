@@ -48,4 +48,12 @@ the entirety of it.
 
 # Bottom-up dynamic programming
 
-TODO(domfarolino): This!
+TODO(domfarolino): I believe we can also do this in a bottom-manner with a 2d-array as our dynamic
+programming cache. I should write this solution.
+
+## Complexity analysis
+
+ - Time complexity: O(d\*f\*target)
+    - Because we have to iterate through the entire d\*target table, and for each entry, accumulate
+      the sum of the _f_ subproblems that compose it
+ - Space complexity: O(d\*target), which is the size of our dynamic programming table
