@@ -20,7 +20,7 @@ public:
       return 0;
     }
 
-    if (d == 1 || d == target) {
+    if (d == 1) {
       num_ways.insert({std::make_pair(d, target), 1});
       return 1;
     }

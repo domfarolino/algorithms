@@ -21,7 +21,7 @@ int num_rolls(int d, int f, int target, DiceMap& num_ways) {
     return 0;
   }
 
-  if (d == 1 || d == target) {
+  if (d == 1) {
     num_ways.insert({std::make_pair(d, target), 1});
     return 1;
   }
