@@ -1,2 +1,2 @@
 main:
-	g++ main.cpp Graph.cpp -std=c++0x
+	g++ main.cpp Graph.cc -std=c++11
