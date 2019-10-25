@@ -26,7 +26,7 @@ public:
   std::vector<int> DFS(int);
   void PrintAdjacencyMatrix();
   void PrintDistanceMatrix();
-  void PrintComponents();
+  void PrintConnectedComponents();
 };
 
 #endif

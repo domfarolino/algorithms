@@ -133,7 +133,7 @@ int Graph::Diameter() {
   return diameter;
 }
 
-void Graph::PrintComponents() {
+void Graph::PrintConnectedComponents() {
   if (!distance_matrix_computed_) ComputeDistanceMatrix();
 
   std::vector<std::unordered_map<int, int>> connectedComponents;
