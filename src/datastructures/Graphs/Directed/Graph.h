@@ -19,14 +19,14 @@ private:
 public:
   Graph(int);
 
-  void addEdge(int, int);
-  int shortestPath(int, int);
-  int getDiameter();
-  std::vector<int> bfs(int);
-  std::vector<int> dfs(int);
-  void printAdjacencyMatrix();
-  void printDistanceMatrix();
-  void printComponents();
+  void AddEdge(int, int);
+  int ShortestPath(int, int);
+  int Diameter();
+  std::vector<int> BFS(int);
+  std::vector<int> DFS(int);
+  void PrintAdjacencyMatrix();
+  void PrintDistanceMatrix();
+  void PrintComponents();
 };
 
 #endif

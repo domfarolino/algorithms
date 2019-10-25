@@ -18,15 +18,15 @@ int main() {
 
     std::cin >> edgeV2;
 
-    graph.addEdge(edgeV1, edgeV2);
+    graph.AddEdge(edgeV1, edgeV2);
     numEdges++;
   }
 
   // Use the graph!
 
-  std::vector<int> bfs = graph.bfs(0);
+  std::vector<int> bfs = graph.BFS(0);
   std::cout << "Printing DFS: " << std::endl;
-  std::vector<int> dfs = graph.dfs(0);
+  std::vector<int> dfs = graph.DFS(0);
 
   for (int i = 0; i < dfs.size(); ++i) {
     std::cout << dfs[i] << " -> ";
@@ -40,10 +40,10 @@ int main() {
     if (i + 1 == dfs.size()) std::cout << std::endl;
   }
 
-  int diameter = graph.getDiameter();
+  int diameter = graph.Diameter();
 
-  graph.printAdjacencyMatrix();
-  graph.printDistanceMatrix();
+  graph.PrintAdjacencyMatrix();
+  graph.PrintDistanceMatrix();
 
   if (diameter < 0) {
     std::cout << "Graph is disconnected" << std::endl;
@@ -51,8 +51,8 @@ int main() {
     std::cout << "Graph is connected with diameter " << diameter << std::endl;
   }
 
-  graph.printComponents();
+  graph.PrintComponents();
 
-  std::cout << graph.shortestPath(0, 3) << std::endl;
+  std::cout << graph.ShortestPath(0, 3) << std::endl;
   return 0;
 }

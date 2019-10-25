@@ -12,7 +12,7 @@ Graph::Graph(int size): size_(std::max(size, 0)),
                                  distance_matrix_(size_, std::vector<int>(size_, -1)),
                                  distance_matrix_computed_(false) {}
 
-void Graph::addEdge(int i, int j) {
+void Graph::AddEdge(int i, int j) {
   if (i < 0 || j < 0 || i >= size_ || j >= size_) {
     std::cerr << "Node for edge is out-of-bounds" << std::endl;
     return;
@@ -22,7 +22,7 @@ void Graph::addEdge(int i, int j) {
   distance_matrix_computed_ = false;
 }
 
-std::vector<int> Graph::dfs(int vertex) {
+std::vector<int> Graph::DFS(int vertex) {
   std::vector<int> returnVec;
   std::unordered_set<int> visited;
   DFSHelper(vertex, returnVec, visited);
@@ -42,7 +42,7 @@ void Graph::DFSHelper(int vertex, std::vector<int> &vec, std::unordered_set<int>
   }
 }
 
-std::vector<int> Graph::bfs(int vertex) {
+std::vector<int> Graph::BFS(int vertex) {
   std::vector<int> returnVec;
   std::unordered_set<int> visited;
   std::queue<int> q;
@@ -111,14 +111,14 @@ bool Graph::ComputeDistanceMatrix() {
   return (visited.size() == size_);
 }
 
-int Graph::shortestPath(int v1, int v2) {
+int Graph::ShortestPath(int v1, int v2) {
   std::unordered_map<int, int> component = BFSWithDistance(v1);
   std::unordered_map<int, int>::const_iterator it = component.find(v2);
 
   return (it != component.end()) ? it->second : -1;
 }
 
-int Graph::getDiameter() {
+int Graph::Diameter() {
   bool isConnected = ComputeDistanceMatrix();
   if (!isConnected) return -1;
 
@@ -133,7 +133,7 @@ int Graph::getDiameter() {
   return diameter;
 }
 
-void Graph::printComponents() {
+void Graph::PrintComponents() {
   if (!distance_matrix_computed_) ComputeDistanceMatrix();
 
   std::vector<std::unordered_map<int, int>> connectedComponents;
@@ -163,7 +163,7 @@ void Graph::printComponents() {
   }
 }
 
-void Graph::printAdjacencyMatrix() {
+void Graph::PrintAdjacencyMatrix() {
   std::cout << "Adjacency matrix:" << '\n';
   for (int i = 0; i < size_; ++i) {
     for (int j = 0; j < size_; ++j) {
@@ -176,7 +176,7 @@ void Graph::printAdjacencyMatrix() {
   std::cout << std::endl;
 }
 
-void Graph::printDistanceMatrix() {
+void Graph::PrintDistanceMatrix() {
   std::cout << "Distance matrix:" << '\n';
   for (int i = 0; i < size_; ++i) {
     for (int j = 0; j < size_; ++j) {
