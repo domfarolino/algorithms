@@ -8,11 +8,12 @@
 #include "Graph.h"
 
 Graph::Graph(int size): size_(std::max(size, 0)),
-                                 adjacency_matrix_(size_, std::vector<bool>(size_, false)),
-                                 distance_matrix_(size_, std::vector<int>(size_, -1)),
-                                 distance_matrix_computed_(false) {}
+                        adjacency_matrix_(size_, std::vector<bool>(size_, false)),
+                        distance_matrix_(size_, std::vector<int>(size_, -1)),
+                        distance_matrix_computed_(false) {}
 
 void Graph::AddEdge(int i, int j) {
+  // TODO(domfarolino): How do we want to handle self-loops (i.e., i == j)?
   if (i < 0 || j < 0 || i >= size_ || j >= size_) {
     std::cerr << "Node for edge is out-of-bounds" << std::endl;
     return;
@@ -23,14 +24,15 @@ void Graph::AddEdge(int i, int j) {
 }
 
 std::vector<int> Graph::DFS(int vertex) {
-  std::vector<int> returnVec;
+  std::vector<int> return_vec;
   std::unordered_set<int> visited;
-  DFSHelper(vertex, returnVec, visited);
+  DFSHelper(vertex, return_vec, visited);
 
-  return returnVec;
+  return return_vec;
 }
 
-void Graph::DFSHelper(int vertex, std::vector<int> &vec, std::unordered_set<int> &visited) {
+void Graph::DFSHelper(int vertex, std::vector<int> &vec,
+                                  std::unordered_set<int> &visited) {
   vec.push_back(vertex);
   visited.insert(vertex);
 
@@ -43,7 +45,7 @@ void Graph::DFSHelper(int vertex, std::vector<int> &vec, std::unordered_set<int>
 }
 
 std::vector<int> Graph::BFS(int vertex) {
-  std::vector<int> returnVec;
+  std::vector<int> return_vec;
   std::unordered_set<int> visited;
   std::queue<int> q;
 
@@ -51,7 +53,7 @@ std::vector<int> Graph::BFS(int vertex) {
   visited.insert(vertex);
 
   while (!q.empty()) {
-    returnVec.push_back(q.front());
+    return_vec.push_back(q.front());
 
     // Push all of q.front()'s children.
     for (int j = 0; j < size_; ++j) {
@@ -64,7 +66,7 @@ std::vector<int> Graph::BFS(int vertex) {
     q.pop();
   }
 
-  return returnVec;
+  return return_vec;
 }
 
 std::unordered_map<int, int> Graph::BFSWithDistance(int vertex) {
@@ -136,26 +138,26 @@ int Graph::Diameter() {
 void Graph::PrintConnectedComponents() {
   if (!distance_matrix_computed_) ComputeDistanceMatrix();
 
-  std::vector<std::unordered_map<int, int>> connectedComponents;
-  std::unordered_map<int, int> allVisited, component;
+  std::vector<std::unordered_map<int, int>> connected_components;
+  std::unordered_map<int, int> all_visited, component;
 
   // Gather connected components
   for (int i = 0; i < size_; ++i) {
     // Component with root i is its own component if we've never seen it before
-    if (allVisited.find(i) == allVisited.end()) {
+    if (all_visited.find(i) == all_visited.end()) {
       component = BFSWithDistance(i);
-      connectedComponents.push_back(component);
-      allVisited.insert(component.begin(), component.end());
+      connected_components.push_back(component);
+      all_visited.insert(component.begin(), component.end());
     }
   }
 
   // Print all connected components
-  std::cout << "The graph has " << connectedComponents.size() << " connected components" << std::endl;
+  std::cout << "The graph has " << connected_components.size() << " connected components" << std::endl;
 
-  for (int i = 0; i < connectedComponents.size(); ++i) {
+  for (int i = 0; i < connected_components.size(); ++i) {
     std::cout << "Connected component " << i + 1 << std::endl;
 
-    for (auto it = connectedComponents[i].begin(); it != connectedComponents[i].end(); ++it) {
+    for (auto it = connected_components[i].begin(); it != connected_components[i].end(); ++it) {
       std::cout << it->first << " -> ";
     }
 

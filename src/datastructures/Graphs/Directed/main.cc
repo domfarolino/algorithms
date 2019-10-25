@@ -18,10 +18,8 @@ int main() {
       break;
 
     std::cin >> edge_v2;
-    if (edge_v2 < 0)
-      throw std::logic_error("Edge vertices must be valid");
 
-    graph.AddEdge(edge_v1, edge_v2);
+    graph.AddEdge(edge_v1, edge_v2); // This also handles invalid edges.
   }
 
   // Use the graph!

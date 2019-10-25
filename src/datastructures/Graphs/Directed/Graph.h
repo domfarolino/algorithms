@@ -29,4 +29,4 @@ public:
   void PrintConnectedComponents();
 };
 
-#endif
+#endif // GRAPH_H
