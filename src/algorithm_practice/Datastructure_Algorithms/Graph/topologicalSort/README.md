@@ -29,8 +29,9 @@ the current node's dependencies (neighbors), and recurse on all of the node's de
 While recursing, if we ever get back to a node that is marked "temporarily visited",
 we've found a cycle in the graph and can immediately stop. Otherwise, once we're finished
 recursing, we know that we've visited all of the given node's transitive dependencies in
-the correct order, and it is now finally time to "visit" our given node. We do this by
-marking it as "permanently visited" and adding it to the end of some final return list.
+the correct order, and it is now finally time to permanently "visit" our given node. We do
+this by unmarking it as "temporarily visited", marking it as "visited", and adding it to
+the end of some final return list.
 
 Note that because we "visit" a node only after recursing on all of its dependencies, it is the
 last node to be visited out of all of its transitive dependencies. This is the intention
