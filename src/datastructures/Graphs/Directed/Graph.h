@@ -7,7 +7,7 @@
 
 class Graph {
 private:
-  int numVertices;
+  int size_;
   std::vector<std::vector<bool>> adjacencyMatrix;
   std::vector<std::vector<int>> distanceMatrix;
   bool distanceMatrixComputed;
