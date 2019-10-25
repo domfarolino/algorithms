@@ -8,9 +8,9 @@
 #include "Graph.h"
 
 Graph::Graph(int size): size_(std::max(size, 0)),
-                                 adjacencyMatrix(size_, std::vector<bool>(size_, false)),
-                                 distanceMatrix(size_, std::vector<int>(size_, -1)),
-                                 distanceMatrixComputed(false) {}
+                                 adjacency_matrix_(size_, std::vector<bool>(size_, false)),
+                                 distance_matrix_(size_, std::vector<int>(size_, -1)),
+                                 distance_matrix_computed_(false) {}
 
 void Graph::addEdge(int i, int j) {
   if (i < 0 || j < 0 || i >= size_ || j >= size_) {
@@ -18,26 +18,26 @@ void Graph::addEdge(int i, int j) {
     return;
   }
 
-  adjacencyMatrix[i][j] = true; // Directed edge.
-  distanceMatrixComputed = false;
+  adjacency_matrix_[i][j] = true; // Directed edge.
+  distance_matrix_computed_ = false;
 }
 
 std::vector<int> Graph::dfs(int vertex) {
   std::vector<int> returnVec;
   std::unordered_set<int> visited;
-  dfsHelper(vertex, returnVec, visited);
+  DFSHelper(vertex, returnVec, visited);
 
   return returnVec;
 }
 
-void Graph::dfsHelper(int vertex, std::vector<int> &vec, std::unordered_set<int> &visited) {
+void Graph::DFSHelper(int vertex, std::vector<int> &vec, std::unordered_set<int> &visited) {
   vec.push_back(vertex);
   visited.insert(vertex);
 
   // Only DFS recurse on unvisited nodes.
   for (int j = 0; j < size_; ++j) {
-    if (adjacencyMatrix[vertex][j] && visited.find(j) == visited.end()) {
-      dfsHelper(j, vec, visited);
+    if (adjacency_matrix_[vertex][j] && visited.find(j) == visited.end()) {
+      DFSHelper(j, vec, visited);
     }
   }
 }
@@ -55,7 +55,7 @@ std::vector<int> Graph::bfs(int vertex) {
 
     // Push all of q.front()'s children.
     for (int j = 0; j < size_; ++j) {
-      if (adjacencyMatrix[q.front()][j] && visited.find(j) == visited.end()) {
+      if (adjacency_matrix_[q.front()][j] && visited.find(j) == visited.end()) {
         q.push(j);
         visited.insert(j);
       }
@@ -67,7 +67,7 @@ std::vector<int> Graph::bfs(int vertex) {
   return returnVec;
 }
 
-std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
+std::unordered_map<int, int> Graph::BFSWithDistance(int vertex) {
   std::unordered_map<int, int> visited;
   std::queue<int> q;
 
@@ -82,7 +82,7 @@ std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
     while (count) {
       // Push all of q.front()'s children.
       for (int j = 0; j < size_; ++j) {
-        if (adjacencyMatrix[q.front()][j] && visited.find(j) == visited.end()) {
+        if (adjacency_matrix_[q.front()][j] && visited.find(j) == visited.end()) {
           q.push(j);
           visited.insert({j, distance});
         }
@@ -96,37 +96,37 @@ std::unordered_map<int, int> Graph::bfsWithDistance(int vertex) {
   return visited;
 }
 
-bool Graph::computeDistanceMatrix() {
+bool Graph::ComputeDistanceMatrix() {
   std::unordered_map<int, int> visited;
 
   for (int i = 0; i < size_; ++i) {
-    visited = bfsWithDistance(i);
+    visited = BFSWithDistance(i);
     for (auto it : visited) {
-      distanceMatrix[i][it.first] = it.second;
+      distance_matrix_[i][it.first] = it.second;
     }
   }
 
-  distanceMatrixComputed = true;
+  distance_matrix_computed_ = true;
   // Return whether graph is connected or not.
   return (visited.size() == size_);
 }
 
 int Graph::shortestPath(int v1, int v2) {
-  std::unordered_map<int, int> component = bfsWithDistance(v1);
+  std::unordered_map<int, int> component = BFSWithDistance(v1);
   std::unordered_map<int, int>::const_iterator it = component.find(v2);
 
   return (it != component.end()) ? it->second : -1;
 }
 
 int Graph::getDiameter() {
-  bool isConnected = computeDistanceMatrix();
+  bool isConnected = ComputeDistanceMatrix();
   if (!isConnected) return -1;
 
   int diameter = 0;
 
   for (int i = 0; i < size_; ++i) {
     for (int j = 0; j < size_; ++j) {
-      diameter = std::max(diameter, distanceMatrix[i][j]);
+      diameter = std::max(diameter, distance_matrix_[i][j]);
     }
   }
 
@@ -134,7 +134,7 @@ int Graph::getDiameter() {
 }
 
 void Graph::printComponents() {
-  if (!distanceMatrixComputed) computeDistanceMatrix();
+  if (!distance_matrix_computed_) ComputeDistanceMatrix();
 
   std::vector<std::unordered_map<int, int>> connectedComponents;
   std::unordered_map<int, int> allVisited, component;
@@ -143,7 +143,7 @@ void Graph::printComponents() {
   for (int i = 0; i < size_; ++i) {
     // Component with root i is its own component if we've never seen it before
     if (allVisited.find(i) == allVisited.end()) {
-      component = bfsWithDistance(i);
+      component = BFSWithDistance(i);
       connectedComponents.push_back(component);
       allVisited.insert(component.begin(), component.end());
     }
@@ -167,7 +167,7 @@ void Graph::printAdjacencyMatrix() {
   std::cout << "Adjacency matrix:" << '\n';
   for (int i = 0; i < size_; ++i) {
     for (int j = 0; j < size_; ++j) {
-      std::cout << adjacencyMatrix[i][j] << " ";
+      std::cout << adjacency_matrix_[i][j] << " ";
     }
 
     std::cout << std::endl;
@@ -180,7 +180,7 @@ void Graph::printDistanceMatrix() {
   std::cout << "Distance matrix:" << '\n';
   for (int i = 0; i < size_; ++i) {
     for (int j = 0; j < size_; ++j) {
-      std::cout << distanceMatrix[i][j] << " ";
+      std::cout << distance_matrix_[i][j] << " ";
     }
 
     std::cout << std::endl;

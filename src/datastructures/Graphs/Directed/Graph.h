@@ -7,14 +7,14 @@
 
 class Graph {
 private:
-  int size_;
-  std::vector<std::vector<bool>> adjacencyMatrix;
-  std::vector<std::vector<int>> distanceMatrix;
-  bool distanceMatrixComputed;
+  bool ComputeDistanceMatrix();
+  std::unordered_map<int, int> BFSWithDistance(int);
+  void DFSHelper(int, std::vector<int>&, std::unordered_set<int>&);
 
-  bool computeDistanceMatrix();
-  std::unordered_map<int, int> bfsWithDistance(int);
-  void dfsHelper(int, std::vector<int>&, std::unordered_set<int>&);
+  int size_;
+  std::vector<std::vector<bool>> adjacency_matrix_;
+  std::vector<std::vector<int>> distance_matrix_;
+  bool distance_matrix_computed_;
 
 public:
   Graph(int);
