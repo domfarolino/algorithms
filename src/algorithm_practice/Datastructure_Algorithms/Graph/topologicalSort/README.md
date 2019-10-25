@@ -12,9 +12,10 @@ A common problem to solve in computer science is:
 > Given a dependency graph representing say, tasks that depend on each other,
 determine a linear ordering in which the tasks can be completed.
 
-If the input graph is a **DAG** (directed acyclic graph), then there will always be at least
-one valid topological ordering. As soon as the input graph has a cycle however, no
-topological ordering exists. This is because if there is a dependency cycle between any
+Such a linear ordering is also called a topological ordering, or a topological sort.
+If the input graph is a **DAG** (directed acyclic graph), then there will always be
+at least one valid topological ordering. As soon as the input graph has a cycle however,
+no topological ordering exists. This is because if there is a dependency cycle between any
 of our tasks or graph nodes, there is no one task that can be completed before any others
 in the same cycle; therefore we cannot actually resolve a topological ordering.
 
