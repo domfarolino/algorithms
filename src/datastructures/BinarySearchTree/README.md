@@ -59,7 +59,7 @@ life, thus *always* giving us (amortized) `O(log(n))` operations. Maintaining a 
 more difficult and out of the scope of the fundamentals. :)
 
 I'll also talk about some of the trends found in implementations of tree-style data structures. A lot
-of generic algorithms that reside in data structures, like `add()` and `remove()`, only need to accept
+of generic algorithms that reside in data structures, like `Insert()` and `Remove()`, only need to accept
 a single value, being the data to insert or delete. With tree-based data structures, a lot of these algorithms
 are recursive. This is a result of the underlying data structure being defined recursively. These algorithms
 start at some node in the tree and figure out how to recurse further down the tree with some logic. The
@@ -67,21 +67,21 @@ algorithms are given a node to act as the "`root`" for the current call being ma
 either the left or right subtree, or terminate. Initially, they must be called with the tree's actual "`root`"
 node. This initial call requires access to private data (the tree's "`root`") to set the context for the first
 call. To avoid exposing an API that requires private data, wrapper functions are often used to make this
-initial call once for the user. For example, the public API for `add()` might accept a single value to add,
-and then call the recursive `addHelper()` function with this value along with the tree's "`root`" node
-(to set the initial context for the future recursive calls). The `addHelper` would take it from here, recursing
+initial call once for the user. For example, the public API for `insert()` might accept a single value to add,
+and then call the recursive `InsertHelper()` function with this value along with the tree's "`root`" node
+(to set the initial context for the future recursive calls). The `InsertHelper` would take it from here, recursing
 down the tree as necessary. You'll see this wrapper function pattern being used in the implementation in
 this repository.
 
 ## Supported operations
 
- - [`BST()`](#default-constructor)
+ - [`BinarySearchTree()`](#default-constructor)
  - [`size()`](#size)
  - [`empty()`](#empty)
- - [`add()`](#add)
- - [`addHelper()`](#add-helper)
- - [`exists()`](#exists)
- - [`existsHelper()`](#exists-helper)
+ - [`Insert()`](#insert)
+ - [`InsertHelper()`](#insert-helper)
+ - [`Exists()`](#exists)
+ - [`Existshelper()`](#exists-helper)
  - [`remove()`](#remove)
  - [`removeHelper()`](#remove-helper)
  - [`removeIterative()`](#remove-iterative)
@@ -94,14 +94,14 @@ this repository.
 ----
 
 <a name="default-constructor"></a>
-### `BST<T>::BST();`
+### `BinarySearchTree<T>::BinarySearchTree();`
 
 Our default constructor doesn't really need to do anything. We just have an initialization
 list which sets our internal `root` member pointer to `NULL` and our internal `_size` variable
 to `0`.
 
 <a name="size"></a>
-### `int BST<T>::size();`
+### `int BinarySearchTree<T>::size();`
 
 This just returns the value of our internal `_size` variable. We maintain this internal variable
 instead of performing an entire tree walk every time we request the size for performance reasons.
@@ -109,20 +109,20 @@ This gives us `O(1)` size calculations as long as we properly maintain this vari
 and removing nodes from the tree.
 
 <a name="empty"></a>
-### `bool BST<T>::empty();`
+### `bool BinarySearchTree<T>::empty();`
 
 This just returns whether or not our internal `_size` variable is `0` *and* our internal `root`
 variable is `NULL`. Both are important so that we can more easily catch bugs in the case where
 we empty the entire tree yet our `root` is not `NULL` or the `_size` variable is not `0`.
 
-<a name="add"></a>
-### `void BST<T>::add(T elem);`
+<a name="insert"></a>
+### `void BinarySearchTree<T>::Insert(T elem);`
 
-<a name="add-helper"></a>
-### `void BST<T>::addHelper(T elem, TreeNode<T> *root);`
+<a name="insert-helper"></a>
+### `void BinarySearchTree<T>::InsertHelper(T elem, TreeNode<T> *root);`
 
-To add a node to a binary search tree, it is best to consider the average case first. So let's take the
-following BST:
+To insert a node into a binary search tree, it is best to consider the average case first. So let's
+take the following BST:
 
 ```
       5
@@ -177,10 +177,10 @@ node in the tree. If not, we can pass it along like we normally would. Yeah! We'
 handling logic so we're not performing extraneous NULL checks when unnecessary.
 
 <a name="exists"></a>
-### `void BST<T>::exists(T elem);`
+### `void BinarySearchTree<T>::Exists(T elem);`
 
 <a name="exists-helper"></a>
-### `void BST<T>::existsHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::ExistsHelper(T elem, TreeNode<T> *root);`
 
 The `exists` and `existsHelper` methods have similar mechanics to the `add` method above, so a lot of the boilerplate will
 be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
@@ -197,10 +197,10 @@ function `exists` doesn't have to provide any logic at all. It can just simply k
 function with the private `root` of the tree.
 
 <a name="remove"></a>
-### `void BST<T>::remove(T elem);`
+### `void BinarySearchTree<T>::remove(T elem);`
 
 <a name="remove-helper"></a>
-### `void BST<T>::removeHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root);`
 
 Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
 or poor explanation, I intend to start with the basics to explain how this algorithm works. There are only three cases to consider
@@ -346,15 +346,15 @@ we wish to delete a node which has two children. Once we perform the copy, we ca
 left subtree to remove the duplicate successor's value (the trivial case).
 
 <a name="remove-iterative"></a>
-### `void BST<T>::removeIterative(T elem);`
+### `void BinarySearchTree<T>::removeIterative(T elem);`
 
 This method is undocumented, though part of its logic is expressed in <a href="#remove-helper">removeHelper</a>. See the source.
 
 <a name="clear"></a>
-### `void BST<T>::clear(T elem);`
+### `void BinarySearchTree<T>::clear(T elem);`
 
 <a name="clear-helper"></a>
-### `void BST<T>::clearHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::clearHelper(T elem, TreeNode<T> *root);`
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
 subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
@@ -362,13 +362,13 @@ a node once both of its subtrees are cleared and it's time to delete the local r
 every time a node is deleted.
 
 <a name="min"></a>
-### `TreeNode<T> BST<T>::min(T elem, TreeNode<T> *root);`
+### `TreeNode<T> BinarySearchTree<T>::min(T elem, TreeNode<T> *root);`
 
 This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
 as this is where smaller and smaller values will exist. The node returned should have a `NULL` left child.
 
 <a name="max"></a>
-### `TreeNode<T> BST<T>::max();`
+### `TreeNode<T> BinarySearchTree<T>::max();`
 
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 

@@ -15,8 +15,8 @@ private:
   TreeNode<T>* root_;
   int size_;
 
-  void addHelper(T, TreeNode<T>*);
-  bool existsHelper(T, TreeNode<T>*);
+  void InsertHelper(T, TreeNode<T>*);
+  bool ExistsHelper(T, TreeNode<T>*);
   TreeNode<T>* removeHelper(T, TreeNode<T>*);
   void clearHelper(TreeNode<T>*);
 
@@ -38,8 +38,8 @@ public:
     return size_ == 0 && root_ == NULL;
   }
 
-  void add(T);
-  bool exists(T);
+  void Insert(T);
+  bool Exists(T);
   void remove(T);
   void removeIterative(T);
   void clear();
@@ -60,27 +60,27 @@ public:
  * Space complexity: O(1)
  */
 template <typename T>
-void BinarySearchTree<T>::add(T elem) {
+void BinarySearchTree<T>::Insert(T elem) {
   if (root_ == NULL) {
     root_ = new TreeNode<T>(elem);
     size_++;
   } else {
-    addHelper(elem, root_);
+    InsertHelper(elem, root_);
   }
 }
 
 template <typename T>
-void BinarySearchTree<T>::addHelper(T elem, TreeNode<T> *root) {
+void BinarySearchTree<T>::InsertHelper(T elem, TreeNode<T> *root) {
   if (elem <= root->val) {
     if (root->left) {
-      addHelper(elem, root->left);
+      InsertHelper(elem, root->left);
     } else {
       root->left = new TreeNode<T>(elem);
       size_++;
     }
   } else {
     if (root->right) {
-      addHelper(elem, root->right);
+      InsertHelper(elem, root->right);
     } else {
       root->right = new TreeNode<T>(elem);
       size_++;
@@ -93,19 +93,19 @@ void BinarySearchTree<T>::addHelper(T elem, TreeNode<T> *root) {
  * Space complexity: O(1)
  */
 template <typename T>
-bool BinarySearchTree<T>::exists(T elem) {
-  return existsHelper(elem, root_);
+bool BinarySearchTree<T>::Exists(T elem) {
+  return ExistsHelper(elem, root_);
 }
 
 template <typename T>
-bool BinarySearchTree<T>::existsHelper(T elem, TreeNode<T>* root) {
+bool BinarySearchTree<T>::ExistsHelper(T elem, TreeNode<T>* root) {
   if (!root) return false;
   if (root->val == elem) {
     return true;
   } else if (elem < root->val) {
-    return existsHelper(elem, root->left);
+    return ExistsHelper(elem, root->left);
   } else if (elem > root->val) {
-    return existsHelper(elem, root->right);
+    return ExistsHelper(elem, root->right);
   }
 
   return false;

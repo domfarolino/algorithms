@@ -17,16 +17,16 @@ TEST_F(BinarySearchTreeTest, InitiallyEmpty) {
 }
 
 TEST_F(BinarySearchTreeTest, AddAndNotEmpty) {
-  tree.add(10);
+  tree.Insert(10);
   ASSERT_FALSE(tree.empty());
-  tree.add(20);
+  tree.Insert(20);
   ASSERT_FALSE(tree.empty());
 }
 
 TEST_F(BinarySearchTreeTest, AddAndSize) {
   for (int i = 0; i < 50; ++i) {
     ASSERT_EQ(tree.size(), i);
-    tree.add(rand());
+    tree.Insert(rand());
   }
 }
 
@@ -41,8 +41,8 @@ TEST_F(BinarySearchTreeTest, RemoveAndSize) {
 
   for (int i = 0; i < tree_size; ++i) {
     vec.push_back(rand() % 2000);
-    tree.add(vec[vec.size() - 1]);
-    tree_iterative.add(vec[vec.size() - 1]);
+    tree.Insert(vec[vec.size() - 1]);
+    tree_iterative.Insert(vec[vec.size() - 1]);
   }
 
   int indexToRemove;
@@ -59,8 +59,8 @@ TEST_F(BinarySearchTreeTest, RemoveAndSize) {
 }
 
 TEST_F(BinarySearchTreeTest, RemoveAndEmpty) {
-  tree.add(1);
-  tree.add(2);
+  tree.Insert(1);
+  tree.Insert(2);
 
   ASSERT_TRUE(!tree.empty());
   tree.remove(1);
@@ -75,7 +75,7 @@ TEST_F(BinarySearchTreeTest, InOrder) {
   const int tree_size = 100;
 
   for (int i = 0; i < tree_size; ++i) {
-    tree.add(rand() % 2000);
+    tree.Insert(rand() % 2000);
   }
 
   std::vector<int> inorder = tree.inorder();
@@ -91,13 +91,13 @@ TEST_F(BinarySearchTreeTest, InOrderExists) {
   const int tree_size = 100;
 
   for (int i = 0; i < tree_size; ++i) {
-    tree.add(rand() % 2000);
+    tree.Insert(rand() % 2000);
   }
 
   std::vector<int> inorder = tree.inorder();
 
   for (int i = 0; i < inorder.size(); ++i) {
-    ASSERT_TRUE(tree.exists(inorder[i]));
+    ASSERT_TRUE(tree.Exists(inorder[i]));
   }
 }
 
@@ -105,7 +105,7 @@ TEST_F(BinarySearchTreeTest, MinAndMax) {
   const int tree_size = 100;
 
   for (int i = 0; i < tree_size; ++i) {
-    tree.add(rand() % 2000);
+    tree.Insert(rand() % 2000);
   }
 
   std::vector<int> inorder = tree.inorder();
@@ -116,11 +116,11 @@ TEST_F(BinarySearchTreeTest, MinAndMax) {
 
 TEST_F(BinarySearchTreeTest, BFS) {
   // TODO: This test could be stronger...
-  std::vector<int> nodes_to_add = {5, 3, 7, 2, 4, 6, 8};
+  std::vector<int> nodes_to_insert = {5, 3, 7, 2, 4, 6, 8};
 
-  for (const int& node : nodes_to_add) {
-    tree.add(node);
+  for (const int& node : nodes_to_insert) {
+    tree.Insert(node);
   }
 
-  ASSERT_EQ(tree.bfs(), nodes_to_add);
+  ASSERT_EQ(tree.bfs(), nodes_to_insert);
 }
