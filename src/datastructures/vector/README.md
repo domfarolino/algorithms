@@ -1,16 +1,16 @@
 # Vector
 
 A vector is a data structure that acts as a dynamic array with abstract operations. All elements in a vector are stored contiguously,
-which yields `O(1)` indexing. The Vector class works by maintaining an internal array along with variables to keep track of size and
+which yields `O(1)` indexing. The vector class works by maintaining an internal array along with variables to keep track of size and
 capacity. Once the size of the internal array matches its capacity (when enough elements are added), the internal array doubles in capacity.
 Doubling capacity has proven to be a good way to achieve amortized `O(1)` `push_back`'s.
 
 ## Supported operations
 
- - [`Vector()`](#default-constructor)
- - [`Vector(int)`](#overloaded-constructor)
- - [`Vector(const Vector<T>&)`](#copy-constructor)
- - [`operator=(Vector<T>)`](#copy-assignment)
+ - [`vector()`](#default-constructor)
+ - [`vector(int)`](#overloaded-constructor)
+ - [`vector(const vector<T>&)`](#copy-constructor)
+ - [`operator=(vector<T>)`](#copy-assignment)
  - [`size()`](#size)
  - [`capacity()`](#capacity)
  - [`empty()`](#empty)
@@ -25,24 +25,24 @@ Doubling capacity has proven to be a good way to achieve amortized `O(1)` `push_
 ----
 
 <a name="default-constructor"></a>
-### `Vector<T>::Vector();`
+### `vector<T>::vector();`
 
 The default constructor sets the internal size to 0, since no elements have been added, and the internal capacity to 1, so we can
 double the size of the internal array when an element is added. If the capacity were initially set to 0, then we'd have to do some
 funny logic when doubling the size of our internal array when trying to add the first element because doubling 0 yields 0.
 
 <a name="overloaded-constructor"></a>
-### `Vector<T>::Vector(int inCapacity);`
+### `vector<T>::vector(int inCapacity);`
 
 This overloaded constructor sets the internal size to 0, since no elements have been added, and the internal capacity to
 `max(1, int inCapacity)`, so we can guarantee that we'll be able to double the size of our internal array when capacity is
 met. The `max` check ensures that the capacity will never be 0 or negative.
 
 <a name="copy-constructor"></a>
-### `Vector<T>::Vector(const Vector<T>& other);`
+### `vector<T>::vector(const vector<T>& other);`
 
 The copy constructor allows support for deep copying when initializing a vector with the definition of another.
-For example: `Vector<int> vec = alreadyExistingVec;`. Similar to a regular constructor, the copy constructor
+For example: `vector<int> vec = alreadyExistingVec;`. Similar to a regular constructor, the copy constructor
 is generated for you by the compiler unless you explicitly include one. The default copy constructor performs
 a shallow copy of internal member variables from one instance to another. Sometimes this is good enough, but
 when your internal member variables are pointers pointing to dynamically allocated memory, often you'll want to
@@ -51,10 +51,10 @@ initialized. This is so that multiple instances do not share the same underlying
 errors, double-frees, etc.
 
 <a name="copy-assignment"></a>
-### `Vector<T>& Vector<T>::operator=(Vector<T> other);`
+### `vector<T>& vector<T>::operator=(vector<T> other);`
 
 A lot of the logic that is necessary for the copy assignment operator to work can be found in the
-[`Vector(const Vector<T>&)`](#copy-constructor). To avoid duplicating the code in two places, we can instead
+[`vector(const vector<T>&)`](#copy-constructor). To avoid duplicating the code in two places, we can instead
 use the copy-swap idiom to define our copy-assignment operator in terms of our copy constructor.
 
 Good sources to understand this idiom:
@@ -63,22 +63,22 @@ Good sources to understand this idiom:
  - http://stackoverflow.com/questions/5695548/public-friend-swap-member-function
 
 <a name="size"></a>
-### `int Vector<T>::size() const;`
+### `int vector<T>::size() const;`
 
 Returns the number of elements in the internal array.
 
 <a name="capacity"></a>
-### `int Vector<T>::capacity() const;`
+### `int vector<T>::capacity() const;`
 
 Returns the number of elements the internal array can hold before a resize is necessary. Will always be a power of two.
 
 <a name="empty"></a>
-### `bool Vector<T>::empty() const;`
+### `bool vector<T>::empty() const;`
 
 Returns a boolean indicating whether or not the size is 0.
 
 <a name="push_back"></a>
-### `void Vector<T>::push_back(T elem);`
+### `void vector<T>::push_back(T elem);`
 
 When trying to add an element to the vector, we will face one of two cases. Either:
 
@@ -99,7 +99,7 @@ abruptly left the function. This can lead to runtime errors in the future as our
 be safe.
 
 <a name="push_front"></a>
-### `void Vector<T>::push_front(T elem);`
+### `void vector<T>::push_front(T elem);`
 
 A capacity check and possible resize will need to be performed up front just as we did in <a href="#push_back">push_back</a>, though
 with slightly different mechanics. If we're trying to add a value to an already full internal array, we'll need to create a new one of
@@ -126,12 +126,12 @@ Finally, we proceed to add an element to the front of the array by setting `this
 internal size variable (invariant for state accuracy).
 
 <a name="pop_back"></a>
-### `void Vector<T>::pop_back();`
+### `void vector<T>::pop_back();`
 
 If the internal array is not already empty, decrement the internal size variable to make the element at the last position inaccessible.
 
 <a name="pop_front"></a>
-### `void Vector<T>::pop_front();`
+### `void vector<T>::pop_front();`
 
 This is not as trivial as <a href="#pop_back">pop_back</a> as, if the internal array is not already empty, we'll need to
 perform an in place shift. Even with a full array, this is simple as we'll just be shifting everything down by one.
@@ -151,17 +151,17 @@ With the first element of the array overwritten, we can decrement our internal s
 <a href="#pop_back">pop_back</a> on arrays with a single element, as it should. Cute huh?
 
 <a name="reverse"></a>
-### `void Vector<T>::reverse();`
+### `void vector<T>::reverse();`
 
 Exactly how to reverse an array is not terribly relevant to this document.
 
 <a name="brackets"></a>
-### `T& Vector<T>::operator[](int i); const`
+### `T& vector<T>::operator[](int i); const`
 
 This function mostly acts as a pass through to index in our internal array with some additional safety, like boundary checking and error throwing.
 
 <a name="clear"></a>
-### `void Vector<T>::clear();`
+### `void vector<T>::clear();`
 
 This function resets the vector by deleting the internal array. In order to make it correct and safe, we must follow our invariants of properly
 updating our internal size and capacity variables. Since we want the vector to be usable after calls to `clear()`, we reset the capacity to `1`
