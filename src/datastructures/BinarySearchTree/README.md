@@ -59,7 +59,7 @@ life, thus *always* giving us (amortized) `O(log(n))` operations. Maintaining a 
 more difficult and out of the scope of the fundamentals. :)
 
 I'll also talk about some of the trends found in implementations of tree-style data structures. A lot
-of generic algorithms that reside in data structures, like `add()` and `remove()`, only need to accept
+of generic algorithms that reside in data structures, like `Insert()` and `Remove()`, only need to accept
 a single value, being the data to insert or delete. With tree-based data structures, a lot of these algorithms
 are recursive. This is a result of the underlying data structure being defined recursively. These algorithms
 start at some node in the tree and figure out how to recurse further down the tree with some logic. The
@@ -67,62 +67,62 @@ algorithms are given a node to act as the "`root`" for the current call being ma
 either the left or right subtree, or terminate. Initially, they must be called with the tree's actual "`root`"
 node. This initial call requires access to private data (the tree's "`root`") to set the context for the first
 call. To avoid exposing an API that requires private data, wrapper functions are often used to make this
-initial call once for the user. For example, the public API for `add()` might accept a single value to add,
-and then call the recursive `addHelper()` function with this value along with the tree's "`root`" node
-(to set the initial context for the future recursive calls). The `addHelper` would take it from here, recursing
+initial call once for the user. For example, the public API for `insert()` might accept a single value to add,
+and then call the recursive `InsertHelper()` function with this value along with the tree's "`root`" node
+(to set the initial context for the future recursive calls). The `InsertHelper` would take it from here, recursing
 down the tree as necessary. You'll see this wrapper function pattern being used in the implementation in
 this repository.
 
 ## Supported operations
 
- - [`BST()`](#default-constructor)
- - [`size()`](#size)
- - [`empty()`](#empty)
- - [`add()`](#add)
- - [`addHelper()`](#add-helper)
- - [`exists()`](#exists)
- - [`existsHelper()`](#exists-helper)
- - [`remove()`](#remove)
- - [`removeHelper()`](#remove-helper)
- - [`removeIterative()`](#remove-iterative)
- - [`clear()`](#clear)
- - [`clearHelper()`](#clear-helper)
- - [`min()`](#min)
- - [`max()`](#max)
+ - [`BinarySearchTree()`](#default-constructor)
+ - [`Size()`](#size)
+ - [`Empty()`](#empty)
+ - [`Insert()`](#insert)
+ - [`InsertHelper()`](#insert-helper)
+ - [`Exists()`](#exists)
+ - [`Existshelper()`](#exists-helper)
+ - [`Remove()`](#remove)
+ - [`RemoveHelper()`](#remove-helper)
+ - [`RemoveIterative()`](#remove-iterative)
+ - [`Clear()`](#clear)
+ - [`ClearHelper()`](#clear-helper)
+ - [`Min()`](#min)
+ - [`Max()`](#max)
  - [`Traversals`](#traversals)
 
 ----
 
 <a name="default-constructor"></a>
-### `BST<T>::BST();`
+### `BinarySearchTree<T>::BinarySearchTree();`
 
 Our default constructor doesn't really need to do anything. We just have an initialization
-list which sets our internal `root` member pointer to `NULL` and our internal `_size` variable
+list which sets our internal `root_` member pointer to `nullptr` and our internal `size_` variable
 to `0`.
 
 <a name="size"></a>
-### `int BST<T>::size();`
+### `int BinarySearchTree<T>::Size();`
 
-This just returns the value of our internal `_size` variable. We maintain this internal variable
+This just returns the value of our internal `size_` variable. We maintain this internal variable
 instead of performing an entire tree walk every time we request the size for performance reasons.
 This gives us `O(1)` size calculations as long as we properly maintain this variable when adding
 and removing nodes from the tree.
 
 <a name="empty"></a>
-### `bool BST<T>::empty();`
+### `bool BinarySearchTree<T>::Empty();`
 
-This just returns whether or not our internal `_size` variable is `0` *and* our internal `root`
-variable is `NULL`. Both are important so that we can more easily catch bugs in the case where
-we empty the entire tree yet our `root` is not `NULL` or the `_size` variable is not `0`.
+This just returns whether or not our internal `size_` variable is `0` *and* our internal `root_`
+variable is `nullptr`. Both are important so that we can more easily catch bugs in the case where
+we empty the entire tree yet our `root_` is not `nullptr` or the `size_` variable is not `0`.
 
-<a name="add"></a>
-### `void BST<T>::add(T elem);`
+<a name="insert"></a>
+### `void BinarySearchTree<T>::Insert(T elem);`
 
-<a name="add-helper"></a>
-### `void BST<T>::addHelper(T elem, TreeNode<T> *root);`
+<a name="insert-helper"></a>
+### `void BinarySearchTree<T>::InsertHelper(T elem, TreeNode<T> *root);`
 
-To add a node to a binary search tree, it is best to consider the average case first. So let's take the
-following BST:
+To insert a node into a binary search tree, it is best to consider the average case first. So let's
+take the following BST:
 
 ```
       5
@@ -135,8 +135,8 @@ following BST:
 Assuming we want to add the value 11 to the tree, we'll start with the root and realize 11 will need
 to be placed in 5's right subtree, as it is greater than 5. We'll then repeat this logic at the tree
 rooted at 5's right subtree, 7. Again, 11 is greater than 7 so we'll need to place 11 in 7's right subtree,
-however, 7's subtree is `NULL`. In this case, we don't want to recurse down another level and give a `NULL`
-root to our function as the current root. We'd just end up setting this `NULL` pointer equal to a
+however, 7's subtree is `nullptr`. In this case, we don't want to recurse down another level and give a `nullptr`
+root to our function as the current root. We'd just end up setting this `nullptr` pointer equal to a
 new node and it would never actually be attached to anything. When adding a child node to a parent, we
 need to have the parent in context so that we can attach the child directly to it. In other words, we
 want to stop recursing at the last non-null node and attach a new child to it. Here's a quick visualization
@@ -160,47 +160,47 @@ add(root = 5, value = 11)                  |
   }
 ```
 
-Note the above function must take in a root, which will be the tree's private `root` initially. This means that it
-must be called from our `add` wrapper function the first time in order to get the private `root`.
+Note the above function must take in a root, which will be the tree's private `root_` initially. This means that it
+must be called from our `add` wrapper function the first time in order to get the private `root_`.
 
-With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `NULL`
-root in the average case. This means we won't have to perform any `NULL` checks in the beginning of our function before
+With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `nullptr`
+root in the average case. This means we won't have to perform any `nullptr` checks in the beginning of our function before
 accessing things like `root->left` and `root->right`, since root will always be non-null.
 
-Now it's time to consider the edge case in which the root of the actual tree is `NULL` (tree is empty). How can our algorithm
-handle this? We could of course add a `NULL` check at the beginning of our function, though this is a little wasteful since we'd
-only *need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given
+Now it's time to consider the edge case in which the root of the actual tree is `nullptr` (tree is empty). How can our algorithm
+handle this? We could of course add a `nullptr` check at the beginning of our function, though this is a little wasteful since we'd
+only *need* to perform this `nullptr` check the very first time, since we just saw that in the average case we'll always be given
 a non-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the
-recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root` variable so we can check to see if
-the actual tree's `root = NULL` before passing it along. If so, we can create the root, thus adding the very first
+recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root_` variable so we can check to see if
+the actual tree's `root_ = nullptr` before passing it along. If so, we can create the root, thus adding the very first
 node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
-handling logic so we're not performing extraneous NULL checks when unnecessary.
+handling logic so we're not performing extraneous nullptr checks when unnecessary.
 
 <a name="exists"></a>
-### `void BST<T>::exists(T elem);`
+### `void BinarySearchTree<T>::Exists(T elem);`
 
 <a name="exists-helper"></a>
-### `void BST<T>::existsHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::ExistsHelper(T elem, TreeNode<T> *root);`
 
 The `exists` and `existsHelper` methods have similar mechanics to the `add` method above, so a lot of the boilerplate will
 be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
- 1. Or get to a `NULL` node (the one we're looking for didn't exist)
+ 1. Or get to a `nullptr` node (the one we're looking for didn't exist)
 
 In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
 we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree,
 suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
-about to recurse to is `NULL` before we recurse like we did with `add`; instead we can just recurse to it and check in the
-next frame if that root is `NULL`. Doing both would yield in extraneous `NULL` checks. With this information, we know the wrapper
+about to recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it and check in the
+next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr` checks. With this information, we know the wrapper
 function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
-function with the private `root` of the tree.
+function with the private `root_` of the tree.
 
 <a name="remove"></a>
-### `void BST<T>::remove(T elem);`
+### `void BinarySearchTree<T>::Remove(T elem);`
 
 <a name="remove-helper"></a>
-### `void BST<T>::removeHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::RemoveHelper(T elem, TreeNode<T> *root);`
 
 Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
 or poor explanation, I intend to start with the basics to explain how this algorithm works. There are only three cases to consider
@@ -340,43 +340,45 @@ assignment is idempotent otherwise. Notice how in the iterative version we neede
 to delete, whereas with recursion this reference is kept implicitly for us in the form of stack frames. This simplifies our logic
 because we can focus on deleting the current `head` of any arbitrary stack frame and navigate accordingly.
 
-The recursive `removeHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
+The recursive `RemoveHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
 logic to navigate the `left` and `right` children properly, as opposed to `next`, and some value copying logic for when
 we wish to delete a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the
 left subtree to remove the duplicate successor's value (the trivial case).
 
 <a name="remove-iterative"></a>
-### `void BST<T>::removeIterative(T elem);`
+### `void BinarySearchTree<T>::RemoveIterative(T elem);`
 
-This method is undocumented, though part of its logic is expressed in <a href="#remove-helper">removeHelper</a>. See the source.
+This method is undocumented at the moment, though part of its logic is expressed in
+<a href="#remove-helper">RemoveHelper</a>. See the source.
 
 <a name="clear"></a>
-### `void BST<T>::clear(T elem);`
+### `void BinarySearchTree<T>::Clear(T elem);`
 
 <a name="clear-helper"></a>
-### `void BST<T>::clearHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::ClearHelper(T elem, TreeNode<T> *root);`
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
 subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
-a node once both of its subtrees are cleared and it's time to delete the local root. The internal `_size` variable should decrement
+a node once both of its subtrees are cleared and it's time to delete the local root. The internal `size_` variable should decrement
 every time a node is deleted.
 
 <a name="min"></a>
-### `TreeNode<T> BST<T>::min(T elem, TreeNode<T> *root);`
+### `TreeNode<T> BinarySearchTree<T>::Min(T elem, TreeNode<T> *root);`
 
 This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
-as this is where smaller and smaller values will exist. The node returned should have a `NULL` left child.
+as this is where smaller and smaller values will exist. The node returned should have a `nullptr` left child.
 
 <a name="max"></a>
-### `TreeNode<T> BST<T>::max();`
+### `TreeNode<T> BinarySearchTree<T>::Max();`
 
-Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
+Same as <a href="#min">Min</a> but for the maximum value instead of the minimum.
 
 <a name="traversals"></a>
 ### Traversals
 
 TODO(anyone): get to these
 
+ - BFS ...etc
  - Pre-order ...etc
  - Post-order ...etc
  - In-order ...etc
