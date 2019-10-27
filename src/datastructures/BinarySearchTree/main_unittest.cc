@@ -49,8 +49,8 @@ TEST_F(BinarySearchTreeTest, RemoveAndSize) {
   for (int i = tree_size - 1; i >= 0; --i) {
     indexToRemove = rand() % vec.size();
 
-    tree.remove(vec[indexToRemove]);
-    tree_iterative.removeIterative(vec[indexToRemove]);
+    tree.Remove(vec[indexToRemove]);
+    tree_iterative.RemoveIterative(vec[indexToRemove]);
     vec.erase(vec.begin() + indexToRemove);
 
     ASSERT_EQ(tree.size(), i);
@@ -63,11 +63,11 @@ TEST_F(BinarySearchTreeTest, RemoveAndEmpty) {
   tree.Insert(2);
 
   ASSERT_TRUE(!tree.empty());
-  tree.remove(1);
+  tree.Remove(1);
   ASSERT_TRUE(!tree.empty());
-  tree.remove(2);
+  tree.Remove(2);
   ASSERT_TRUE(tree.empty());
-  tree.remove(2);
+  tree.Remove(2);
   ASSERT_TRUE(tree.empty());
 }
 

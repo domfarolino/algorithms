@@ -82,9 +82,9 @@ this repository.
  - [`InsertHelper()`](#insert-helper)
  - [`Exists()`](#exists)
  - [`Existshelper()`](#exists-helper)
- - [`remove()`](#remove)
- - [`removeHelper()`](#remove-helper)
- - [`removeIterative()`](#remove-iterative)
+ - [`Remove()`](#remove)
+ - [`RemoveHelper()`](#remove-helper)
+ - [`RemoveIterative()`](#remove-iterative)
  - [`clear()`](#clear)
  - [`clearHelper()`](#clear-helper)
  - [`min()`](#min)
@@ -197,10 +197,10 @@ function `exists` doesn't have to provide any logic at all. It can just simply k
 function with the private `root` of the tree.
 
 <a name="remove"></a>
-### `void BinarySearchTree<T>::remove(T elem);`
+### `void BinarySearchTree<T>::Remove(T elem);`
 
 <a name="remove-helper"></a>
-### `void BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::RemoveHelper(T elem, TreeNode<T> *root);`
 
 Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
 or poor explanation, I intend to start with the basics to explain how this algorithm works. There are only three cases to consider
@@ -340,15 +340,16 @@ assignment is idempotent otherwise. Notice how in the iterative version we neede
 to delete, whereas with recursion this reference is kept implicitly for us in the form of stack frames. This simplifies our logic
 because we can focus on deleting the current `head` of any arbitrary stack frame and navigate accordingly.
 
-The recursive `removeHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
+The recursive `RemoveHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
 logic to navigate the `left` and `right` children properly, as opposed to `next`, and some value copying logic for when
 we wish to delete a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the
 left subtree to remove the duplicate successor's value (the trivial case).
 
 <a name="remove-iterative"></a>
-### `void BinarySearchTree<T>::removeIterative(T elem);`
+### `void BinarySearchTree<T>::RemoveIterative(T elem);`
 
-This method is undocumented, though part of its logic is expressed in <a href="#remove-helper">removeHelper</a>. See the source.
+This method is undocumented at the moment, though part of its logic is expressed in
+<a href="#remove-helper">RemoveHelper</a>. See the source.
 
 <a name="clear"></a>
 ### `void BinarySearchTree<T>::clear(T elem);`

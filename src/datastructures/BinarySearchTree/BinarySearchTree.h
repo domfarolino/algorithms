@@ -17,7 +17,7 @@ private:
 
   void InsertHelper(T, TreeNode<T>*);
   bool ExistsHelper(T, TreeNode<T>*);
-  TreeNode<T>* removeHelper(T, TreeNode<T>*);
+  TreeNode<T>* RemoveHelper(T, TreeNode<T>*);
   void clearHelper(TreeNode<T>*);
 
   TreeNode<T>* minHelper(TreeNode<T>*);
@@ -40,8 +40,8 @@ public:
 
   void Insert(T);
   bool Exists(T);
-  void remove(T);
-  void removeIterative(T);
+  void Remove(T);
+  void RemoveIterative(T);
   void clear();
 
   TreeNode<T>* min();
@@ -116,18 +116,18 @@ bool BinarySearchTree<T>::ExistsHelper(T elem, TreeNode<T>* root) {
  * Space complexity: O(n)
  */
 template <typename T>
-void BinarySearchTree<T>::remove(T elem) {
-  root_ = removeHelper(elem, root_);
+void BinarySearchTree<T>::Remove(T elem) {
+  root_ = RemoveHelper(elem, root_);
 }
 
 template <typename T>
-TreeNode<T>* BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root) {
+TreeNode<T>* BinarySearchTree<T>::RemoveHelper(T elem, TreeNode<T> *root) {
   if (!root) return NULL;
 
   if (elem < root->val) {
-    root->left = removeHelper(elem, root->left);
+    root->left = RemoveHelper(elem, root->left);
   } else if (elem > root->val) {
-    root->right = removeHelper(elem, root->right);
+    root->right = RemoveHelper(elem, root->right);
   } else {
     // Root node is the one to delete
 
@@ -149,7 +149,7 @@ TreeNode<T>* BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root) {
     // Node has both children
     TreeNode<T> *successor = minHelper(root->right);
     root->val = successor->val;
-    root->right = removeHelper(successor->val, root->right);
+    root->right = RemoveHelper(successor->val, root->right);
   }
 
   return root;
@@ -160,7 +160,7 @@ TreeNode<T>* BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root) {
  * Space complexity: O(1)
  */
 template <typename T>
-void BinarySearchTree<T>::removeIterative(T elem) {
+void BinarySearchTree<T>::RemoveIterative(T elem) {
   if (!root_) return;
 
   /**
