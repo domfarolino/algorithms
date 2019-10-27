@@ -20,10 +20,13 @@ public:
   Graph(int);
 
   void AddEdge(int, int);
+  std::vector<int> DFS(int);
+  std::vector<int> BFS(int);
+  std::vector<std::unordered_map<int, int>> ConnectedComponents();
   int ShortestPath(int, int);
   int Diameter();
-  std::vector<int> BFS(int);
-  std::vector<int> DFS(int);
+
+  // Printing methods.
   void PrintAdjacencyMatrix();
   void PrintDistanceMatrix();
   void PrintConnectedComponents();

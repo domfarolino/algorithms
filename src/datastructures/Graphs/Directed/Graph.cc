@@ -36,7 +36,7 @@ void Graph::DFSHelper(int vertex, std::vector<int> &vec,
   vec.push_back(vertex);
   visited.insert(vertex);
 
-  // Only DFS recurse on unvisited nodes.
+  // Only recurse on unvisited nodes.
   for (int j = 0; j < size_; ++j) {
     if (adjacency_matrix_[vertex][j] && visited.find(j) == visited.end()) {
       DFSHelper(j, vec, visited);
@@ -98,6 +98,29 @@ std::unordered_map<int, int> Graph::BFSWithDistance(int vertex) {
   return visited;
 }
 
+std::vector<std::unordered_map<int, int>> Graph::ConnectedComponents() {
+  if (!distance_matrix_computed_) ComputeDistanceMatrix();
+
+  std::vector<std::unordered_map<int, int>> connected_components;
+  // TODO(domfarolino): We don't need the map's value here. Use an
+  // std::unordered_set instead.
+  std::unordered_map<int, int> all_visited, component;
+
+  // Gather connected components
+  for (int i = 0; i < size_; ++i) {
+
+    // Only consider nodes which do not already belong to a component.
+    if (all_visited.find(i) == all_visited.end()) {
+      component = BFSWithDistance(i);
+      connected_components.push_back(component);
+      all_visited.insert(component.begin(), component.end());
+    }
+
+  }
+
+  return connected_components;
+}
+
 bool Graph::ComputeDistanceMatrix() {
   std::unordered_map<int, int> visited;
 
@@ -136,20 +159,8 @@ int Graph::Diameter() {
 }
 
 void Graph::PrintConnectedComponents() {
-  if (!distance_matrix_computed_) ComputeDistanceMatrix();
-
-  std::vector<std::unordered_map<int, int>> connected_components;
-  std::unordered_map<int, int> all_visited, component;
-
-  // Gather connected components
-  for (int i = 0; i < size_; ++i) {
-    // Component with root i is its own component if we've never seen it before
-    if (all_visited.find(i) == all_visited.end()) {
-      component = BFSWithDistance(i);
-      connected_components.push_back(component);
-      all_visited.insert(component.begin(), component.end());
-    }
-  }
+  // Get all connected components.
+  std::vector<std::unordered_map<int, int>> connected_components = ConnectedComponents();
 
   // Print all connected components
   std::cout << "The graph has " << connected_components.size() << " connected components" << std::endl;
