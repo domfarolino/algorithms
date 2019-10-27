@@ -1,4 +1,4 @@
-# vector
+# Vector
 
 A vector is a data structure that acts as a dynamic array with abstract operations. All elements in a vector are stored contiguously,
 which yields `O(1)` indexing. The vector class works by maintaining an internal array along with variables to keep track of size and
