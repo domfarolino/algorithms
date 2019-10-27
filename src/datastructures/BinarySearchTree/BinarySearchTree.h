@@ -6,14 +6,14 @@ template <typename T>
 struct TreeNode {
   T val;
   TreeNode *left, *right;
-  TreeNode(int inVal): val(inVal), left(NULL), right(NULL) {}
+  TreeNode(int in_val): val(in_val), left(NULL), right(NULL) {}
 };
 
 template <typename T>
 class BinarySearchTree {
 private:
-  TreeNode<T> *root;
-  int _size;
+  TreeNode<T>* root_;
+  int size_;
 
   void addHelper(T, TreeNode<T>*);
   bool existsHelper(T, TreeNode<T>*);
@@ -27,16 +27,15 @@ private:
   void preorderHelper(TreeNode<T>*, std::vector<T>&);
   void postorderHelper(TreeNode<T>*, std::vector<T>&);
 
-
 public:
-  BinarySearchTree(): root(NULL), _size(0) {}
+  BinarySearchTree(): root_(NULL), size_(0) {}
 
   int size() {
-    return this->_size;
+    return size_;
   }
 
   bool empty() {
-    return this->_size == 0 && this->root == NULL;
+    return size_ == 0 && root_ == NULL;
   }
 
   void add(T);
@@ -62,11 +61,11 @@ public:
  */
 template <typename T>
 void BinarySearchTree<T>::add(T elem) {
-  if (this->root == NULL) {
-    this->root = new TreeNode<T>(elem);
-    this->_size++;
+  if (root_ == NULL) {
+    root_ = new TreeNode<T>(elem);
+    size_++;
   } else {
-    this->addHelper(elem, this->root);
+    addHelper(elem, root_);
   }
 }
 
@@ -77,14 +76,14 @@ void BinarySearchTree<T>::addHelper(T elem, TreeNode<T> *root) {
       addHelper(elem, root->left);
     } else {
       root->left = new TreeNode<T>(elem);
-      this->_size++;
+      size_++;
     }
   } else {
     if (root->right) {
       addHelper(elem, root->right);
     } else {
       root->right = new TreeNode<T>(elem);
-      this->_size++;
+      size_++;
     }
   }
 }
@@ -95,7 +94,7 @@ void BinarySearchTree<T>::addHelper(T elem, TreeNode<T> *root) {
  */
 template <typename T>
 bool BinarySearchTree<T>::exists(T elem) {
-  return existsHelper(elem, this->root);
+  return existsHelper(elem, root_);
 }
 
 template <typename T>
@@ -118,7 +117,7 @@ bool BinarySearchTree<T>::existsHelper(T elem, TreeNode<T>* root) {
  */
 template <typename T>
 void BinarySearchTree<T>::remove(T elem) {
-  this->root = removeHelper(elem, this->root);
+  root_ = removeHelper(elem, root_);
 }
 
 template <typename T>
@@ -141,7 +140,7 @@ TreeNode<T>* BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root) {
       if (root->right) tmp = root->right;
 
       delete root;
-      this->_size--;
+      size_--;
 
       // Return the replacement node (or NULL if node had no children)
       return tmp;
@@ -162,14 +161,14 @@ TreeNode<T>* BinarySearchTree<T>::removeHelper(T elem, TreeNode<T> *root) {
  */
 template <typename T>
 void BinarySearchTree<T>::removeIterative(T elem) {
-  if (!root) return;
+  if (!root_) return;
 
   /**
    * Set current equal to the node-to-remove
    * and parent equal to current's parent, or
    * NULL if current is the root.
    */
-  TreeNode<T> *parent = NULL, *current = root;
+  TreeNode<T> *parent = NULL, *current = root_;
   while (current && current->val != elem) {
     parent = current;
     if (elem < current->val) {
@@ -224,7 +223,7 @@ void BinarySearchTree<T>::removeIterative(T elem) {
       }
     } else {
       // Else we're dealing with the root
-      root = current->left;
+      root_ = current->left;
     }
 
     delete current;
@@ -242,7 +241,7 @@ void BinarySearchTree<T>::removeIterative(T elem) {
       }
     } else {
       // Else we're dealing with the root
-      root = current->right;
+      root_ = current->right;
     }
 
     delete current;
@@ -257,12 +256,12 @@ void BinarySearchTree<T>::removeIterative(T elem) {
       }
     } else {
       // Dealing with the root
-      root = NULL;
+      root_ = NULL;
     }
     delete current;
   }
 
-  this->_size--;
+  size_--;
 }
 
 /**
@@ -271,7 +270,7 @@ void BinarySearchTree<T>::removeIterative(T elem) {
  */
 template <typename T>
 TreeNode<T>* BinarySearchTree<T>::min() {
-  return minHelper(this->root);
+  return minHelper(root_);
 }
 
 template <typename T>
@@ -292,8 +291,8 @@ TreeNode<T>* BinarySearchTree<T>::minHelper(TreeNode<T> *root) {
  */
 template <typename T>
 TreeNode<T>* BinarySearchTree<T>::max() {
-  if (!this->root) return this->root;
-  return maxHelper(this->root);
+  if (!root_) return root_;
+  return maxHelper(root_);
 }
 
 template <typename T>
@@ -308,7 +307,7 @@ TreeNode<T>* BinarySearchTree<T>::maxHelper(TreeNode<T> *root) {
  */
 template <typename T>
 void BinarySearchTree<T>::clear() {
-  clearHelper(this->root);
+  clearHelper(root_);
 }
 
 template <typename T>
@@ -317,7 +316,7 @@ void BinarySearchTree<T>::clearHelper(TreeNode<T>* root) {
   clearHelper(root->left);
   clearHelper(root->right);
   delete root;
-  this->_size--;
+  size_--;
 }
 
 /**
@@ -328,7 +327,7 @@ void BinarySearchTree<T>::clearHelper(TreeNode<T>* root) {
 template <typename T>
 std::vector<T> BinarySearchTree<T>::inorder() {
   std::vector<int> returnVec;
-  inorderHelper(this->root, returnVec);
+  inorderHelper(root_, returnVec);
   return returnVec;
 }
 
@@ -343,7 +342,7 @@ void BinarySearchTree<T>::inorderHelper(TreeNode<T>* root, std::vector<T> &vec) 
 template <typename T>
 std::vector<T> BinarySearchTree<T>::preorder() {
   std::vector<int> returnVec;
-  preorderHelper(this->root, returnVec);
+  preorderHelper(root_, returnVec);
   return returnVec;
 }
 
@@ -358,7 +357,7 @@ void BinarySearchTree<T>::preorderHelper(TreeNode<T> *root, std::vector<T> &vec)
 template <typename T>
 std::vector<T> BinarySearchTree<T>::postorder() {
   std::vector<int> returnVec;
-  postorderHelper(this->root, returnVec);
+  postorderHelper(root_, returnVec);
   return returnVec;
 }
 
@@ -379,7 +378,7 @@ std::vector<T> BinarySearchTree<T>::bfs() {
   std::vector<T> returnVec;
   std::queue<TreeNode<T>*> q;
 
-  if (!empty()) q.push(this->root);
+  if (!empty()) q.push(root_);
 
   while (!q.empty()) {
     // Push children
