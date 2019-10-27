@@ -1,4 +1,4 @@
-# Heap (Min Heap)
+# Min Heap (Priority Queue)
 
 Heaps are critical data structures and, in this document (and repository), we will be discussing an implementation of a heap called
 a min heap (MinHeap). Min heaps are often used to implement priority queues. Heaps can be thought of as a binary tree in which every
@@ -41,25 +41,26 @@ our heap a proper heap, it is easiest to visualize insertions and removals on an
 
 When inserting a node into a non-edge-case heap (let's say, one with a few nodes), we need to find its proper place in the heap. The
 best way to do this is to insert it at the very end of the array, which will most likely break the heap property of our structure. We
-then fix it by bubbling the newly added element up toward the root until we find its proper place. This operation is called [`bubbleUp()`](#bubbleUp).
+then fix it by bubbling the newly added element up toward the root until we find its proper place. This operation is called
+[`BubbleUp()`](#bubble-up).
 
 When removing a node from a non-edge-case heap, we'll always want to remove the root, as it will have the highest priority (lowest value in
 a min heap) out of any value. You may think that after removing the root, we'll have to pick one of its children to take its spot, thus
 shifting a large portion of the array down. This kind of shifting is expensive with a contiguous structure, like a vector. Removing values
 from the end of a contiguous structure is actually really fast though, so we try to do that instead. After "removing" the root, we can just
-overwrite its value with the one appearing very last in the vector. We then [`bubbleDown()`](#bubbleDown) this element, shifting it with
+overwrite its value with the one appearing very last in the vector. We then [`BubbleDown()`](#bubble-down) this element, shifting it with
 its children (which ultimately chooses the child more fit for its replacement) until it can't go any further.
 
 ## Supported operations
 
  - [`MinHeap()`](#default-constructor)
- - [`size()`](#size)
- - [`empty()`](#empty)
- - [`insert()`](#insert)
- - [`remove()`](#remove)
- - [`peek()`](#peek)
- - [`bubbleUp()`](#bubbleUp)
- - [`bubbleDown()`](#bubbleDown)
+ - [`Size()`](#size)
+ - [`Empty()`](#empty)
+ - [`Insert()`](#insert)
+ - [`Remove()`](#remove)
+ - [`Peek()`](#peek)
+ - [`BubbleUp()`](#bubble-up)
+ - [`BubbleDown()`](#bubble-down)
 
 ----
 
@@ -69,39 +70,39 @@ its children (which ultimately chooses the child more fit for its replacement) u
 Our default constructor doesn't really need to do anything.
 
 <a name="size"></a>
-### `int MinHeap<T>::size();`
+### `int MinHeap<T>::Size();`
 
 Since we've built, or are using, a good implementation of a vector, this method can just be pass-through to `vector.size()`.
 
 <a name="empty"></a>
-### `bool MinHeap<T>::empty();`
+### `bool MinHeap<T>::Empty();`
 
 Since we've built, or are using, a good implementation of a vector, this method can just be pass-through to `vector.empty()`.
 
 <a name="insert"></a>
-### `void MinHeap<T>::insert(T elem);`
+### `void MinHeap<T>::Insert(T elem);`
 
 As previously mentioned, when inserting an element in a heap we want to push the element to the back of our vector and then
-perform [`bubbleUp()`](#bubbleUp) so we can find its right place in the tree. [`bubbleUp()`](#bubbleUp) stops when the element
+perform [`BubbleUp()`](#bubble-up) so we can find its right place in the tree. [`BubbleUp()`](#bubble-up) stops when the element
 finally gets to the `0`th index of the array, as it can't bubble up anymore. This is initially the case when we insert an element
-into an empty heap, so [`bubbleUp()`](#bubbleUp)'s base case will be triggered on first-time insertions.
+into an empty heap, so [`BubbleUp()`](#bubble-up)'s base case will be triggered on first-time insertions.
 
 <a name="remove"></a>
-### `void MinHeap<T>::remove();`
+### `void MinHeap<T>::Remove();`
 
 As previously mentioned, when removing an element from a heap we want to replace the element at the `0`th position of the vector with
 the very last one, and keep bubbling it downward. Before just trying to access `this->vector[this->vector.size() - 1]` we should make
 sure the vector (heap) is not empty. This will be our initial conditional. Next, we'll just perform the replacement and
-call [`bubbleDown()`](#bubbleDown) with the `0`th index.
+call [`bubbleDown()`](#bubble-down) with the `0`th index.
 
 <a name="peek"></a>
-### `T MinHeap<T>::peek();`
+### `T MinHeap<T>::Peek();`
 
 Assuming the heap has at least one element, we'll return the root's value. Since we can't just return a sentinal value if the heap is
 empty, we'll throw in this case instead.
 
-<a name="bubbleUp"></a>
-### `void MinHeap<T>::bubbleUp(int index);`
+<a name="bubble-up"></a>
+### `void MinHeap<T>::BubbleUp(int index);`
 
 This method will be called with the index of the element we'll be bubbling up. The index will always initially be the last possible position
 in the vector, and this method will be called during insertions to maintain our heap invariant. This method will be tail-recursive, or can
@@ -113,8 +114,8 @@ for finding a node's parent given the node's index was discussed earlier). To ma
 is strictly less than that of the current node's. If it is, we'll want to swap and then call the function again with the index of the node we
 swapped with. Otherwise, do nothing.
 
-<a name="bubbleDown"></a>
-### `void MinHeap<T>::bubbleDown(int index);`
+<a name="bubble-down"></a>
+### `void MinHeap<T>::BubbleDown(int index);`
 
 This method will be called with the index of the element we'll be bubbling down. The index will always initially be `0`, and this
 method will be called during removals to maintain our heap invariant. This method will be tail-recursive, or can equally be
@@ -185,5 +186,5 @@ else return;
 T childItem = this->vec[indexToSwap];
 this->vec[indexToSwap] = this->vec[index];
 this->vec[index] = childItem;
-return bubbleDown(indexToSwap);
+return BubbleDown(indexToSwap);
 ```
