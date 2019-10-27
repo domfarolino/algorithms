@@ -2,203 +2,201 @@
 #include <math.h>
 #include <assert.h>
 
-#include "Vector.h"
-
-using namespace std;
+#include "vector.h"
 
 void pushBackAndSize() {
-  Vector<int> vector(10);
+  vector<int> vec(10);
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_back(i);
-    assert(vector.size() == i + 1);
+    vec.push_back(i);
+    assert(vec.size() == i + 1);
   }
 }
 
 void popBackAndSize() {
-  Vector<int> vector(10);
+  vector<int> vec(10);
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_back(i);
+    vec.push_back(i);
   }
 
   for (int i = 99; i >= 0; --i) {
-    assert(vector.size() == i + 1);
-    vector.pop_back();
-    assert(vector.size() == i);
+    assert(vec.size() == i + 1);
+    vec.pop_back();
+    assert(vec.size() == i);
   }
 }
 
 void pushBackAndIndex() {
-  Vector<int> vector;
+  vector<int> vec;
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_back(i);
+    vec.push_back(i);
   }
 
   for (int i = 0; i < 100; ++i) {
-    assert(vector[i] == i);
+    assert(vec[i] == i);
   }
 
   // Capacity should be next power of two higher than (size() - 1)
-  assert(vector.capacity() == pow(2, floor(log2(vector.size() - 1) + 1)));
+  assert(vec.capacity() == pow(2, floor(log2(vec.size() - 1) + 1)));
 }
 
 void popBackAndIndex() {
-  Vector<int> vector;
+  vector<int> vec;
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_back(i);
+    vec.push_back(i);
   }
 
   for (int i = 99; i >= 0; --i) {
-    assert(vector[i] == i);
-    vector.pop_back();
+    assert(vec[i] == i);
+    vec.pop_back();
   }
 }
 
 void pushFrontAndSize() {
-  Vector<int> vector(10);
+  vector<int> vec(10);
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_front(i);
-    assert(vector.size() == i + 1);
+    vec.push_front(i);
+    assert(vec.size() == i + 1);
   }
 }
 
 void popFrontAndSize() {
-  Vector<int> vector(10);
+  vector<int> vec(10);
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_front(i);
+    vec.push_front(i);
   }
 
   for (int i = 99; i >= 0; --i) {
-    assert(vector.size() == i + 1);
-    vector.pop_front();
-    assert(vector.size() == i);
+    assert(vec.size() == i + 1);
+    vec.pop_front();
+    assert(vec.size() == i);
   }
 }
 
 void pushFrontAndIndex() {
-  Vector<int> vector;
+  vector<int> vec;
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_front(i);
+    vec.push_front(i);
   }
 
   for (int i = 0; i < 100; ++i) {
-    assert(vector[i] == 99 - i);
+    assert(vec[i] == 99 - i);
   }
 
   // Capacity should be next power of two higher than (size() - 1)
-  assert(vector.capacity() == pow(2, floor(log2(vector.size() - 1) + 1)));
+  assert(vec.capacity() == pow(2, floor(log2(vec.size() - 1) + 1)));
 }
 
 void popFrontAndIndex() {
-  Vector<int> vector;
+  vector<int> vec;
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_front(i);
+    vec.push_front(i);
   }
 
   for (int i = 99; i >= 0; --i) {
-    assert(vector[0] == i);
-    vector.pop_front();
+    assert(vec[0] == i);
+    vec.pop_front();
   }
 }
 
 void size() {
-  Vector<int> vector(10);
+  vector<int> vec(10);
 
   for (int i = 0; i < 100; ++i) {
-    vector.push_back(10);
-    vector.push_front(11);
+    vec.push_back(10);
+    vec.push_front(11);
   }
 
   for (int i = 0; i < 100; ++i) {
-    vector.pop_back();
-    vector.pop_front();
-    vector.pop_back();
-    vector.pop_front();
+    vec.pop_back();
+    vec.pop_front();
+    vec.pop_back();
+    vec.pop_front();
   }
 
-  assert(vector.size() == 0);
+  assert(vec.size() == 0);
 }
 
 void reverse() {
   const int size = 100;
-  Vector<int> vector(size);
+  vector<int> vec(size);
 
   for (int i = 0; i < size; ++i) {
-    vector.push_back(i);
+    vec.push_back(i);
   }
 
-  vector.reverse();
+  vec.reverse();
 
   for (int i = 0; i < size; ++i) {
-    assert(vector[i] == size - 1 - i);
+    assert(vec[i] == size - 1 - i);
   }
 
 }
 
 void clear() {
-  Vector<int> vector(100);
+  vector<int> vec(100);
 
   for (int i = 0; i < 20; ++i) {
-    vector.push_back(i);
+    vec.push_back(i);
   }
 
-  vector.clear();
-  vector.clear();
+  vec.clear();
+  vec.clear();
 
-  assert(vector.size() == 0);
-  assert(vector.empty());
-  // Should reset vector to a fresh, usable form
-  assert(vector.capacity() == 1);
+  assert(vec.size() == 0);
+  assert(vec.empty());
+  // Should reset vec to a fresh, usable form
+  assert(vec.capacity() == 1);
 }
 
 void overloadedConstructor() {
-  Vector<int> vector(-100);
+  vector<int> vec(-100);
 
-  assert(vector.empty());
-  assert(vector.size() == 0);
-  assert(vector.capacity() == 1);
+  assert(vec.empty());
+  assert(vec.size() == 0);
+  assert(vec.capacity() == 1);
 
-  vector.push_back(1);
+  vec.push_back(1);
 
-  assert(!vector.empty());
-  assert(vector.size() == 1);
-  assert(vector.capacity() == 1);
+  assert(!vec.empty());
+  assert(vec.size() == 1);
+  assert(vec.capacity() == 1);
 
-  vector.push_back(1);
+  vec.push_back(1);
 
-  assert(!vector.empty());
-  assert(vector.size() == 2);
-  assert(vector.capacity() == 2);
+  assert(!vec.empty());
+  assert(vec.size() == 2);
+  assert(vec.capacity() == 2);
 
-  Vector<int> vector2(10);
-  assert(vector2.empty());
-  assert(vector2.size() == 0);
-  assert(vector2.capacity() == 10);
+  vector<int> vec2(10);
+  assert(vec2.empty());
+  assert(vec2.size() == 0);
+  assert(vec2.capacity() == 10);
 
   for (int i = 0; i < 15; ++i) {
-    vector2.push_back(i);
+    vec2.push_back(i);
   }
 
-  assert(vector2.size() == 15);
+  assert(vec2.size() == 15);
   // Once capacity is met, it doubles
-  assert(vector2.capacity() == 20);
+  assert(vec2.capacity() == 20);
 }
 
 void copyConstructor() {
-  Vector<int> right;
+  vector<int> right;
 
   for (int i = 0; i < 1000; ++i) {
     right.push_back(i);
   }
 
-  Vector<int> left = right;
+  vector<int> left = right;
 
   assert(left.size() == right.size());
   assert(left.capacity() == right.capacity());
@@ -215,7 +213,7 @@ void copyConstructor() {
 }
 
 void copyAssignment() {
-  Vector<int> left, center, right(100);
+  vector<int> left, center, right(100);
 
   for (int i = 0; i < 1000; ++i) {
     right.push_back(i);
@@ -262,6 +260,6 @@ int main() {
   copyConstructor();
   copyAssignment();
 
-  cout << "\x1B[32m✔ All tests pass\x1B[00m" << endl;
+  std::cout << "\x1B[32m✔ All tests pass\x1B[00m" << std::endl;
   return 0;
 }
