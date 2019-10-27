@@ -97,7 +97,7 @@ this repository.
 ### `BinarySearchTree<T>::BinarySearchTree();`
 
 Our default constructor doesn't really need to do anything. We just have an initialization
-list which sets our internal `root_` member pointer to `NULL` and our internal `size_` variable
+list which sets our internal `root_` member pointer to `nullptr` and our internal `size_` variable
 to `0`.
 
 <a name="size"></a>
@@ -112,8 +112,8 @@ and removing nodes from the tree.
 ### `bool BinarySearchTree<T>::Empty();`
 
 This just returns whether or not our internal `size_` variable is `0` *and* our internal `root_`
-variable is `NULL`. Both are important so that we can more easily catch bugs in the case where
-we empty the entire tree yet our `root_` is not `NULL` or the `size_` variable is not `0`.
+variable is `nullptr`. Both are important so that we can more easily catch bugs in the case where
+we empty the entire tree yet our `root_` is not `nullptr` or the `size_` variable is not `0`.
 
 <a name="insert"></a>
 ### `void BinarySearchTree<T>::Insert(T elem);`
@@ -135,8 +135,8 @@ take the following BST:
 Assuming we want to add the value 11 to the tree, we'll start with the root and realize 11 will need
 to be placed in 5's right subtree, as it is greater than 5. We'll then repeat this logic at the tree
 rooted at 5's right subtree, 7. Again, 11 is greater than 7 so we'll need to place 11 in 7's right subtree,
-however, 7's subtree is `NULL`. In this case, we don't want to recurse down another level and give a `NULL`
-root to our function as the current root. We'd just end up setting this `NULL` pointer equal to a
+however, 7's subtree is `nullptr`. In this case, we don't want to recurse down another level and give a `nullptr`
+root to our function as the current root. We'd just end up setting this `nullptr` pointer equal to a
 new node and it would never actually be attached to anything. When adding a child node to a parent, we
 need to have the parent in context so that we can attach the child directly to it. In other words, we
 want to stop recursing at the last non-null node and attach a new child to it. Here's a quick visualization
@@ -163,18 +163,18 @@ add(root = 5, value = 11)                  |
 Note the above function must take in a root, which will be the tree's private `root_` initially. This means that it
 must be called from our `add` wrapper function the first time in order to get the private `root_`.
 
-With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `NULL`
-root in the average case. This means we won't have to perform any `NULL` checks in the beginning of our function before
+With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `nullptr`
+root in the average case. This means we won't have to perform any `nullptr` checks in the beginning of our function before
 accessing things like `root->left` and `root->right`, since root will always be non-null.
 
-Now it's time to consider the edge case in which the root of the actual tree is `NULL` (tree is empty). How can our algorithm
-handle this? We could of course add a `NULL` check at the beginning of our function, though this is a little wasteful since we'd
-only *need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given
+Now it's time to consider the edge case in which the root of the actual tree is `nullptr` (tree is empty). How can our algorithm
+handle this? We could of course add a `nullptr` check at the beginning of our function, though this is a little wasteful since we'd
+only *need* to perform this `nullptr` check the very first time, since we just saw that in the average case we'll always be given
 a non-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the
 recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root_` variable so we can check to see if
-the actual tree's `root_ = NULL` before passing it along. If so, we can create the root, thus adding the very first
+the actual tree's `root_ = nullptr` before passing it along. If so, we can create the root, thus adding the very first
 node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
-handling logic so we're not performing extraneous NULL checks when unnecessary.
+handling logic so we're not performing extraneous nullptr checks when unnecessary.
 
 <a name="exists"></a>
 ### `void BinarySearchTree<T>::Exists(T elem);`
@@ -186,13 +186,13 @@ The `exists` and `existsHelper` methods have similar mechanics to the `add` meth
 be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
- 1. Or get to a `NULL` node (the one we're looking for didn't exist)
+ 1. Or get to a `nullptr` node (the one we're looking for didn't exist)
 
 In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
 we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree,
 suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
-about to recurse to is `NULL` before we recurse like we did with `add`; instead we can just recurse to it and check in the
-next frame if that root is `NULL`. Doing both would yield in extraneous `NULL` checks. With this information, we know the wrapper
+about to recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it and check in the
+next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr` checks. With this information, we know the wrapper
 function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
 function with the private `root_` of the tree.
 
@@ -366,7 +366,7 @@ every time a node is deleted.
 ### `TreeNode<T> BinarySearchTree<T>::Min(T elem, TreeNode<T> *root);`
 
 This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
-as this is where smaller and smaller values will exist. The node returned should have a `NULL` left child.
+as this is where smaller and smaller values will exist. The node returned should have a `nullptr` left child.
 
 <a name="max"></a>
 ### `TreeNode<T> BinarySearchTree<T>::Max();`
