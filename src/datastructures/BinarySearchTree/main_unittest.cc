@@ -13,19 +13,19 @@ class BinarySearchTreeTest : public ::testing::Test {
 };
 
 TEST_F(BinarySearchTreeTest, InitiallyEmpty) {
-  ASSERT_TRUE(tree.empty());
+  ASSERT_TRUE(tree.Empty());
 }
 
 TEST_F(BinarySearchTreeTest, AddAndNotEmpty) {
   tree.Insert(10);
-  ASSERT_FALSE(tree.empty());
+  ASSERT_FALSE(tree.Empty());
   tree.Insert(20);
-  ASSERT_FALSE(tree.empty());
+  ASSERT_FALSE(tree.Empty());
 }
 
 TEST_F(BinarySearchTreeTest, AddAndSize) {
   for (int i = 0; i < 50; ++i) {
-    ASSERT_EQ(tree.size(), i);
+    ASSERT_EQ(tree.Size(), i);
     tree.Insert(rand());
   }
 }
@@ -53,8 +53,8 @@ TEST_F(BinarySearchTreeTest, RemoveAndSize) {
     tree_iterative.RemoveIterative(vec[indexToRemove]);
     vec.erase(vec.begin() + indexToRemove);
 
-    ASSERT_EQ(tree.size(), i);
-    ASSERT_EQ(tree_iterative.size(), i);
+    ASSERT_EQ(tree.Size(), i);
+    ASSERT_EQ(tree_iterative.Size(), i);
   }
 }
 
@@ -62,24 +62,24 @@ TEST_F(BinarySearchTreeTest, RemoveAndEmpty) {
   tree.Insert(1);
   tree.Insert(2);
 
-  ASSERT_TRUE(!tree.empty());
+  ASSERT_TRUE(!tree.Empty());
   tree.Remove(1);
-  ASSERT_TRUE(!tree.empty());
+  ASSERT_TRUE(!tree.Empty());
   tree.Remove(2);
-  ASSERT_TRUE(tree.empty());
+  ASSERT_TRUE(tree.Empty());
   tree.Remove(2);
-  ASSERT_TRUE(tree.empty());
+  ASSERT_TRUE(tree.Empty());
 }
 
-TEST_F(BinarySearchTreeTest, InOrder) {
+TEST_F(BinarySearchTreeTest, Inorder) {
   const int tree_size = 100;
 
   for (int i = 0; i < tree_size; ++i) {
     tree.Insert(rand() % 2000);
   }
 
-  std::vector<int> inorder = tree.inorder();
-  ASSERT_EQ(tree.size(), tree_size);
+  std::vector<int> inorder = tree.Inorder();
+  ASSERT_EQ(tree.Size(), tree_size);
   ASSERT_EQ(inorder.size(), tree_size);
 
   for (int i = 1; i < inorder.size(); ++i) {
@@ -87,14 +87,14 @@ TEST_F(BinarySearchTreeTest, InOrder) {
   }
 }
 
-TEST_F(BinarySearchTreeTest, InOrderExists) {
+TEST_F(BinarySearchTreeTest, InorderExists) {
   const int tree_size = 100;
 
   for (int i = 0; i < tree_size; ++i) {
     tree.Insert(rand() % 2000);
   }
 
-  std::vector<int> inorder = tree.inorder();
+  std::vector<int> inorder = tree.Inorder();
 
   for (int i = 0; i < inorder.size(); ++i) {
     ASSERT_TRUE(tree.Exists(inorder[i]));
@@ -108,7 +108,7 @@ TEST_F(BinarySearchTreeTest, MinAndMax) {
     tree.Insert(rand() % 2000);
   }
 
-  std::vector<int> inorder = tree.inorder();
+  std::vector<int> inorder = tree.Inorder();
 
   ASSERT_EQ(tree.Min()->val, inorder[0]);
   ASSERT_EQ(tree.Max()->val, inorder[inorder.size() - 1]);
@@ -122,7 +122,7 @@ TEST_F(BinarySearchTreeTest, BFS) {
     tree.Insert(node);
   }
 
-  ASSERT_EQ(tree.bfs(), nodes_to_insert);
+  ASSERT_EQ(tree.BFS(), nodes_to_insert);
 }
 
 // TODO: Add more tests (BinarySearchTree::Clear, etc).

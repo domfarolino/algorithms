@@ -76,8 +76,8 @@ this repository.
 ## Supported operations
 
  - [`BinarySearchTree()`](#default-constructor)
- - [`size()`](#size)
- - [`empty()`](#empty)
+ - [`Size()`](#size)
+ - [`Empty()`](#empty)
  - [`Insert()`](#insert)
  - [`InsertHelper()`](#insert-helper)
  - [`Exists()`](#exists)
@@ -97,23 +97,23 @@ this repository.
 ### `BinarySearchTree<T>::BinarySearchTree();`
 
 Our default constructor doesn't really need to do anything. We just have an initialization
-list which sets our internal `root` member pointer to `NULL` and our internal `_size` variable
+list which sets our internal `root_` member pointer to `NULL` and our internal `size_` variable
 to `0`.
 
 <a name="size"></a>
-### `int BinarySearchTree<T>::size();`
+### `int BinarySearchTree<T>::Size();`
 
-This just returns the value of our internal `_size` variable. We maintain this internal variable
+This just returns the value of our internal `size_` variable. We maintain this internal variable
 instead of performing an entire tree walk every time we request the size for performance reasons.
 This gives us `O(1)` size calculations as long as we properly maintain this variable when adding
 and removing nodes from the tree.
 
 <a name="empty"></a>
-### `bool BinarySearchTree<T>::empty();`
+### `bool BinarySearchTree<T>::Empty();`
 
-This just returns whether or not our internal `_size` variable is `0` *and* our internal `root`
+This just returns whether or not our internal `size_` variable is `0` *and* our internal `root_`
 variable is `NULL`. Both are important so that we can more easily catch bugs in the case where
-we empty the entire tree yet our `root` is not `NULL` or the `_size` variable is not `0`.
+we empty the entire tree yet our `root_` is not `NULL` or the `size_` variable is not `0`.
 
 <a name="insert"></a>
 ### `void BinarySearchTree<T>::Insert(T elem);`
@@ -160,8 +160,8 @@ add(root = 5, value = 11)                  |
   }
 ```
 
-Note the above function must take in a root, which will be the tree's private `root` initially. This means that it
-must be called from our `add` wrapper function the first time in order to get the private `root`.
+Note the above function must take in a root, which will be the tree's private `root_` initially. This means that it
+must be called from our `add` wrapper function the first time in order to get the private `root_`.
 
 With the above statements, it is clear that, in general, the `addHelper` function will never have to deal with a `NULL`
 root in the average case. This means we won't have to perform any `NULL` checks in the beginning of our function before
@@ -171,8 +171,8 @@ Now it's time to consider the edge case in which the root of the actual tree is 
 handle this? We could of course add a `NULL` check at the beginning of our function, though this is a little wasteful since we'd
 only *need* to perform this `NULL` check the very first time, since we just saw that in the average case we'll always be given
 a non-null root. The smart way to handle this is to cater to the edge case in the wrapper function `add` that calls the
-recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root` variable so we can check to see if
-the actual tree's `root = NULL` before passing it along. If so, we can create the root, thus adding the very first
+recursive `addHelper` algorithm. Here, we're going to be dealing with the private `root_` variable so we can check to see if
+the actual tree's `root_ = NULL` before passing it along. If so, we can create the root, thus adding the very first
 node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
 handling logic so we're not performing extraneous NULL checks when unnecessary.
 
@@ -194,7 +194,7 @@ suggesting we'll need a wrapper function to kick this off. When recursing downwa
 about to recurse to is `NULL` before we recurse like we did with `add`; instead we can just recurse to it and check in the
 next frame if that root is `NULL`. Doing both would yield in extraneous `NULL` checks. With this information, we know the wrapper
 function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
-function with the private `root` of the tree.
+function with the private `root_` of the tree.
 
 <a name="remove"></a>
 ### `void BinarySearchTree<T>::Remove(T elem);`
@@ -359,7 +359,7 @@ This method is undocumented at the moment, though part of its logic is expressed
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
 subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
-a node once both of its subtrees are cleared and it's time to delete the local root. The internal `_size` variable should decrement
+a node once both of its subtrees are cleared and it's time to delete the local root. The internal `size_` variable should decrement
 every time a node is deleted.
 
 <a name="min"></a>
@@ -378,6 +378,7 @@ Same as <a href="#min">Min</a> but for the maximum value instead of the minimum.
 
 TODO(anyone): get to these
 
+ - BFS ...etc
  - Pre-order ...etc
  - Post-order ...etc
  - In-order ...etc

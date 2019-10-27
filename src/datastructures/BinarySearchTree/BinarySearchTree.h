@@ -23,18 +23,18 @@ private:
   TreeNode<T>* MinHelper(TreeNode<T>*);
   TreeNode<T>* MaxHelper(TreeNode<T>*);
 
-  void inorderHelper(TreeNode<T>*, std::vector<T>&);
-  void preorderHelper(TreeNode<T>*, std::vector<T>&);
-  void postorderHelper(TreeNode<T>*, std::vector<T>&);
+  void InorderHelper(TreeNode<T>*, std::vector<T>&);
+  void PreorderHelper(TreeNode<T>*, std::vector<T>&);
+  void PostorderHelper(TreeNode<T>*, std::vector<T>&);
 
 public:
   BinarySearchTree(): root_(NULL), size_(0) {}
 
-  int size() {
+  int Size() {
     return size_;
   }
 
-  bool empty() {
+  bool Empty() {
     return size_ == 0 && root_ == NULL;
   }
 
@@ -47,10 +47,10 @@ public:
   TreeNode<T>* Min();
   TreeNode<T>* Max();
 
-  std::vector<T> bfs();
-  std::vector<T> inorder();
-  std::vector<T> preorder();
-  std::vector<T> postorder();
+  std::vector<T> BFS();
+  std::vector<T> Inorder();
+  std::vector<T> Preorder();
+  std::vector<T> Postorder();
 
   ~BinarySearchTree();
 };
@@ -325,47 +325,47 @@ void BinarySearchTree<T>::ClearHelper(TreeNode<T>* root) {
  * Space complexity: O(n)
  */
 template <typename T>
-std::vector<T> BinarySearchTree<T>::inorder() {
+std::vector<T> BinarySearchTree<T>::Inorder() {
   std::vector<int> returnVec;
-  inorderHelper(root_, returnVec);
+  InorderHelper(root_, returnVec);
   return returnVec;
 }
 
 template <typename T>
-void BinarySearchTree<T>::inorderHelper(TreeNode<T>* root, std::vector<T> &vec) {
+void BinarySearchTree<T>::InorderHelper(TreeNode<T>* root, std::vector<T> &vec) {
   if (!root) return;
-  inorderHelper(root->left, vec);
+  InorderHelper(root->left, vec);
   vec.push_back(root->val);
-  inorderHelper(root->right, vec);
+  InorderHelper(root->right, vec);
 }
 
 template <typename T>
-std::vector<T> BinarySearchTree<T>::preorder() {
+std::vector<T> BinarySearchTree<T>::Preorder() {
   std::vector<int> returnVec;
-  preorderHelper(root_, returnVec);
+  PreorderHelper(root_, returnVec);
   return returnVec;
 }
 
 template <typename T>
-void BinarySearchTree<T>::preorderHelper(TreeNode<T> *root, std::vector<T> &vec) {
+void BinarySearchTree<T>::PreorderHelper(TreeNode<T> *root, std::vector<T> &vec) {
   if (!root) return;
   vec.push_back(root->val);
-  preorderHelper(root->left, vec);
-  preorderHelper(root->right, vec);
+  PreorderHelper(root->left, vec);
+  PreorderHelper(root->right, vec);
 }
 
 template <typename T>
-std::vector<T> BinarySearchTree<T>::postorder() {
+std::vector<T> BinarySearchTree<T>::Postorder() {
   std::vector<int> returnVec;
-  postorderHelper(root_, returnVec);
+  PostorderHelper(root_, returnVec);
   return returnVec;
 }
 
 template <typename T>
-void BinarySearchTree<T>::postorderHelper(TreeNode<T>* root, std::vector<T> &vec) {
+void BinarySearchTree<T>::PostorderHelper(TreeNode<T>* root, std::vector<T> &vec) {
   if (!root) return;
-  postorderHelper(root->left, vec);
-  postorderHelper(root->right, vec);
+  PostorderHelper(root->left, vec);
+  PostorderHelper(root->right, vec);
   vec.push_back(root->val);
 }
 
@@ -374,11 +374,11 @@ void BinarySearchTree<T>::postorderHelper(TreeNode<T>* root, std::vector<T> &vec
  * Space complexity: O(n)
  */
 template <typename T>
-std::vector<T> BinarySearchTree<T>::bfs() {
+std::vector<T> BinarySearchTree<T>::BFS() {
   std::vector<T> returnVec;
   std::queue<TreeNode<T>*> q;
 
-  if (!empty()) q.push(root_);
+  if (!Empty()) q.push(root_);
 
   while (!q.empty()) {
     // Push children
