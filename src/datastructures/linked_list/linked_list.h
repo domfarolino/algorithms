@@ -1,28 +1,56 @@
-#ifndef linked_list_H
-#define linked_list_H
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 
 #include <utility> // std::swap
 
-#include "linked_list_iterator.h"
-
 template <typename T>
-struct Node {
-  T val;
-  Node<T> *next;
-  Node(T in_val, Node<T> *in_next= nullptr): val(in_val), next(in_next) {}
-};
-
-template <typename T>
-// TODO(domfarolino): Rename this class..maybe LinkedList.
 class linked_list {
 private:
-  Node<T> *head_, *tail_;
+  struct Node {
+    T val;
+    Node* next;
+    Node(T in_val, Node* in_next = nullptr): val(in_val), next(in_next) {}
+  };
+
+  Node *head_, *tail_;
   int size_;
 
 public:
   linked_list(): head_(nullptr), tail_(nullptr), size_(0) {}
   linked_list(const linked_list<T>&);
   linked_list<T>& operator=(linked_list<T>);
+
+  // class linked_list::iterator.
+  class iterator {
+   private:
+    Node* node_ptr_;
+
+   public:
+    iterator(Node *in_ptr): node_ptr_(in_ptr) {}
+
+    bool operator==(const iterator& other) const {
+      return node_ptr_ == other.node_ptr_;
+    }
+
+    bool operator!=(const iterator& other) const {
+      return node_ptr_ != other.node_ptr_;
+    }
+
+    iterator operator++() {
+      node_ptr_ = node_ptr_->next;
+      return *this;
+    }
+
+    iterator operator++(int) {
+      iterator old_state = *this;
+      node_ptr_ = node_ptr_->next;
+      return old_state;
+    }
+
+    T& operator*() const {
+      return node_ptr_->val;
+    }
+  }; // linked_list::iterator.
 
   int size() const {
     return size_;
@@ -32,28 +60,20 @@ public:
     return (size_ == 0) && (head_ == tail_ && tail_ == nullptr);
   }
 
-  void addToHead(T);
-  void addToTail(T);
-  void removeFromHead();
-  void removeFromTail();
+  void add_to_head(T);
+  void add_to_tail(T);
+  void remove_from_head();
+  void remove_from_tail();
   void remove(T);
   bool exists(T) const;
   void clear();
 
-  linked_list_iterator<T> begin() const {
-    return linked_list_iterator<T>(head_);
+  iterator begin() const {
+    return iterator(head_);
   }
 
-  linked_list_iterator<T> end() const {
-    Node<T> *end;
-
-    if (tail_) {
-      end = tail_->next;
-    } else {
-      end = tail_;
-    }
-
-    return linked_list_iterator<T>(end);
+  iterator end() const {
+    return iterator(nullptr);
   }
 
   std::string to_string() const;
@@ -68,10 +88,10 @@ public:
  */
 template <typename T>
 linked_list<T>::linked_list(const linked_list<T>& other): linked_list() {
-  Node<T> *other_ptr = other.head_;
+  Node *other_ptr = other.head_;
 
   while (other_ptr) {
-    addToTail(other_ptr->val);
+    add_to_tail(other_ptr->val);
     other_ptr = other_ptr->next;
   }
 }
@@ -94,14 +114,14 @@ linked_list<T>& linked_list<T>::operator=(linked_list<T> other) {
  * Space complexity: O(1)
  */
 template <typename T>
-void linked_list<T>::addToHead(T elem) {
+void linked_list<T>::add_to_head(T elem) {
   if (!head_) {
-    head_ = tail_ = new Node<T>(elem);
+    head_ = tail_ = new Node(elem);
     size_++;
     return;
   }
 
-  Node<T>* new_head = new Node<T>(elem, head_);
+  Node* new_head = new Node(elem, head_);
   head_ = new_head; // could jam this into one line
   size_++;
 }
@@ -111,14 +131,14 @@ void linked_list<T>::addToHead(T elem) {
  * Space complexity O(1)
  */
 template <typename T>
-void linked_list<T>::addToTail(T elem) {
+void linked_list<T>::add_to_tail(T elem) {
   if (!head_) {
-    head_ = tail_ = new Node<T>(elem);
+    head_ = tail_ = new Node(elem);
     size_++;
     return;
   }
 
-  tail_->next = new Node<T>(elem);
+  tail_->next = new Node(elem);
   tail_ = tail_->next;
   size_++;
 }
@@ -128,10 +148,10 @@ void linked_list<T>::addToTail(T elem) {
  * Space complexity: O(1)
  */
 template <typename T>
-void linked_list<T>::removeFromHead() {
+void linked_list<T>::remove_from_head() {
   if (!head_) return;
 
-  Node<T> *tmp = head_->next;
+  Node *tmp = head_->next;
 
   delete head_;
 
@@ -146,14 +166,14 @@ void linked_list<T>::removeFromHead() {
  * Space complexity: O(1)
  */
 template <typename T>
-void linked_list<T>::removeFromTail() {
+void linked_list<T>::remove_from_tail() {
   if (!tail_) return;
 
   if (head_ == tail_) {
-    return removeFromHead();
+    return remove_from_head();
   }
 
-  Node<T> *curr = head_;
+  Node *curr = head_;
   while (curr->next != tail_) {
     curr = curr->next;
   }
@@ -175,10 +195,10 @@ void linked_list<T>::remove(T elem) {
   if (!head_) return;
 
   if (head_->val == elem) {
-    return removeFromHead();
+    return remove_from_head();
   }
 
-  Node<T> *tmp = head_;
+  Node *tmp = head_;
   while (tmp->next && tmp->next->val != elem) {
     tmp = tmp->next;
   }
@@ -186,7 +206,7 @@ void linked_list<T>::remove(T elem) {
   // Could not find it
   if (!tmp->next) return;
 
-  Node<T> *next = tmp->next->next; // either proper "next" node, or "nullptr" after old tail
+  Node *next = tmp->next->next; // either proper "next" node, or "nullptr" after old tail
 
   if (tmp->next == tail_) {
     tail_ = tmp;
@@ -204,7 +224,7 @@ void linked_list<T>::remove(T elem) {
  */
 template <typename T>
 bool linked_list<T>::exists(T elem) const {
-  Node<T> tmp = head_;
+  Node tmp = head_;
 
   while (tmp) {
     if (tmp->val == elem) return true;
@@ -221,7 +241,7 @@ bool linked_list<T>::exists(T elem) const {
 template <typename T>
 void linked_list<T>::clear() {
   while (!empty()) {
-    removeFromHead();
+    remove_from_head();
   }
 }
 
@@ -231,7 +251,7 @@ void linked_list<T>::clear() {
 template <typename T>
 std::string linked_list<T>::to_string() const {
   std::string result;
-  Node<T> *tmp = head_;
+  Node *tmp = head_;
 
   while (tmp) {
     result += std::to_string(tmp->val);
@@ -242,4 +262,4 @@ std::string linked_list<T>::to_string() const {
   return result;
 }
 
-#endif
+#endif // LINKED_LIST_H

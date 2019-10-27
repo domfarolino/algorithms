@@ -217,19 +217,16 @@ a temporary pointer to the remaining portion of the list (`head->next`). Alterna
 upholds the necessary invariants.
 
 <a name="begin"></a>
-### `linked_list_iterator<T> linked_list<T>::begin();`
+### `linked_list<T>::iterator linked_list<T>::begin();`
 
-This method returns a `linked_list_iterator` object (light abstraction over a `Node<T>` pointer) pointing at the head of the linked list
+This method returns a `linked_list::iterator` object (light abstraction over a `Node<T>` pointer) pointing at the head of the linked list
 it was called on. This is useful to iterate through the list and see values in sequence. For more information on the capabilities
-of this basic `linked_list_iterator` object, see [the class](https://github.com/domfarolino/algorithms/blob/master/src/datastructures/linked_list/linked_list_iterator.h).
+of this basic `linked_list::iterator` object, see its definition in the `linked_list` class.
 
 <a name="end"></a>
-### `linked_list_iterator<T> linked_list<T>::end();`
+### `linked_list<T>::iterator linked_list<T>::end();`
 
-This method returns a `linked_list_iterator` object (light abstraction over a `Node<T>` pointer) referencing the nullptr, or more specifically the
+This method returns a `linked_list::iterator` object (light abstraction over a `Node<T>` pointer) referencing the nullptr, or more specifically the
 value of `tail->next` if tail is not `nullptr`, or `tail` otherwise. This is convenient for iterating so that we can move an
 iterator through the list `while (someIterator != list.end())`, and we'll be able to hit all of our elements. See, if `list.end()`
-returned a `linked_list_iterator` pointing at the tail, then we'd be able to iterate over all elements BUT the tail!
-
-*Note the logic for the `end()` method may seem like overkill when we could simply just return `linked_list_iterator<T>(nullptr)`. However, I wanted
-to ensure that we used our member variables to make sure we're always upholding our invariants (i.e. `tail = nullptr` when list is empty)*
+returned a `linked_list::iterator` pointing at the tail, then we'd be able to iterate over all elements BUT the tail!
