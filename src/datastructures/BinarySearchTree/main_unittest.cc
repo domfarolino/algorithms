@@ -124,3 +124,5 @@ TEST_F(BinarySearchTreeTest, BFS) {
 
   ASSERT_EQ(tree.bfs(), nodes_to_insert);
 }
+
+// TODO: Add more tests (BinarySearchTree::Clear, etc).

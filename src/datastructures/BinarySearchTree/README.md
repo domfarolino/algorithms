@@ -85,8 +85,8 @@ this repository.
  - [`Remove()`](#remove)
  - [`RemoveHelper()`](#remove-helper)
  - [`RemoveIterative()`](#remove-iterative)
- - [`clear()`](#clear)
- - [`clearHelper()`](#clear-helper)
+ - [`Clear()`](#clear)
+ - [`ClearHelper()`](#clear-helper)
  - [`min()`](#min)
  - [`max()`](#max)
  - [`Traversals`](#traversals)
@@ -352,10 +352,10 @@ This method is undocumented at the moment, though part of its logic is expressed
 <a href="#remove-helper">RemoveHelper</a>. See the source.
 
 <a name="clear"></a>
-### `void BinarySearchTree<T>::clear(T elem);`
+### `void BinarySearchTree<T>::Clear(T elem);`
 
 <a name="clear-helper"></a>
-### `void BinarySearchTree<T>::clearHelper(T elem, TreeNode<T> *root);`
+### `void BinarySearchTree<T>::ClearHelper(T elem, TreeNode<T> *root);`
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
 subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting

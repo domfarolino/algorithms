@@ -18,7 +18,7 @@ private:
   void InsertHelper(T, TreeNode<T>*);
   bool ExistsHelper(T, TreeNode<T>*);
   TreeNode<T>* RemoveHelper(T, TreeNode<T>*);
-  void clearHelper(TreeNode<T>*);
+  void ClearHelper(TreeNode<T>*);
 
   TreeNode<T>* minHelper(TreeNode<T>*);
   TreeNode<T>* maxHelper(TreeNode<T>*);
@@ -42,7 +42,7 @@ public:
   bool Exists(T);
   void Remove(T);
   void RemoveIterative(T);
-  void clear();
+  void Clear();
 
   TreeNode<T>* min();
   TreeNode<T>* max();
@@ -306,15 +306,15 @@ TreeNode<T>* BinarySearchTree<T>::maxHelper(TreeNode<T> *root) {
  * Space complexity: O(n)
  */
 template <typename T>
-void BinarySearchTree<T>::clear() {
-  clearHelper(root_);
+void BinarySearchTree<T>::Clear() {
+  ClearHelper(root_);
 }
 
 template <typename T>
-void BinarySearchTree<T>::clearHelper(TreeNode<T>* root) {
+void BinarySearchTree<T>::ClearHelper(TreeNode<T>* root) {
   if (!root) return;
-  clearHelper(root->left);
-  clearHelper(root->right);
+  ClearHelper(root->left);
+  ClearHelper(root->right);
   delete root;
   size_--;
 }
@@ -396,5 +396,5 @@ std::vector<T> BinarySearchTree<T>::bfs() {
 
 template <typename T>
 BinarySearchTree<T>::~BinarySearchTree() {
-  clear();
+  Clear();
 }
