@@ -13,7 +13,7 @@ private:
 
 public:
   vector(): size_(0), capacity_(1), data_(new T[capacity_]) {}
-  vector(int inCapacity): size_(0), capacity_(MAX(1, inCapacity)), data_(new T[capacity_]) {}
+  vector(int in_capacity): size_(0), capacity_(MAX(1, in_capacity)), data_(new T[capacity_]) {}
 
   vector(const vector<T>&);
   vector& operator=(vector<T>);
@@ -83,14 +83,14 @@ vector<T>& vector<T>::operator=(vector<T> other) {
 template <typename T>
 void vector<T>::push_back(T val) {
   if (size_ >= capacity_) {
-    T *tmpData = new T[capacity_ * 2];
+    T *tmp_data = new T[capacity_ * 2];
 
     for (int i = 0; i < size_; ++i) {
-      tmpData[i] = data_[i];
+      tmp_data[i] = data_[i];
     }
 
     delete[] data_;
-    data_ = tmpData;
+    data_ = tmp_data;
 
     capacity_ *= 2;
   }
@@ -104,19 +104,19 @@ void vector<T>::push_back(T val) {
  */
 template <typename T>
 void vector<T>::push_front(T val) {
-  bool maxSize = size_ == capacity_;
-  T *tmpData = data_;
+  bool max_size = size_ == capacity_;
+  T *tmp_data = data_;
 
-  if (maxSize) {
+  if (max_size) {
     data_ = new T[capacity_ * 2];
     capacity_ *= 2;
   }
 
   for (int i = size_ - 1; i >= 0; --i) {
-    data_[i + 1] = tmpData[i];
+    data_[i + 1] = tmp_data[i];
   }
 
-  if (maxSize) delete[] tmpData;
+  if (max_size) delete[] tmp_data;
 
   data_[0] = val;
   size_++;
