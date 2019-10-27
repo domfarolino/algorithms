@@ -87,8 +87,8 @@ this repository.
  - [`RemoveIterative()`](#remove-iterative)
  - [`Clear()`](#clear)
  - [`ClearHelper()`](#clear-helper)
- - [`min()`](#min)
- - [`max()`](#max)
+ - [`Min()`](#min)
+ - [`Max()`](#max)
  - [`Traversals`](#traversals)
 
 ----
@@ -363,15 +363,15 @@ a node once both of its subtrees are cleared and it's time to delete the local r
 every time a node is deleted.
 
 <a name="min"></a>
-### `TreeNode<T> BinarySearchTree<T>::min(T elem, TreeNode<T> *root);`
+### `TreeNode<T> BinarySearchTree<T>::Min(T elem, TreeNode<T> *root);`
 
 This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
 as this is where smaller and smaller values will exist. The node returned should have a `NULL` left child.
 
 <a name="max"></a>
-### `TreeNode<T> BinarySearchTree<T>::max();`
+### `TreeNode<T> BinarySearchTree<T>::Max();`
 
-Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
+Same as <a href="#min">Min</a> but for the maximum value instead of the minimum.
 
 <a name="traversals"></a>
 ### Traversals

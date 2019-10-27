@@ -20,8 +20,8 @@ private:
   TreeNode<T>* RemoveHelper(T, TreeNode<T>*);
   void ClearHelper(TreeNode<T>*);
 
-  TreeNode<T>* minHelper(TreeNode<T>*);
-  TreeNode<T>* maxHelper(TreeNode<T>*);
+  TreeNode<T>* MinHelper(TreeNode<T>*);
+  TreeNode<T>* MaxHelper(TreeNode<T>*);
 
   void inorderHelper(TreeNode<T>*, std::vector<T>&);
   void preorderHelper(TreeNode<T>*, std::vector<T>&);
@@ -44,8 +44,8 @@ public:
   void RemoveIterative(T);
   void Clear();
 
-  TreeNode<T>* min();
-  TreeNode<T>* max();
+  TreeNode<T>* Min();
+  TreeNode<T>* Max();
 
   std::vector<T> bfs();
   std::vector<T> inorder();
@@ -147,7 +147,7 @@ TreeNode<T>* BinarySearchTree<T>::RemoveHelper(T elem, TreeNode<T> *root) {
     }
 
     // Node has both children
-    TreeNode<T> *successor = minHelper(root->right);
+    TreeNode<T> *successor = MinHelper(root->right);
     root->val = successor->val;
     root->right = RemoveHelper(successor->val, root->right);
   }
@@ -187,7 +187,7 @@ void BinarySearchTree<T>::RemoveIterative(T elem) {
    */
   if (current->left && current->right) {
     // Find minimum in the right subtree
-    TreeNode<T>* successor = minHelper(current->right);
+    TreeNode<T>* successor = MinHelper(current->right);
 
     // Replace node-to-remove's value with its successor's
     current->val = successor->val;
@@ -269,12 +269,12 @@ void BinarySearchTree<T>::RemoveIterative(T elem) {
  * Space complexity: O(1)
  */
 template <typename T>
-TreeNode<T>* BinarySearchTree<T>::min() {
-  return minHelper(root_);
+TreeNode<T>* BinarySearchTree<T>::Min() {
+  return MinHelper(root_);
 }
 
 template <typename T>
-TreeNode<T>* BinarySearchTree<T>::minHelper(TreeNode<T> *root) {
+TreeNode<T>* BinarySearchTree<T>::MinHelper(TreeNode<T> *root) {
   if (!root) return root;
   TreeNode<T>* minNode = root;
 
@@ -290,14 +290,14 @@ TreeNode<T>* BinarySearchTree<T>::minHelper(TreeNode<T> *root) {
  * Space complexity: O(1)
  */
 template <typename T>
-TreeNode<T>* BinarySearchTree<T>::max() {
+TreeNode<T>* BinarySearchTree<T>::Max() {
   if (!root_) return root_;
-  return maxHelper(root_);
+  return MaxHelper(root_);
 }
 
 template <typename T>
-TreeNode<T>* BinarySearchTree<T>::maxHelper(TreeNode<T> *root) {
-  if (root->right) return maxHelper(root->right);
+TreeNode<T>* BinarySearchTree<T>::MaxHelper(TreeNode<T> *root) {
+  if (root->right) return MaxHelper(root->right);
   else return root;
 }
 

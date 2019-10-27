@@ -110,8 +110,8 @@ TEST_F(BinarySearchTreeTest, MinAndMax) {
 
   std::vector<int> inorder = tree.inorder();
 
-  ASSERT_EQ(tree.min()->val, inorder[0]);
-  ASSERT_EQ(tree.max()->val, inorder[inorder.size() - 1]);
+  ASSERT_EQ(tree.Min()->val, inorder[0]);
+  ASSERT_EQ(tree.Max()->val, inorder[inorder.size() - 1]);
 }
 
 TEST_F(BinarySearchTreeTest, BFS) {
