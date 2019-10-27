@@ -4,6 +4,7 @@ a.out
 a.out.dSYM/
 *.[oa]
 *.py[co]
+bazel-*
 
 # OS Files
 *~
