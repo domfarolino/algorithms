@@ -68,7 +68,7 @@ Good sources to understand this idiom:
 <a name="size"></a>
 ### `int linked_list<T>::size() const;`
 
-This method returns the internal `_size` variable.
+This method returns the internal `size` variable.
 
 <a name="empty"></a>
 ### `bool linked_list<T>::empty() const;`
