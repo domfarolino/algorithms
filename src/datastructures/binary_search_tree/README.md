@@ -69,7 +69,7 @@ node. This initial call requires access to private data (the tree's "`root`") to
 call. To avoid exposing an API that requires private data, wrapper functions are often used to make this
 initial call once for the user. For example, the public API for `insert()` might accept a single value to add,
 and then call the recursive `insert_helper()` function with this value along with the tree's "`root`" node
-(to set the initial context for the future recursive calls). The `InsertHelper` would take it from here, recursing
+(to set the initial context for the future recursive calls). The `insert_helper` would take it from here, recursing
 down the tree as necessary. You'll see this wrapper function pattern being used in the implementation in
 this repository.
 
@@ -340,7 +340,7 @@ assignment is idempotent otherwise. Notice how in the iterative version we neede
 to delete, whereas with recursion this reference is kept implicitly for us in the form of stack frames. This simplifies our logic
 because we can focus on deleting the current `head` of any arbitrary stack frame and navigate accordingly.
 
-The recursive `RemoveHelper` member function behaves very similarly to the aforementioned algorithm though, there is additional
+The recursive `remove_helper` member function behaves very similarly to the aforementioned algorithm though, there is additional
 logic to navigate the `left` and `right` children properly, as opposed to `next`, and some value copying logic for when
 we wish to delete a node which has two children. Once we perform the copy, we can just call the recursive algorithm on the
 left subtree to remove the duplicate successor's value (the trivial case).
@@ -349,7 +349,7 @@ left subtree to remove the duplicate successor's value (the trivial case).
 ### `void binary_search_tree<T>::remove_iterative(T elem);`
 
 This method is undocumented at the moment, though part of its logic is expressed in
-<a href="#remove-helper">RemoveHelper</a>. See the source.
+<a href="#remove-helper">remove_helper</a>. See the source.
 
 <a name="clear"></a>
 ### `void binary_search_tree<T>::clear(T elem);`
@@ -371,7 +371,7 @@ as this is where smaller and smaller values will exist. The node returned should
 <a name="max"></a>
 ### `TreeNode<T> binary_search_tree<T>::max();`
 
-Same as <a href="#min">Min</a> but for the maximum value instead of the minimum.
+Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 
 <a name="traversals"></a>
 ### Traversals
