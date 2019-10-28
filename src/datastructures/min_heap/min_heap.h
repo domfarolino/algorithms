@@ -1,29 +1,29 @@
 #ifndef MINHEAP_H
 #define MINHEAP_H
 
-#include "../Vector/Vector.h"
+#include "../vector/vector.h"
 
 template <typename T>
-class MinHeap {
+class min_heap {
 private:
-  Vector<T> vec_;
-  void BubbleUp(int);
-  void BubbleDown(int);
+  vector<T> vec_;
+  void bubble_up(int);
+  void bubble_down(int);
 
 public:
-  MinHeap() {}
+  min_heap() {}
 
-  int Size() const {
+  int size() const {
     return vec_.size();
   }
 
-  bool Empty() const {
+  bool empty() const {
     return vec_.empty();
   }
 
-  void Insert(T);
-  void Remove();
-  T Peek() const;
+  void insert(T);
+  void remove();
+  T peek() const;
 
   void PrintHeap() const {
     for (int i = 0; i < vec_.size(); ++i) {
@@ -33,7 +33,7 @@ public:
     std::cout << std::endl;
   }
 
-  void Clear();
+  void clear();
 };
 
 /**
@@ -41,9 +41,9 @@ public:
  * Space complexity: O(1) amortized
  */
 template <typename T>
-void MinHeap<T>::Insert(T elem) {
+void min_heap<T>::insert(T elem) {
   vec_.push_back(elem);
-  BubbleUp(vec_.size() - 1);
+  bubble_up(vec_.size() - 1);
 }
 
 /**
@@ -51,11 +51,11 @@ void MinHeap<T>::Insert(T elem) {
  * Space complexity: O(1)
  */
 template <typename T>
-void MinHeap<T>::Remove() {
+void min_heap<T>::remove() {
   if (vec_.empty()) return;
   vec_[0] = vec_[vec_.size() - 1];
   vec_.pop_back();
-  BubbleDown(0);
+  bubble_down(0);
 }
 
 /**
@@ -63,7 +63,7 @@ void MinHeap<T>::Remove() {
  * Space complexity: O(1)
  */
 template <typename T>
-T MinHeap<T>::Peek() const {
+T min_heap<T>::peek() const {
   if (vec_.empty())
     throw std::logic_error("Trying to Peek on an empty heap");
 
@@ -76,7 +76,7 @@ T MinHeap<T>::Peek() const {
  * Space complexity: O(1)
  */
 template <typename T>
-void MinHeap<T>::BubbleUp(int index) {
+void min_heap<T>::bubble_up(int index) {
   if (!index) return;
 
   T current_element = vec_[index];
@@ -88,7 +88,7 @@ void MinHeap<T>::BubbleUp(int index) {
     T parent_item = vec_[parent_index];
     vec_[parent_index] = current_element;
     vec_[index] = parent_item;
-    return BubbleUp(parent_index);
+    return bubble_up(parent_index);
   }
 }
 
@@ -98,7 +98,7 @@ void MinHeap<T>::BubbleUp(int index) {
  * Space complexity: O(1)
  */
 template <typename T>
-void MinHeap<T>::BubbleDown(int index) {
+void min_heap<T>::bubble_down(int index) {
   if (index >= vec_.size()) return;
 
   bool has_left_child = false, has_right_child = false;
@@ -121,7 +121,7 @@ void MinHeap<T>::BubbleDown(int index) {
   T child_item = vec_[index_to_swap];
   vec_[index_to_swap] = vec_[index];
   vec_[index] = child_item;
-  return BubbleDown(index_to_swap);
+  return bubble_down(index_to_swap);
 }
 
 /**
@@ -129,8 +129,8 @@ void MinHeap<T>::BubbleDown(int index) {
  * Space complexity: O(1)
  */
 template <typename T>
-void MinHeap<T>::Clear() {
+void min_heap<T>::clear() {
   vec_.clear();
 }
 
-#endif
+#endif // MINHEAP_H
