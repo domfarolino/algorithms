@@ -1,15 +1,15 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "../SLL/SLL.h"
+#include "../linked_list/linked_list.h"
 
 template <typename T>
-class Stack {
+class stack {
 private:
-  SLL<T> list;
+  linked_list<T> list;
 
 public:
-  Stack() {}
+  stack() {}
 
   int size() const {
     return list.size();
@@ -30,8 +30,8 @@ public:
  * Space complexity: O(1)
  */
 template <typename T>
-void Stack<T>::push(T val) {
-  list.addToHead(val);
+void stack<T>::push(T val) {
+  list.add_to_head(val);
 }
 
 /**
@@ -39,8 +39,8 @@ void Stack<T>::push(T val) {
  * Space complexity: O(1)
  */
 template <typename T>
-void Stack<T>::pop() {
-  list.removeFromHead();
+void stack<T>::pop() {
+  list.remove_from_head();
 }
 
 /**
@@ -48,7 +48,7 @@ void Stack<T>::pop() {
  * Space complexity: O(1)
  */
 template <typename T>
-T Stack<T>::top() const {
+T stack<T>::top() const {
   if (!size()) {
     throw std::logic_error("Trying to view top element of an empty stack");
   }
@@ -61,8 +61,8 @@ T Stack<T>::top() const {
  * Space complexity: O(1)
  */
 template <typename T>
-void Stack<T>::clear() {
+void stack<T>::clear() {
   list.clear();
 }
 
-#endif
+#endif // STACK_H
