@@ -1,8 +1,8 @@
 #include <iostream>
 #include <assert.h>
 
-#include "queue.h" // To test this implementation
-// #include "../queueFromStacks/queue.h" // to test the queue from Stacks implementation
+#include "queue.h" // To test this implementation.
+// #include "../queue_from_stacks/queue.h" // to test the queue from stacks implementation.
 
 void enqueueAndSize() {
   queue<int> q;
