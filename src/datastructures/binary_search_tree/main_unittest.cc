@@ -1,4 +1,4 @@
-#include <cstdlib> // rand()
+#include <cstdlib> // rand().
 
 #include "gtest/gtest.h"
 #include "binary_search_tree.h"
