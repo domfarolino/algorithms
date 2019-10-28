@@ -1,7 +1,9 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include <utility> // std::swap
+#include <stdexcept> // std::logic_error
+#include <string>    // std::to_string.
+#include <utility>   // std::swap.
 
 #define MAX(a, b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a >= _b ? _a : _b; })
 

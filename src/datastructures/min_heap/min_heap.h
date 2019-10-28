@@ -1,7 +1,7 @@
 #ifndef MINHEAP_H
 #define MINHEAP_H
 
-#include "../vector/vector.h"
+#include "vector/vector.h"
 
 template <typename T>
 class min_heap {
@@ -24,14 +24,6 @@ public:
   void insert(T);
   void remove();
   T peek() const;
-
-  void PrintHeap() const {
-    for (int i = 0; i < vec_.size(); ++i) {
-      std::cout << vec_[i] << ", ";
-    }
-
-    std::cout << std::endl;
-  }
 
   void clear();
 };

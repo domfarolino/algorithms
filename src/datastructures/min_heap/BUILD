@@ -1,12 +1,12 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
 # This library target doesn't actually produce anything. It is only to export
-# vector.h to other targets and packages. See
+# min_heap.h to other targets and packages. See
 # https://groups.google.com/forum/#!topic/bazel-discuss/x7c8HJ6dke8.
 cc_library(
-  name = "vector",
-  hdrs = ["vector.h"],
-  visibility = ["//visibility:public"],
+  name = "min_heap",
+  hdrs = ["min_heap.h"],
+  deps = ["//vector:vector"]
 )
 
 cc_binary(
@@ -14,7 +14,7 @@ cc_binary(
   srcs = ["main_unittest.cc"],
   copts = ["-Iexternal/gtest/include"],
   deps = [
-    ":vector",
+    ":min_heap",
     "@gtest//:gtest",
     "@gtest//:gtest_main",
   ],
