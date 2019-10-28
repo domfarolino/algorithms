@@ -1,4 +1,4 @@
-#pop Queue
+# Queue
 
 The queue data structure functions just like a line at the store, in that the `first` item in is the
 `first` item out. Equivalently, the `last` item in is the `last` item out. Consequently, queues are
