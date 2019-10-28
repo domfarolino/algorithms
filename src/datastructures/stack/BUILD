@@ -1,12 +1,12 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
 # This library target doesn't actually produce anything. It is only to export
-# linked_list.h to other targets and packages. See
+# stack.h to other targets and packages. See
 # https://groups.google.com/forum/#!topic/bazel-discuss/x7c8HJ6dke8.
 cc_library(
-  name = "linked_list",
-  hdrs = ["linked_list.h"],
-  visibility = ["//visibility:public"],
+  name = "stack",
+  hdrs = ["stack.h"],
+  deps = ["//linked_list:linked_list"]
 )
 
 cc_binary(
@@ -14,7 +14,7 @@ cc_binary(
   srcs = ["main_unittest.cc"],
   copts = ["-Iexternal/gtest/include"],
   deps = [
-    ":linked_list",
+    ":stack",
     "@gtest//:gtest",
     "@gtest//:gtest_main",
   ],

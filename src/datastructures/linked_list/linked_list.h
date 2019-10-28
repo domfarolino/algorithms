@@ -1,7 +1,8 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
-#include <utility> // std::swap
+#include <string> // std::string, std::to_string.
+#include <utility> // std::swap.
 
 template <typename T>
 class linked_list {

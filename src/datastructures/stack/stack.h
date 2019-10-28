@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "../linked_list/linked_list.h"
+#include "linked_list/linked_list.h"
 
 template <typename T>
 class stack {
