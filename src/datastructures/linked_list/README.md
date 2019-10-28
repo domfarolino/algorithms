@@ -1,7 +1,7 @@
 # Singly Linked List
 
 A singly linked list is a data structure similar to a vector, however, the elements are not stored contiguously. The nature of this storage
-affects the complexities of some of the abstract operations. For example, `add_to_front` (equivalent to `push_front`) is `O(1)` and there is
+affects the complexities of some of the abstract operations. For example, `add_to_head` (equivalent to `push_front`) is `O(1)` and there is
 no indexing. "Indexing" must be done with iteration over the list, which is `O(n)`. Singly linked lists work by maintaining an internal list
 with `head` and `tail` pointers, as well as an internal `size` variable to keep track of the current list length. In all of our operations,
 it is important to maintain certain invariants, such as:
@@ -24,10 +24,10 @@ and are often the underlying implementation for both stacks and queues.
  - [`operator=(linked_list<T>)`](#copy-assignment)
  - [`size()`](#size)
  - [`empty()`](#empty)
- - [`add_to_head()`](#add_to_head)
- - [`add_to_tail()`](#add_to_tail)
- - [`remove_from_head()`](#remove_from_head)
- - [`remove_from_tail()`](#remove_from_tail)
+ - [`add_to_head()`](#add-to-head)
+ - [`add_to_tail()`](#add-to-tail)
+ - [`remove_from_head()`](#remove-from-head)
+ - [`remove_from_tail()`](#remove-from-tail)
  - [`remove()`](#remove)
  - [`exists()`](#exists)
  - [`clear()`](#clear)
@@ -75,7 +75,7 @@ This method returns the internal `size` variable.
 
 This method returns a boolean indicating whether or not the list is empty.
 
-<a name="add_to_head"></a>
+<a name="add-to-head"></a>
 ### `void linked_list<T>::add_to_head(T elem);`
 
 When adding something to the beginning of the list we'll see one of two cases.
@@ -89,7 +89,7 @@ one value at this point, it is important to uphold our invariant of updating the
 In the average case of inserting an element at the head of a list with more than one node, we'll just create a new node whose next
 value is equal to the current head. Then, we'll set the current head equal to this new value and we're finished.
 
-<a name="add_to_tail"></a>
+<a name="add-to-tail"></a>
 ### `void linked_list<T>::add_to_tail(T elem);`
 
 Adding an element to the tail of a list functions similarly to adding to the head. If the list is empty, the functions behave identically.
@@ -97,7 +97,7 @@ Adding an element to the tail of a list functions similarly to adding to the hea
 In the average case, we just need to make our current tail point to a new node whose value is `elem`. We need to set the `next` field on
 this node to `nullptr` (prepping it to become a tail), and then set our tail pointer equal to this node.
 
-<a name="remove_from_head"></a>
+<a name="remove-from-head"></a>
 ### `void linked_list<T>::remove_from_head();`
 
 When removing an element from the head of a list, besides the case where the list is empty, we'll encounter one of two cases.
@@ -117,7 +117,7 @@ In general, we'll want to reverse what we did in `add_to_head`. So basically ass
 These operations will be the same in both cases. We can take care of the former case by just checking to see if our new head is `nullptr` or
 not. If it is, we know we just deleted the tail and should update our tail pointer. Else, we do nothing.
 
-<a name="remove_from_tail"></a>
+<a name="remove-from-tail"></a>
 ### `void linked_list<T>::remove_from_tail();`
 
 When removing *any* element of a list, it is convenient to have a pointer to the element that comes before it. Consider the case in which we want
@@ -161,7 +161,7 @@ pointer will be sitting at the node right before our tail and we can proceed to:
 ### `void linked_list<T>::remove(T elem);`
 
 When removing the first element that matches some criteria from *any* position in a linked list, much of the logic covered in the
-<a href="#remove_from_tail">remove_from_tail</a> applies. Of course, we first need to check for list existence and only continue if
+<a href="#remove-from-tail">remove_from_tail</a> applies. Of course, we first need to check for list existence and only continue if
 there is at least one node in the list.
 
 Next, we'll want to employ the same logic of iterating a temporary pointer through the list. Since deleting the head is a special case
@@ -169,7 +169,7 @@ Next, we'll want to employ the same logic of iterating a temporary pointer throu
 let one of our previous methods handle the logic for that case. We know that this method will handle all invariants properly so we can
 make the call and return with no worries.
 
-In the average case, we'll do our regular iteration. In the prior method (<a href="#remove_from_tail">remove_from_tail</a>), we stopped iterating
+In the average case, we'll do our regular iteration. In the prior method (<a href="#remove-from-tail">remove_from_tail</a>), we stopped iterating
 through the list when the temporary's next field equaled the tail pointer. In this case, we'll stop iterating when `temp->next` equals a node
 that matches our criteria (value equivalence, for example).
 
@@ -213,7 +213,7 @@ exists, iterate through the list checking each node's value against `elem`.
 
 The point of this method is to completely delete the list. We do this by iterating through the list deleting the head pointer while keeping
 a temporary pointer to the remaining portion of the list (`head->next`). Alternatively, we could just keep calling
-<a href="#remove_from_head">remove_from_head</a> while the head still exists, since we know this method works in all cases and
+<a href="#remove-from-head">remove_from_head</a> while the head still exists, since we know this method works in all cases and
 upholds the necessary invariants.
 
 <a name="begin"></a>

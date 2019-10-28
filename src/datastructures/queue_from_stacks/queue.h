@@ -1,16 +1,16 @@
 #ifndef QUEUE_FROM_STACKS_H
 #define QUEUE_FROM_STACKS_H
 
-#include "../Stack/Stack.h"
+#include "../stack/stack.h"
 
 template <typename T>
-class Queue {
+class queue {
 private:
-  Stack<T> inbox, outbox;
+  stack<T> inbox, outbox;
   void transfer();
 
 public:
-  Queue() {}
+  queue() {}
 
   int size() const {
     return inbox.size() + outbox.size();
@@ -31,7 +31,7 @@ public:
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::enqueue(T val) {
+void queue<T>::enqueue(T val) {
   inbox.push(val);
 }
 
@@ -40,7 +40,7 @@ void Queue<T>::enqueue(T val) {
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::dequeue() {
+void queue<T>::dequeue() {
   if (inbox.empty() && outbox.empty()) return;
 
   if (outbox.empty()) {
@@ -55,7 +55,7 @@ void Queue<T>::dequeue() {
  * Space complexity: O(1)
  */
 template <typename T>
-T Queue<T>::front() {
+T queue<T>::front() {
   if (inbox.empty() && outbox.empty()) throw std::logic_error("Trying to view top element of an empty stack");
 
   if (outbox.empty()) {
@@ -72,7 +72,7 @@ T Queue<T>::front() {
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::transfer() {
+void queue<T>::transfer() {
   while (!inbox.empty()) {
     outbox.push(inbox.top());
     inbox.pop();
@@ -84,9 +84,9 @@ void Queue<T>::transfer() {
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::clear() {
+void queue<T>::clear() {
   inbox.clear();
   outbox.clear();
 }
 
-#endif
+#endif // QUEUE_FROM_STACKS_H

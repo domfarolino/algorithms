@@ -1,15 +1,15 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "../SLL/SLL.h"
+#include "../linked_list/linked_list.h"
 
 template <typename T>
-class Queue {
+class queue {
 private:
-  SLL<int> list;
+  linked_list<int> list;
 
 public:
-  Queue() {}
+  queue() {}
 
   int size() const {
     return list.size();
@@ -30,8 +30,8 @@ public:
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::enqueue(T val) {
-  list.addToTail(val);
+void queue<T>::enqueue(T val) {
+  list.add_to_tail(val);
 }
 
 /**
@@ -39,8 +39,8 @@ void Queue<T>::enqueue(T val) {
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::dequeue() {
-  list.removeFromHead();
+void queue<T>::dequeue() {
+  list.remove_from_head();
 }
 
 /**
@@ -48,7 +48,7 @@ void Queue<T>::dequeue() {
  * Space complexity: O(1)
  */
 template <typename T>
-T Queue<T>::front() const {
+T queue<T>::front() const {
   if (!size()) {
     throw std::logic_error("Trying to view front element of an empty queue");
   }
@@ -61,8 +61,8 @@ T Queue<T>::front() const {
  * Space complexity: O(1)
  */
 template <typename T>
-void Queue<T>::clear() {
+void queue<T>::clear() {
   list.clear();
 }
 
-#endif
+#endif // QUEUE_H

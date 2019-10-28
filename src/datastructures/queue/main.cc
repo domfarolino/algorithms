@@ -1,11 +1,11 @@
 #include <iostream>
 #include <assert.h>
 
-#include "Queue.h" // To test this implementation
-// #include "../QueueFromStacks/Queue.h" // to test the Queue from Stacks implementation
+#include "queue.h" // To test this implementation.
+// #include "../queue_from_stacks/queue.h" // to test the queue from stacks implementation.
 
 void enqueueAndSize() {
-  Queue<int> q;
+  queue<int> q;
   assert(q.size() == 0);
   q.enqueue(1);
   assert(q.size() == 1);
@@ -15,7 +15,7 @@ void enqueueAndSize() {
 }
 
 void enqueueAndEmpty() {
-  Queue<int> q;
+  queue<int> q;
   assert(q.empty());
   q.enqueue(1);
   assert(!q.empty());
@@ -24,7 +24,7 @@ void enqueueAndEmpty() {
 }
 
 void dequeueAndSize() {
-  Queue<int> q;
+  queue<int> q;
   q.enqueue(1);
   q.enqueue(2);
   q.enqueue(3);
@@ -41,7 +41,7 @@ void dequeueAndSize() {
 }
 
 void dequeueAndEmpty() {
-  Queue<int> q;
+  queue<int> q;
   q.enqueue(1);
   q.enqueue(2);
   q.enqueue(3);
@@ -58,7 +58,7 @@ void dequeueAndEmpty() {
 }
 
 void front() {
-  Queue<int> q;
+  queue<int> q;
   q.enqueue(1);
   q.enqueue(2);
   q.enqueue(3);
@@ -83,7 +83,7 @@ void front() {
 }
 
 void clear() {
-  Queue<int> q;
+  queue<int> q;
   q.enqueue(1);
   q.enqueue(2);
   q.enqueue(3);
@@ -106,12 +106,12 @@ void clear() {
 }
 
 void copyConstructor() {
-  Queue<int> right;
+  queue<int> right;
   right.enqueue(1);
   right.enqueue(2);
   right.enqueue(3);
 
-  Queue<int> left = right;
+  queue<int> left = right;
   right.clear();
 
   assert(left.size() == 3);
@@ -119,7 +119,7 @@ void copyConstructor() {
 }
 
 void copyAssignment() {
-  Queue<int> left, center, right;
+  queue<int> left, center, right;
   right.enqueue(1);
   right.enqueue(2);
   right.enqueue(3);
