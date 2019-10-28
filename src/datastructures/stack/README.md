@@ -5,13 +5,13 @@ The stack data structure functions just like a stack of plates, in that the `fir
 known as `FILO` or `LIFO` containers. This kind of data structure is often useful to simulate recursive
 functions (like DFS), or to reverse the contents of another container.
 
-Stacks are often implemented with a singly linked list as the underlying data structure, as is this particular
-implementation. We maintain an internal linked list which has all of the methods our Stack data structure will
-need to use. Again, the Stack data structure is merely a SLL wrapper.
+stacks are often implemented with a singly linked list as the underlying data structure, as is this particular
+implementation. We maintain an internal linked list which has all of the methods our stack data structure will
+need to use. Again, the stack data structure is merely a SLL wrapper.
 
 ## Supported operations
 
- - [`Stack()`](#default-constructor)
+ - [`stack()`](#default-constructor)
  - [`size()`](#size)
  - [`empty()`](#empty)
  - [`push()`](#push)
@@ -25,23 +25,23 @@ data structures implement these sufficiently. This class is simply a wrapper of 
 ----
 
 <a name="default-constructor"></a>
-### `Stack<T>::Stack();`
+### `stack<T>::stack();`
 
 This does nothing :)
 
 <a name="size"></a>
-### `int Stack<T>::size() const;`
+### `int stack<T>::size() const;`
 
 Returns the size of the underlying `SLL`.
 
 <a name="empty"></a>
-### `bool Stack<T>::empty() const;`
+### `bool stack<T>::empty() const;`
 
 Returns a boolean indicating whether or not the underlying linked list is
 [empty](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/SLL#empty).
 
 <a name="push"></a>
-### `void Stack<T>::push(T elem);`
+### `void stack<T>::push(T elem);`
 
 This method utilizes [`SLL<T>::addToHead`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/SLL#addToHead)
 to push new elements to the front of the list. When pushing elements to a stack, the internal list will evolve as such:
@@ -54,7 +54,7 @@ to push new elements to the front of the list. When pushing elements to a stack,
 ```
 
 <a name="pop"></a>
-### `void Stack<T>::pop();`
+### `void stack<T>::pop();`
 
 In the opposite nature of [`push()`](#push), this method utilizes
 [`SLL<T>::removeFromHead`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/SLL#removeFromHead)
@@ -69,7 +69,7 @@ will evolve as such:
 ```
 
 <a name="top"></a>
-### `T Stack<T>::top(T elem) const;`
+### `T stack<T>::top(T elem) const;`
 
 This method returns the first element in the internal list if there is one, and throws an `std::logic_error` otherwise.
 We attempt to get the first element in the list by taking advantage of
@@ -84,6 +84,6 @@ understand indicating the list is empty because:
 1. We don't know what type `T` the user will be using!
 
 <a name="clear"></a>
-### `void Stack<T>::clear();`
+### `void stack<T>::clear();`
 
 This method utilizes the underlying `SLL` class to delete the list.
