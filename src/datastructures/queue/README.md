@@ -25,7 +25,7 @@ data structures implement these sufficiently. This class is simply a wrapper of 
 ----
 
 <a name="default-constructor"></a>
-### `queue<T>::Queue();`
+### `queue<T>::queue();`
 
 This does nothing :)
 
@@ -41,7 +41,7 @@ Returns a boolean indicating whether or not the underlying linked list is
 [empty](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/linked_list#empty).
 
 <a name="enqueue"></a>
-### `void queue<T>::push(T elem);`
+### `void queue<T>::enqueue(T elem);`
 
 This method utilizes [`linked_list<T>::add_to_tail`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/linked_list#add-to-tail)
 to push new elements to the end of the list. When enqueuing elements to a queue, the internal list will evolve as such:
