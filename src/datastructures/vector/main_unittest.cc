@@ -1,4 +1,4 @@
-#include <math.h> // pow(), floor(), log().
+#include <math.h> // pow(), ceil(), log2().
 
 #include "gtest/gtest.h"
 #include "vector.h"
