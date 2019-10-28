@@ -1,15 +1,15 @@
 # Min Heap (Priority Queue)
 
-Heaps are critical data structures and, in this document (and repository), we will be discussing an implementation of a heap called
-a min heap (min_heap). Min heaps are often used to implement priority queues. Heaps can be thought of as a binary tree in which every
-node has a higher priority than both of its children. This is known as our heap invariant and should always be maintained for the
-heap to be valid. In a min heap, a node with the highest priority will have the lowest value; thus the root of a min heap will have
-the smallest value in the heap.
+Heaps are critical data structures and, in this document (and repository), we will be discussing an implementation of a heap
+called a min heap. Min heaps are often used to implement priority queues. Heaps can be thought of as a binary tree in which
+every node has a higher priority than both of its children. This is known as our heap invariant and should always be maintained
+for the heap to be valid. In a min heap, a node with the highest priority will have the lowest value; thus the root of a min heap
+will have the smallest value in the heap.
 
 ### Implementation
 
 Heaps are trees often implemented with arrays or vectors. In our case, we'll just be using the
-[`Vector`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/Vector) class that also
+[`vector`](https://github.com/domfarolino/algorithms/tree/master/src/datastructures/vector) class that also
 appears in this repository. So how do we build a tree with a contiguous array? Consider the array
 `[1, 2, 3]`, which would produce the following tree:
 
@@ -155,7 +155,7 @@ if (a >= b) {
 ...we opt for:
 
 ```cpp
-int maxVal = max(a, b);
+int max_val = max(a, b);
 
 // tons
 // of
@@ -169,8 +169,8 @@ And we get:
 bool hasLeftChild = false, hasRightChild = false;
 int lChildIndex = index * 2 + 1, rChildIndex = index * 2 + 2;
 
-if (lChildIndex < this->vec.size() && this->vec[index] > this->vec[lChildIndex]) hasLeftChild = true;
-if (rChildIndex < this->vec.size() && this->vec[index] > this->vec[rChildIndex]) hasRightChild = true;
+if (lChildIndex < vec.size() && vec[index] > vec[lChildIndex]) hasLeftChild = true;
+if (rChildIndex < vec.size() && vec[index] > vec[rChildIndex]) hasRightChild = true;
 
 int indexToSwap;
 
@@ -178,13 +178,13 @@ int indexToSwap;
   * Set indexToSwap equal to the valid index whose
   * value in the vector is the lowest (highest priority)
   */
-if (hasLeftChild && hasRightChild) indexToSwap = (this->vec[lChildIndex] <= this->vec[rChildIndex]) ? lChildIndex : rChildIndex;
+if (hasLeftChild && hasRightChild) indexToSwap = (vec[lChildIndex] <= vec[rChildIndex]) ? lChildIndex : rChildIndex;
 else if (hasLeftChild) indexToSwap = lChildIndex;
 else if (hasRightChild) indexToSwap = rChildIndex;
 else return;
 
-T childItem = this->vec[indexToSwap];
-this->vec[indexToSwap] = this->vec[index];
-this->vec[index] = childItem;
+T childItem = vec[indexToSwap];
+vec[indexToSwap] = vec[index];
+vec[index] = childItem;
 return bubble_down(indexToSwap);
 ```
