@@ -65,7 +65,7 @@ TEST_F(StackTest, Top) {
   stck.push(2);
   stck.push(3);
   ASSERT_EQ(stck.top(), 3);
-  ASSERT_EQ(stck.top(), 3); // make sure stack::top() doesn't pop.
+  ASSERT_EQ(stck.top(), 3); // Make sure stack::top() doesn't pop.
 
   stck.pop();
   ASSERT_EQ(stck.top(), 2);

@@ -1,7 +1,7 @@
 #ifndef QUEUE_FROM_STACKS_H
 #define QUEUE_FROM_STACKS_H
 
-#include "../stack/stack.h"
+#include "stack/stack.h"
 
 template <typename T>
 class queue {

@@ -6,7 +6,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 cc_library(
   name = "min_heap",
   hdrs = ["min_heap.h"],
-  deps = ["//vector:vector"]
+  deps = ["//vector:vector"],
 )
 
 cc_binary(
