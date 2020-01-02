@@ -81,9 +81,6 @@ std::vector<std::vector<int>> knightlOnAChessboard(int n) {
 }
 
 int main() {
-  std::string path = "test.out";
-  std::ofstream fout(path);
-
   int n;
   std::cin >> n;
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -92,19 +89,18 @@ int main() {
 
   for (int i = 0; i < result.size(); i++) {
     for (int j = 0; j < result[i].size(); j++) {
-      fout << result[i][j];
+      std::cout << result[i][j];
 
       if (j != result[i].size() - 1) {
-        fout << " ";
+        std::cout << " ";
       }
     }
 
     if (i != result.size() - 1) {
-      fout << "\n";
+      std::cout << "\n";
     }
   }
 
-  fout << "\n";
-  fout.close();
+  std::cout << "\n";
   return 0;
 }
