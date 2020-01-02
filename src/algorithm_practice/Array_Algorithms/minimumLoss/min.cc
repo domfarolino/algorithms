@@ -40,8 +40,7 @@ long minimum_loss(const std::vector<long>& prices) {
   long min_difference = LONG_MAX;
   std::set<long>::iterator it;
   for (const long& price: prices) {
-    vals.insert(price);
-    it = vals.find(price);
+    it = vals.insert(price).first;
     if (++it == vals.end())
       continue;
 
