@@ -1,4 +1,4 @@
-# Cut The Tree
+# Cut the Tree
 
 Source:
  - https://www.hackerrank.com/challenges/cut-the-tree/problem
@@ -19,7 +19,7 @@ node, we'll want two things:
  - The sum of the entire tree (_`b`_)
 
 Then we can simply compute the difference between the two trees (`a - b`, and `b`). We'll compute
-`(a - b)` - `b` for each node and take the minimum of all computations. When we visit each node though,
+`(a - b) - b` for each node and take the minimum of all computations. When we visit each node though,
 computing `a` and `b` from scratch each time lends itself to a trivial O(n<sup>2</sup>) solution. We can
 compute `a` up-front, eliminating that O(n) cost right away, but computing `b` each time is still O(n)
 itself, and keeps our overall complexity O(<sup>2</sup>). We can actually preprocess the entire tree
@@ -29,5 +29,11 @@ at every node. Now, we simply perform a single DFS traversal of the tree in O(n)
 do our O(1) math operations, and continue!
 
 ## Complexity analysis
- - Time complexity: O(n); We have to traverse the tree, which is O(n) nodes and O(n) edges
- - Space complexity: O(n); We have to store the tree, which is O(n) nodes and O(n) edges
+Let "n" be the number of nodes in our tree/graph.
+
+ - Time complexity: O(n)
+   - Typically when we implement a graph (or in this case, a graph that happens to be a tree), both the
+     number of nodes and edges play a roll into how many operations our algorithm will complete. Since our
+     graph is a tree, we know the number of edges is bounded by the number of nodes, so a traversal on _n_
+     nodes is O(n).
+ - Space complexity: O(n); for the reasons listed above
