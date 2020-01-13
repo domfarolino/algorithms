@@ -72,11 +72,19 @@ O(n) as well, giving us O(n<sup>2</sup>) operations. However, since we're perfor
 for each inner loop iteration, it is more accurately O(n<sup>2</sup>log(n)).
 
 ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) I say O(n), because the number of distinct
-characters can be at most the size of the input, and therefore is proportional to O(n).
+characters can be at most the size of the input, and therefore is proportional to O(n). The Leetcode
+problem description mentions that the number of distinct characeters is limited to 26 (lowercase English
+alphabet), but that's a very limiting and non-portable way to think, so for the purposes of a more general
+approach, I'm considering a more general encoding.
 
 This solution beats 100% on leetcode, passing all 65 test cases with a runtime < 0ms.
 
 # Complexity analysis
 
  - Time complexity: O(n<sup>2</sup>log(n))
+   - **Importantly**, this complexity is only accurate if we ignore the constraint mentioned in the Leetcode
+     problem description, as per the above note. If we honor/consider that constraint, this becomes an O(n)
+     algorithm.
  - Space complexity: O(n)
+   - Similar to the above point, the space complexity O(1) if we honor the additional distinct character
+     constraint in the original Leetcode problem, but that's no fun.
