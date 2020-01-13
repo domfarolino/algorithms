@@ -25,4 +25,6 @@ compare it to the given `k` that "Ron" guesses to see if his guess is right.
 
 ## Complexity analysis
  - Time complexity: O(n\*m)
- - Space complexity: O(\*m); for the visited set
+   - The number of places in the grid we can visit during the algorithm is bounded by the number of places in the
+     grid. Imagine an extremely sparse grid (tree-wise) in the worst case.
+ - Space complexity: O(n\*m); for the visited set
