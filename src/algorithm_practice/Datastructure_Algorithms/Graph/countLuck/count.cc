@@ -4,6 +4,7 @@
 #include <tuple>
 #include <string>
 
+// Hackerrank-provided.
 std::vector<std::string> split_string(std::string);
 
 struct Location {
@@ -117,6 +118,7 @@ int main() {
   return 0;
 }
 
+// Hackerrank-provided.
 std::vector<std::string> split_string(std::string input_string) {
   std::string::iterator new_end = unique(input_string.begin(), input_string.end(), [] (const char &x, const char &y) {
     return x == y and x == ' ';
