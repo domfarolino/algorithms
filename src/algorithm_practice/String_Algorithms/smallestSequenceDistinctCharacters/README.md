@@ -79,7 +79,7 @@ approach, I'm considering a more general encoding.
 
 This solution beats 100% on leetcode, passing all 65 test cases with a runtime < 0ms.
 
-# Complexity analysis
+## Complexity analysis
 
  - Time complexity: O(n<sup>2</sup>log(n))
    - **Importantly**, this complexity is only accurate if we ignore the constraint mentioned in the Leetcode
@@ -88,3 +88,22 @@ This solution beats 100% on leetcode, passing all 65 test cases with a runtime <
  - Space complexity: O(n)
    - Similar to the above point, the space complexity O(1) if we honor the additional distinct character
      constraint in the original Leetcode problem, but that's no fun.
+
+# A more optimal approach
+
+While digging around Leetcode, I found another interesting approach to this problem, that is slightly simpler
+than mine. The above approach focuses on picking the best candidate "distinct character" first, and slowly
+building up our return string without based on the indices of the other distinct characters, and determining
+what the best order we can create is. A
+[community solution on Leetcode Discuss](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/discuss/357715/)
+approaches the problem differently, buy building the return string slowly by iterating through the given string. As
+we're building our return string, at any given moment it may not be optimal, or even its final value. However, by
+examining each character of the input string after some linear-time preprocessing, we can slowly make our return
+string more optimal, until it is finally finished.
+
+This approach differs from the first, in that it builds the return string by focusing on the input string mainly,
+instead of working backwards from the distinct characters we know it will be composed of.
+
+## Complexity analysis
+ - Time complexity: O(n)
+ - Space complexity: O(n)
