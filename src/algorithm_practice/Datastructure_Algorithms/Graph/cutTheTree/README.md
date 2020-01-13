@@ -21,12 +21,13 @@ node, we'll want two things:
 Then we can simply compute the difference between the two trees (`a - b`, and `b`). We'll compute the
 absolute value of `(a - b) - b` for each node and take the minimum of all computations. When we visit
 each node though, computing `a` and `b` from scratch each time lends itself to a trivial O(n<sup>2</sup>)
-solution. We can compute `a` up-front, eliminating that O(n) cost right away, but computing `b` each time
-is still O(n) itself, and keeps our overall complexity O(n<sup>2</sup>). We can actually preprocess the
-entire tree up-front too, computing each subtree sum in O(n) time. We can store that information in each
-tree node (even overwriting the node's original value if we want), so that we have `a` and `b` pre-computed
-for us at every node. Now, we simply perform a single DFS traversal of the tree in O(n) time, and for each
-node do our O(1) math operations, and continue!
+solution. We can compute `a` upfront, eliminating that O(n) cost right away, but computing `b` each time
+is still O(n) itself, and keeps our overall complexity O(n<sup>2</sup>).
+
+We can actually preprocess the entire tree upfront too, computing each subtree sum in a DFS-manner for a
+one-time O(n) cost. We can store that information in each tree node (even overwriting the node's original
+value if we want), so that we have `a` and `b` pre-computed for us at every node. Now, we simply perform a
+single DFS traversal of the tree, and for each node do our O(1) math operations, and return the minimum value.
 
 ## Complexity analysis
 Let "n" be the number of nodes in our tree/graph.
