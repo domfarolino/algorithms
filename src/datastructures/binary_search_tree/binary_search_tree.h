@@ -16,12 +16,15 @@ private:
   int size_;
 
   void insert_helper(T, TreeNode<T>*);
-  bool exists_helper(T, TreeNode<T>*);
+  TreeNode<T>* find_helper(T, TreeNode<T>*);
   TreeNode<T>* remove_helper(T, TreeNode<T>*);
   void clear_helper(TreeNode<T>*);
 
-  TreeNode<T>* min_helper(TreeNode<T>*);
-  TreeNode<T>* max_helper(TreeNode<T>*);
+  static TreeNode<T>* inorder_successor(TreeNode<T>*, TreeNode<T>*);
+  static TreeNode<T>* inorder_predecessor(TreeNode<T>*, TreeNode<T>*);
+
+  static TreeNode<T>* min_helper(TreeNode<T>*);
+  static TreeNode<T>* max_helper(TreeNode<T>*);
 
   void inorder_helper(TreeNode<T>*, std::vector<T>&);
   void preorder_helper(TreeNode<T>*, std::vector<T>&);
@@ -29,6 +32,62 @@ private:
 
 public:
   binary_search_tree(): root_(nullptr), size_(0) {}
+
+  class iterator {
+  public:
+    // TODO(domfarolino): Make this a forward-iterator, and eventually a
+    // bidirectional iterator.
+    using iterator_category = std::input_iterator_tag;
+    using value_type = T;
+    using difference_type = T;
+    using pointer = T*;
+    using reference = T&;
+
+    // -------- Iterator functionality --------
+    iterator operator++() {
+      TreeNode<T>* successor =
+        binary_search_tree<T>::inorder_successor(node_, root_);
+      *this = iterator(successor, root_);
+      return *this;
+    }
+    iterator operator++(int) {
+      TreeNode<T>* successor =
+        binary_search_tree<T>::inorder_successor(node_, root_);
+      iterator old_iterator = *this;
+      *this = iterator(successor, root_);
+      return old_iterator;
+    }
+    bool operator!=(iterator other) const {
+      return node_ != other.node_;
+    }
+    bool operator==(iterator other) const {
+      return node_ == other.node_;
+    }
+    iterator operator--() {
+      TreeNode<T>* predecessor =
+        binary_search_tree<T>::inorder_predecessor(node_, root_);
+      *this = iterator(predecessor, root_);
+      return *this;
+    }
+    iterator operator--(int) {
+      TreeNode<T>* predecessor =
+        binary_search_tree<T>::inorder_predecessor(node_, root_);
+      iterator old_iterator = *this;
+      *this = iterator(predecessor, root_);
+      return old_iterator;
+    }
+    value_type operator*() {
+      return node_->val;
+    }
+
+    iterator(): node_(nullptr), root_(nullptr) {}
+  private:
+    TreeNode<T> *node_, *root_;
+    iterator(TreeNode<T> *in_node, TreeNode<T> *in_root):
+      node_(in_node), root_(in_root) {}
+
+    friend binary_search_tree; // It is allowed to invoke the private constructor.
+  };
 
   int size() {
     return size_;
@@ -38,14 +97,18 @@ public:
     return size_ == 0 && root_ == nullptr;
   }
 
+  iterator begin();
+  iterator end();
+
   void insert(T);
   bool exists(T);
+  iterator find(T);
   void remove(T);
   void remove_iterative(T);
   void clear();
 
-  TreeNode<T>* min();
-  TreeNode<T>* max();
+  iterator min();
+  iterator max();
 
   std::vector<T> bfs();
   std::vector<T> inorder();
@@ -54,6 +117,16 @@ public:
 
   ~binary_search_tree();
 };
+
+template <typename T>
+typename binary_search_tree<T>::iterator binary_search_tree<T>::begin() {
+  return min();
+}
+
+template <typename T>
+typename binary_search_tree<T>::iterator binary_search_tree<T>::end() {
+  return iterator();
+}
 
 /**
  * Time complexity: O(n)
@@ -93,22 +166,33 @@ void binary_search_tree<T>::insert_helper(T elem, TreeNode<T> *root) {
  * Space complexity: O(1)
  */
 template <typename T>
-bool binary_search_tree<T>::exists(T elem) {
-  return exists_helper(elem, root_);
+typename binary_search_tree<T>::iterator binary_search_tree<T>::find(T elem) {
+  // Run the exists logic to find a node, create an iterator around it, and
+  // return it.
+  return iterator(find_helper(elem, root_), root_);
 }
 
 template <typename T>
-bool binary_search_tree<T>::exists_helper(T elem, TreeNode<T>* root) {
-  if (!root) return false;
+TreeNode<T>* binary_search_tree<T>::find_helper(T elem, TreeNode<T>* root) {
+  if (!root) return nullptr;
   if (root->val == elem) {
-    return true;
+    return root;
   } else if (elem < root->val) {
-    return exists_helper(elem, root->left);
+    return find_helper(elem, root->left);
   } else if (elem > root->val) {
-    return exists_helper(elem, root->right);
+    return find_helper(elem, root->right);
   }
 
-  return false;
+  return nullptr;
+}
+
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+template <typename T>
+bool binary_search_tree<T>::exists(T elem) {
+  return find(elem) != end();
 }
 
 /**
@@ -269,11 +353,76 @@ void binary_search_tree<T>::remove_iterative(T elem) {
  * Space complexity: O(1)
  */
 template <typename T>
-TreeNode<T>* binary_search_tree<T>::min() {
-  return min_helper(root_);
+// static
+TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem,
+                                                      TreeNode<T> *root) {
+  TreeNode<T> *successor = nullptr;
+  // If |elem| has a right subtree, this is trivial. Otherwise, we must start at
+  // root and do a search.
+  if (elem->right) {
+    return min_helper(elem->right);
+  } else {
+    // TODO(domfarolino): Document this better.
+    // 1. If |root->val| > |elem->val|, then |root| is a candidate successor for
+    // sure, but there could be a better one in |root->left|.
+    while (root) {
+      if (root->val > elem->val || (root->val == elem->val && root != elem)) {
+        successor = root;
+        root = root->left;
+      } else if (root->val <= elem->val) {
+        // 2. Else if |root->val| <= |elem->val|, than the successor must exist in
+        // |root->right|. Even if |root->val| == |elem->val|, the success or must
+        // be in the right subtree (or does not exist).
+        root = root->right;
+      } // if.
+    } // while.
+  }
+
+  return successor;
+}
+
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+template <typename T>
+// static
+TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem,
+                                                        TreeNode<T> *root) {
+  TreeNode<T> *predecessor = nullptr;
+  if (elem->left) {
+    // std::cout << "Quick path, getting max of elem->left" << std::endl;
+    predecessor = max_helper(elem->left);
+  } else {
+    while (root) {
+      if (root->val < elem->val) {
+        // bool first_condition = (root->val < elem->val);
+        // std::cout << "First path " << (first_condition ? "first condition" : "second condition") << std::endl;
+        predecessor = root;
+        root = root->right;
+      } else if (root->val >= elem->val) {
+        // std::cout << "Second path" << std::endl;
+        root = root->left;
+      }
+    }
+  }
+
+  // int pred_value = predecessor ? predecessor->val : -99;
+  // std::cout << "  Return pred: " << pred_value << std::endl;
+  return predecessor;
+}
+
+/**
+ * Time complexity: O(n)
+ * Space complexity: O(1)
+ */
+template <typename T>
+typename binary_search_tree<T>::iterator binary_search_tree<T>::min() {
+  return iterator(min_helper(root_), root_);
 }
 
 template <typename T>
+// static
 TreeNode<T>* binary_search_tree<T>::min_helper(TreeNode<T> *root) {
   if (!root) return root;
   TreeNode<T>* min_node = root;
@@ -290,13 +439,14 @@ TreeNode<T>* binary_search_tree<T>::min_helper(TreeNode<T> *root) {
  * Space complexity: O(1)
  */
 template <typename T>
-TreeNode<T>* binary_search_tree<T>::max() {
-  if (!root_) return root_;
-  return max_helper(root_);
+typename binary_search_tree<T>::iterator binary_search_tree<T>::max() {
+  if (!root_) return iterator();
+  return iterator(max_helper(root_), root_);
 }
 
 // Implemented differently than min_helper() just for fun.
 template <typename T>
+// static
 TreeNode<T>* binary_search_tree<T>::max_helper(TreeNode<T> *root) {
   if (root->right) return max_helper(root->right);
   else return root;

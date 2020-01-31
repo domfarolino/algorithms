@@ -110,8 +110,8 @@ TEST_F(BinarySearchTreeTest, MinAndMax) {
 
   std::vector<int> inorder = tree.inorder();
 
-  ASSERT_EQ(tree.min()->val, inorder[0]);
-  ASSERT_EQ(tree.max()->val, inorder[inorder.size() - 1]);
+  ASSERT_EQ(*tree.min(), inorder[0]);
+  ASSERT_EQ(*tree.max(), inorder[inorder.size() - 1]);
 }
 
 TEST_F(BinarySearchTreeTest, BreadthFirstSearch) {
@@ -123,6 +123,272 @@ TEST_F(BinarySearchTreeTest, BreadthFirstSearch) {
   }
 
   ASSERT_EQ(tree.bfs(), nodes_to_insert);
+}
+
+// Iterator tests.
+TEST_F(BinarySearchTreeTest, IteratorIncrementDuplicates_01) {
+  tree.insert(7);
+  tree.insert(6);
+  tree.insert(6);
+  tree.insert(6);
+  tree.insert(5);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 5);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 7);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorIncrementDuplicates_02) {
+  tree.insert(7);
+  tree.insert(8);
+  tree.insert(8);
+  tree.insert(8);
+  tree.insert(9);
+  tree.insert(5);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 5);
+  ASSERT_EQ(*it++, 7);
+  ASSERT_EQ(*it++, 8);
+  ASSERT_EQ(*it++, 8);
+  ASSERT_EQ(*it++, 8);
+  ASSERT_EQ(*it++, 9);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorIncrementDuplicates_03) {
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(it, tree.max());
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrementDuplicates_01) {
+  tree.insert(7);
+  tree.insert(6);
+  tree.insert(6);
+  tree.insert(6);
+  tree.insert(5);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 7);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it, 5);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrementDuplicates_02) {
+  tree.insert(7);
+  tree.insert(8);
+  tree.insert(8);
+  tree.insert(8);
+  tree.insert(9);
+  tree.insert(5);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 9);
+  ASSERT_EQ(*it--, 8);
+  ASSERT_EQ(*it--, 8);
+  ASSERT_EQ(*it--, 8);
+  ASSERT_EQ(*it--, 7);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it, 5);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrementDuplicates_03) {
+  tree.insert(0);
+  tree.insert(3);
+  tree.insert(6);
+  tree.insert(4);
+  tree.insert(6);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(*it--, 4);
+  ASSERT_EQ(*it--, 3);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it, 0);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrementDuplicates_04) {
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  tree.insert(1);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 1);
+  ASSERT_EQ(*it--, 1);
+  ASSERT_EQ(*it--, 1);
+  ASSERT_EQ(*it--, 1);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it, 1);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorIncrement_01) {
+  tree.insert(1);
+  tree.insert(2);
+  tree.insert(3);
+  tree.insert(4);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it++, 3);
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorIncrement_02) {
+  tree.insert(7);
+  tree.insert(4);
+  tree.insert(6);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 7);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorIncrement_03) {
+  tree.insert(1000);
+  tree.insert(4);
+  tree.insert(999);
+  tree.insert(5);
+  tree.insert(998);
+  tree.insert(6);
+  auto it = tree.min();
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(*it++, 5);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 998);
+  ASSERT_EQ(*it++, 999);
+  ASSERT_EQ(*it++, 1000);
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrement_01) {
+  tree.insert(1);
+  tree.insert(2);
+  tree.insert(3);
+  tree.insert(4);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 4);
+  ASSERT_EQ(*it--, 3);
+  ASSERT_EQ(*it--, 2);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it--, 1);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrement_02) {
+  tree.insert(7);
+  tree.insert(4);
+  tree.insert(6);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 7);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it--, 4);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorDecrement_03) {
+  tree.insert(1000);
+  tree.insert(4);
+  tree.insert(999);
+  tree.insert(5);
+  tree.insert(998);
+  tree.insert(6);
+  auto it = tree.max();
+  ASSERT_EQ(*it--, 1000);
+  ASSERT_EQ(*it--, 999);
+  ASSERT_EQ(*it--, 998);
+  ASSERT_EQ(*it--, 6);
+  ASSERT_EQ(*it--, 5);
+  ASSERT_EQ(it, tree.begin());
+  ASSERT_EQ(*it--, 4);
+}
+
+TEST_F(BinarySearchTreeTest, IteratorBeginEnd) {
+  ASSERT_EQ(tree.begin(), tree.end());
+  tree.insert(10);
+  tree.insert(11);
+  ASSERT_NE(tree.begin(), tree.end());
+
+  ASSERT_EQ(*tree.begin(), 10);
+  ASSERT_EQ(tree.begin(), tree.min());
+
+  ASSERT_EQ(tree.end(), ++tree.max());
+  binary_search_tree<int>::iterator end_it = tree.max();
+  end_it++;
+  ASSERT_EQ(end_it, tree.end());
+
+  binary_search_tree<int>::iterator it = tree.begin();
+  ASSERT_NE(it, tree.end());
+  it++;
+  ASSERT_NE(it, tree.end());
+  it++;
+  ASSERT_EQ(it, tree.end());
+}
+
+TEST_F(BinarySearchTreeTest, IteratorValueEquality) {
+  const int tree_size = 500;
+
+  for (int i = 0; i < tree_size; ++i) {
+    tree.insert(rand() % 600);
+  }
+
+  std::vector<int> inorder = tree.inorder();
+  std::vector<int>::iterator inorder_it = inorder.begin();
+  binary_search_tree<int>::iterator it = tree.begin();
+  while (inorder_it != inorder.end()) {
+    ASSERT_EQ(*it, *inorder_it);
+    ++it;
+    ++inorder_it;
+  }
+
+  std::vector<int>::reverse_iterator inorder_rev = inorder.rbegin();
+  it = tree.max();
+  while (inorder_rev != inorder.rend()) {
+    ASSERT_EQ(*it, *inorder_rev);
+    --it;
+    ++inorder_rev;
+  }
+}
+
+TEST_F(BinarySearchTreeTest, IteratorFindEquality) {
+  const int tree_size = 500;
+
+  for (int i = 0; i < tree_size; ++i) {
+    tree.insert(rand() % 600);
+  }
+
+  std::vector<int> inorder = tree.inorder();
+  for (int val: inorder) {
+    ASSERT_EQ(*tree.find(val), val);
+  }
+}
+
+TEST_F(BinarySearchTreeTest, IteratorPopulateVector) {
+  const int tree_size = 500;
+
+  for (int i = 0; i < tree_size; ++i) {
+    tree.insert(rand() % 600);
+  }
+
+  std::vector<int> inorder = tree.inorder(),
+                   populated(tree.begin(), tree.end());
+  ASSERT_EQ(inorder.size(), tree.size());
+  ASSERT_EQ(inorder, populated);
 }
 
 // TODO: Add more tests (BinarySearchTree::Clear, etc).
