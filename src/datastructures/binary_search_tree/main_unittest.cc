@@ -1,4 +1,6 @@
+#include <algorithm> // std::swap, std::iter_swap.
 #include <cstdlib> // rand().
+#include <numeric> // std::accumulate.
 
 #include "gtest/gtest.h"
 #include "binary_search_tree.h"
@@ -391,4 +393,38 @@ TEST_F(BinarySearchTreeTest, IteratorPopulateVector) {
   ASSERT_EQ(inorder, populated);
 }
 
+TEST_F(BinarySearchTreeTest, IteratorSTDAccumulate) {
+  const int tree_size = 500;
+
+  for (int i = 0; i < tree_size; ++i) {
+    tree.insert(rand() % 600);
+  }
+
+  std::vector<int> inorder = tree.inorder();
+  ASSERT_EQ(inorder.size(), tree.size());
+
+  int actual_sum = std::accumulate(tree.begin(), tree.end(), 0),
+      expected_sum = std::accumulate(inorder.begin(), inorder.end(), 0);
+  ASSERT_EQ(actual_sum, expected_sum);
+}
+
+TEST_F(BinarySearchTreeTest, SwapBreakTreeVariant) {
+  tree.insert(10);
+  tree.insert(12);
+
+  std::swap(*tree.min(), *tree.max());
+  // Swapping the min and the max should work with the iterators, though it
+  // breaks the invariant of the tree.
+  ASSERT_GE(*tree.min(), *tree.max());
+}
+
+TEST_F(BinarySearchTreeTest, IterSwapBreakTreeVariant) {
+  tree.insert(10);
+  tree.insert(12);
+
+  std::iter_swap(tree.min(), tree.max());
+  // Swapping the min and the max should work with the iterators, though it
+  // breaks the invariant of the tree.
+  ASSERT_GE(*tree.min(), *tree.max());
+}
 // TODO: Add more tests (BinarySearchTree::Clear, etc).

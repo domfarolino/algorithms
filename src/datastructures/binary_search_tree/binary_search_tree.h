@@ -35,9 +35,10 @@ public:
 
   class iterator {
   public:
-    // TODO(domfarolino): Make this a forward-iterator, and eventually a
-    // bidirectional iterator.
-    using iterator_category = std::input_iterator_tag;
+    // TODO: This could be a bidirectional iterator if we make
+    // binary_search_tree<T>::end()-- work. This might require some sort of
+    // dummy-max node.
+    using iterator_category = std::forward_iterator_tag;
     using value_type = T;
     using difference_type = T;
     using pointer = T*;
@@ -76,7 +77,7 @@ public:
       *this = iterator(predecessor, root_);
       return old_iterator;
     }
-    value_type operator*() {
+    reference operator*() const {
       return node_->val;
     }
 
