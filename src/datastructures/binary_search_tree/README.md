@@ -425,13 +425,13 @@ As we work our way down from the root, each node `curr` we encounter will fall i
 simple cases:
 
   1. `curr->val > elem->val`
-    - In which case we consider `curr` a candidate inorder successor, but want to traverse its left
-      subtree, looking for a more minimal inorder successor
+     - In which case we consider `curr` a candidate inorder successor, but want to traverse its left
+       subtree, looking for a more minimal inorder successor
   1. `curr->val <= elem->val`
-    - Simple enough: `curr` doesn't give us what we're looking for, so we have no new inorder
-      successor, and must follow `curr->right`. This is safe even when `curr->val == elem->val`,
-      because we know `curr` does not have a right subtree if we get to these steps, so our traversal
-      will stop
+     - Simple enough: `curr` doesn't give us what we're looking for, so we have no new inorder
+       successor, and must follow `curr->right`. This is safe even when `curr->val == elem->val`,
+       because we know `curr` does not have a right subtree if we get to these steps, so our traversal
+       will stop
 
 That's the basic logic, but how do we handle duplicates? Let's consider a tree with 3, 5-valued
 nodes. In the below-tree, I've labeled each node with an extra identifier indicating the order
