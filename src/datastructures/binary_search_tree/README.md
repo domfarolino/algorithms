@@ -96,6 +96,11 @@ this repository.
 ### Internal iterator class
 
  - [`iterator()`](#default-constructor-iterator)
+ - [`operator++()`](#operator++)
+ - [`operator--()`](#operator--)
+ - [`operator!=()`](#operator!=)
+ - [`operator==()`](#operator==)
+ - [`operator*()`](#operator*)
 
 ----
 
@@ -383,7 +388,7 @@ Simply delegates to <a href="#min">min</a>.
 ### `iterator binary_search_tree<T>::end();`
 
 This is an unfortunately naive method. Ideally, we'd return an iterator pointing past
-<a href="#max">max()</a>, and whose <a href="#operator--iterator">operator--</a> returns the max()
+<a href="#max">max()</a>, and whose <a href="#operator--">operator--</a> returns the max()
 iterator. The simple implementation we have now simply returns an iterator that wraps a null node
 and is useless. It is only good for equality comparisons for out-of-bound iterators. This is
 immediately useful to support the example below, but is ultimately deficient:
@@ -448,4 +453,38 @@ is invalidated since it holds a pointer to the deleted root. This is not good, a
 avoided if the tree supported parent pointers, because the iterator class would no longer need
 to hold a root reference.
 
-TODO(domfarolino): Finish the documentation for this class's operations.
+<a name="operator++"></a>
+### `iterator iterator::operator++();`
+
+### `iterator iterator::operator++(int);`
+
+The pre- and post-increment iterator operators delegate to the tree class's
+<a href="#inorder-successor">inorder_successor()</a> method to compute the inorder successor of its
+internal node, given the internal node and root. Then the correct new iterator is returned
+(depending on whether we're pre- or post-incrementing).
+
+
+<a name="operator--"></a>
+### `iterator iterator::operator--();`
+
+### `iterator iterator::operator--(int);`
+
+The pre- and post-decrement iterator operators delegate to the tree class's
+<a href="#inorder-predecessor">inorder_predecessor()</a> method to compute the inorder predecessor
+of its internal node, given the internal node and root. Then the correct new iterator is returned
+(depending on whether we're pre- or post-decrementing).
+
+<a name="operator!="></a>
+### `bool iterator::operator!=(iterator other) const`
+
+Returns whether the internal node is not the same as `other`'s internal node.
+
+<a name="operator=="></a>
+### `bool iterator::operator==(iterator other) const;`
+
+Returns whether the internal node is the same as `other`'s internal node.
+
+<a name="operator*"></a>
+### `T iterator::operator*() const;`
+
+Attempts to dereference the internal node, and returns its `val` member, of type `T`.
