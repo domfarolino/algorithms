@@ -35,9 +35,9 @@ public:
 
   class iterator {
   public:
-    // TODO: This could be a bidirectional iterator if we make
-    // binary_search_tree<T>::end()-- work. This might require some sort of
-    // dummy-max node.
+    // TODO(#146): This could be std::bidirectional_iterator_tag if we supported
+    // the decrement operator on the end() iterator. See
+    // https://github.com/domfarolino/algorithms/issues/146.
     using iterator_category = std::forward_iterator_tag;
     using value_type = T;
     using difference_type = T;

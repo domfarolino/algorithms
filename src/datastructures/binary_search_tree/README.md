@@ -382,16 +382,17 @@ Simply delegates to <a href="#min">min</a>.
 <a name="end"></a>
 ### `iterator binary_search_tree<T>::end();`
 
-This is an unfortunately naive method. Ideally, we'd return an iterator that points past
-<a href="#max">max</a>, and whose <a href="#operator--iterator">operator--</a> returns the same
-iterator as max(), but that seems to require some sort of dummy node implementation. The simple
-implementation we have for now simply returns an iterator that wraps a null node and is useless. It
-is only good for equality comparisons with iterators that are one-past max(), since both iterators
-point to a nullptr internally, and are considered "equal". For example:
+This is an unfortunately naive method. Ideally, we'd return an iterator pointing past
+<a href="#max">max()</a>, and whose <a href="#operator--iterator">operator--</a> returns the max()
+iterator. The simple implementation we have now simply returns an iterator that wraps a null node
+and is useless. It is only good for equality comparisons for out-of-bound iterators. This is
+immediately useful to support the example below, but is ultimately deficient:
 
 ```
 std::accumulate(tree.begin(), tree.end() /* trivial, but allows us to terminate */, 0);
 ```
+
+See https://github.com/domfarolino/algorithms/issues/146.
 
 <a name="min"></a>
 ### `iterator binary_search_tree<T>::min();`
