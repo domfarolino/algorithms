@@ -75,6 +75,8 @@ this repository.
 
 ## Supported operations
 
+### Binary Search Tree class
+
  - [`binary_search_tree()`](#default-constructor)
  - [`size()`](#size)
  - [`empty()`](#empty)
@@ -82,6 +84,8 @@ this repository.
  - [`insert_helper()`](#insert-helper)
  - [`exists()`](#exists)
  - [`exists_helper()`](#exists-helper)
+ - [`inorder_successor()`](#inorder-successor)
+ - [`inorder_predecessor()`](#inorder-predecessor)
  - [`remove()`](#remove)
  - [`remove_helper()`](#remove-helper)
  - [`remove_iterative()`](#remove-iterative)
@@ -91,7 +95,13 @@ this repository.
  - [`max()`](#max)
  - [`Traversals`](#traversals)
 
+### Internal iterator class
+
+ - [`iterator()`](#default-constructor-iterator)
+
 ----
+
+## Binary Search Tree class
 
 <a name="default-constructor"></a>
 ### `binary_search_tree<T>::binary_search_tree();`
@@ -195,6 +205,16 @@ about to recurse to is `nullptr` before we recurse like we did with `add`; inste
 next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr` checks. With this information, we know the wrapper
 function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
 function with the private `root_` of the tree.
+
+<a name="inorder-successor"></a>
+### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+TODO(domfarolino): Document this.
+
+<a name="inorder-predecessor"></a>
+### `static TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+TODO(domfarolino): Document this.
 
 <a name="remove"></a>
 ### `void binary_search_tree<T>::remove(T elem);`
@@ -382,3 +402,21 @@ TODO(anyone): get to these
  - Pre-order ...etc
  - Post-order ...etc
  - In-order ...etc
+
+----
+
+## Internal iterator class
+
+<a name="default-constructor-iterator"></a>
+### `iterator::iterator(TreeNode<T> *in_node, TreeNode<T> *root);`
+
+The internal `binary_search_tree<T>::iterator` class provides iterator functionality
+for our binary search tree implementation. It is a relatively simple class that acts
+as a thin layer of abstraction over a single node, and the root of the tree that the
+belongs in. The constructor (private) consumes these two members.
+
+The implementation is simple, but deficient in some ways. For example, if you have an
+iterator representing some node, and the root of that node's tree is deleted, the iterator
+is invalidated since it is holding a pointer to the deleted root. This is not good, and
+could be avoided if the tree supported parent pointers, because the iterator class would
+no longer need to hold a root reference.
