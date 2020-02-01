@@ -436,12 +436,16 @@ TODO(anyone): get to these
 The internal `binary_search_tree<T>::iterator` class provides iterator functionality
 for our binary search tree implementation. It is a relatively simple class that acts
 as a thin layer of abstraction over a single node, and the root of the tree that the
-belongs in. The constructor (private) consumes these two members.
+node belongs in. The class's constructor (private) consumes these two members.
+
+The iterator class implements `std::forward_iterator_tag` support, but see
+https://github.com/domfarolino/algorithms/issues/146 to track support of
+`std::bidirectional_iterator_tag`.
 
 The implementation is simple, but deficient in some ways. For example, if you have an
 iterator representing some node, and the root of that node's tree is deleted, the iterator
-is invalidated since it is holding a pointer to the deleted root. This is not good, and
-could be avoided if the tree supported parent pointers, because the iterator class would
-no longer need to hold a root reference.
+is invalidated since it holds a pointer to the deleted root. This is not good, and could be
+avoided if the tree supported parent pointers, because the iterator class would no longer need
+to hold a root reference.
 
 TODO(domfarolino): Finish the documentation for this class's operations.
