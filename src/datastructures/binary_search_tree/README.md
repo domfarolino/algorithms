@@ -414,7 +414,78 @@ Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 <a name="inorder-successor"></a>
 ### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
 
-TODO(domfarolino): Document this.
+This method takes the root of a tree and some existing node in the tree, and returns the node's
+inorder successor, or nullptr if one does not exist.
+
+This algorithm is trivial if `elem` has a right subtree, since the inorder successor is simply the
+maximum of such subtree. Otherwise, we have to start at `root` and work our way down, looking at
+candidate inorder successor nodes along the way.
+
+As we work our way down from the root, each node `curr` we encounter will fall into one of two
+simple cases:
+
+1. `curr->val > elem->val`
+  - In which case we consider `curr` a candidate inorder successor, but want to traverse its left
+    subtree, looking for a more minimal inorder successor
+1. `curr->val <= elem->val`
+  - Simple enough: `curr` doesn't give us what we're looking for, so we have no new inorder
+    successor, and must follow `curr->right`. This is safe even when `curr->val == elem->val`,
+    because we know `curr` does not have a right subtree if we get to these steps, so our traversal
+    will stop
+
+That's the basic logic, but how do we handle duplicates? Let's consider a tree with 3, 5-valued
+nodes. In the below-tree, I've labeled each node with an extra identifier indicating the order
+in which each would appear in an inorder traversal.
+
+```
+    5(3)
+   /
+  5(2)
+ /
+5(1)
+```
+
+Suppose we start with the `min()` node of the tree whose value is 5(1), and we want to produce its
+inorder successor, which is 5(2). What modifications to the above algorithm will need to be made?
+Since 5(1) does not have a right subtree, we don't fall into the trivial case, and we have to invoke
+the above steps. Clearly we'll start by evalulating the root 5(3), and obviously we want to go down
+its left subtree meaning we'll want to satisfy the condition for (1) above. That way we can mark
+5(3) as our candidate inorder successor, and keep exploring its left subtree. This implies that
+we'll want to modify condition (1) to be:
+
+> 1. `curr->val >= elem->val`
+
+So let's see if that will work. After one iteration we end up with the following
+
+```
+    5(3) <-- candidate inorder successor
+   /
+  5(2) <-- new `curr` node
+ /
+5(1)
+```
+
+And after another iteration we end up with:
+
+```
+    5(3)
+   /
+  5(2) <-- candidate inorder successor
+ /
+5(1) <-- new `curr` node
+```
+
+You can see that another iteration would break our algorithm, since we'd mark 5(1) as our candidate
+inorder successor, and ultimately return the same node we started with. Instead, we need to make a
+slightly more nuanced modification to condition (1):
+
+> 1. `curr->val > elem->val || (curr->val == elem->val && curr != elem)`
+
+In other words, we want to go left if `curr` is a candidate in-order successor, or we also want to
+find the left-most value of a given duplicate just above `elem`.
+
+Condition (2) can remain untouched, as for every kind of node, we'll simply want to explore the
+right subtree to find a candidate inorder successor, or nullptr otherwise.
 
 <a name="inorder-predecessor"></a>
 ### `static TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`

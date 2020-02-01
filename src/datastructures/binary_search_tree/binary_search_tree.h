@@ -346,22 +346,14 @@ template <typename T>
 TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem,
                                                       TreeNode<T> *root) {
   TreeNode<T> *successor = nullptr;
-  // If |elem| has a right subtree, this is trivial. Otherwise, we must start at
-  // root and do a search.
   if (elem->right) {
     return min_helper(elem->right);
   } else {
-    // TODO(domfarolino): Document this better.
-    // 1. If |root->val| > |elem->val|, then |root| is a candidate successor for
-    // sure, but there could be a better one in |root->left|.
     while (root) {
       if (root->val > elem->val || (root->val == elem->val && root != elem)) {
         successor = root;
         root = root->left;
-      } else if (root->val <= elem->val) {
-        // 2. Else if |root->val| <= |elem->val|, than the successor must exist in
-        // |root->right|. Even if |root->val| == |elem->val|, the success or must
-        // be in the right subtree (or does not exist).
+      } else { // root->val <= elem->val.
         root = root->right;
       } // if.
     } // while.
@@ -380,24 +372,18 @@ TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem,
                                                         TreeNode<T> *root) {
   TreeNode<T> *predecessor = nullptr;
   if (elem->left) {
-    // std::cout << "Quick path, getting max of elem->left" << std::endl;
     predecessor = max_helper(elem->left);
   } else {
     while (root) {
       if (root->val < elem->val) {
-        // bool first_condition = (root->val < elem->val);
-        // std::cout << "First path " << (first_condition ? "first condition" : "second condition") << std::endl;
         predecessor = root;
         root = root->right;
       } else if (root->val >= elem->val) {
-        // std::cout << "Second path" << std::endl;
         root = root->left;
-      }
-    }
+      } // if.
+    } // while.
   }
 
-  // int pred_value = predecessor ? predecessor->val : -99;
-  // std::cout << "  Return pred: " << pred_value << std::endl;
   return predecessor;
 }
 
