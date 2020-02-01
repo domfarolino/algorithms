@@ -102,7 +102,6 @@ public:
   iterator end();
 
   void insert(T);
-  bool exists(T);
   iterator find(T);
   void remove(T);
   void remove_iterative(T);
@@ -168,8 +167,6 @@ void binary_search_tree<T>::insert_helper(T elem, TreeNode<T> *root) {
  */
 template <typename T>
 typename binary_search_tree<T>::iterator binary_search_tree<T>::find(T elem) {
-  // Run the exists logic to find a node, create an iterator around it, and
-  // return it.
   return iterator(find_helper(elem, root_), root_);
 }
 
@@ -185,15 +182,6 @@ TreeNode<T>* binary_search_tree<T>::find_helper(T elem, TreeNode<T>* root) {
   }
 
   return nullptr;
-}
-
-/**
- * Time complexity: O(n)
- * Space complexity: O(1)
- */
-template <typename T>
-bool binary_search_tree<T>::exists(T elem) {
-  return find(elem) != end();
 }
 
 /**

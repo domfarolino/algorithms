@@ -81,10 +81,12 @@ this repository.
  - [`size()`](#size)
  - [`empty()`](#empty)
  - [`insert()`](#insert)
- - [`exists()`](#exists)
+ - [`find()`](#find)
  - [`remove()`](#remove)
  - [`remove_iterative()`](#remove-iterative)
  - [`clear()`](#clear)
+ - [`begin()`](#begin)
+ - [`end()`](#end)
  - [`min()`](#min)
  - [`max()`](#max)
  - [`inorder_successor()`](#inorder-successor)
@@ -181,24 +183,31 @@ the actual tree's `root_ = nullptr` before passing it along. If so, we can creat
 node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
 handling logic so we're not performing extraneous nullptr checks when unnecessary.
 
-<a name="exists"></a>
-### `void binary_search_tree<T>::exists(T elem);`
+<a name="find"></a>
+### `iterator binary_search_tree<T>::find(T elem);`
 
-### `void binary_search_tree<T>::exists_helper(T elem, TreeNode<T> *root);`
+This method delegates to the find\_helper() method below, calling it with the tree's private root to
+kick things off. It returns an iterator wrapping its return value.
 
-The `exists` and `exists_helper` methods have similar mechanics to the `insert` method above, so a lot of the boilerplate will
-be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
+### `TreeNode<T>* binary_search_tree<T>::find_helper(T elem, TreeNode<T> *root);`
+
+The `find` and `find_helper` methods have similar mechanics to the `insert` method above, so a lot
+of the boilerplate will be skipped. The idea behind this algorithm is fairly intuitive in that we
+just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
  1. Or get to a `nullptr` node (the one we're looking for didn't exist)
 
-In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
-we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree,
-suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
-about to recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it and check in the
-next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr` checks. With this information, we know the wrapper
-function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
-function with the private `root_` of the tree.
+In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse
+downward comparing the value we're given against the value of the current frame's root node. We'll
+start the whole thing off with the actual root of the tree, suggesting we'll need a wrapper function
+to kick this off. When recursing downward, there is no need to check if the subtree we're about to
+recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it
+and check in the next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr`
+checks.
+
+With this information, we know the wrapper function `find` doesn't have to provide any logic at all.
+It simply kicks off the first call of the `find_helper` with the private root of the tree.
 
 <a name="remove"></a>
 ### `void binary_search_tree<T>::remove(T elem);`
@@ -359,19 +368,40 @@ This method is undocumented at the moment, though part of its logic is expressed
 
 ### `void binary_search_tree<T>::clear_helper(T elem, TreeNode<T> *root);`
 
-This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
-subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
-a node once both of its subtrees are cleared and it's time to delete the local root. The internal `size_` variable should decrement
-every time a node is deleted.
+This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node
+once both its left and right subtrees are completely deleted. Since the tree structure is defined
+recursively, our algorithm can recurse downwards, re-visiting a node once both of its subtrees are
+cleared and it's time to delete the local root. The internal `size_` variable should decrement every
+time a node is deleted.
+
+<a name="begin"></a>
+### `iterator binary_search_tree<T>::begin();`
+
+Simply delegates to <a href="#min">min</a>.
+
+<a name="end"></a>
+### `iterator binary_search_tree<T>::end();`
+
+This is an unfortunately naive method. Ideally, we'd return an iterator that points past
+<a href="#max">max</a>, and whose <a href="#operator--iterator">operator--</a> returns the same
+iterator as max(), but that seems to require some sort of dummy node implementation. The simple
+implementation we have for now simply returns an iterator that wraps a null node and is useless. It
+is only good for equality comparisons with iterators that are one-past max(), since both iterators
+point to a nullptr internally, and are considered "equal". For example:
+
+```
+std::accumulate(tree.begin(), tree.end() /* trivial, but allows us to terminate */, 0);
+```
 
 <a name="min"></a>
-### `TreeNode<T> binary_search_tree<T>::min(T elem, TreeNode<T> *root);`
+### `iterator binary_search_tree<T>::min();`
 
-This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
-as this is where smaller and smaller values will exist. The node returned should have a `nullptr` left child.
+This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree
+as we can go, as this is where smaller and smaller values will exist. The node we end up with should
+have no left child. Finally we'll return an iterator that wraps this node.
 
 <a name="max"></a>
-### `TreeNode<T> binary_search_tree<T>::max();`
+### `iterator binary_search_tree<T>::max();`
 
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 

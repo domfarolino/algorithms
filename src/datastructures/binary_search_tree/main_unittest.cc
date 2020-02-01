@@ -89,20 +89,6 @@ TEST_F(BinarySearchTreeTest, Inorder) {
   }
 }
 
-TEST_F(BinarySearchTreeTest, InorderExists) {
-  const int tree_size = 100;
-
-  for (int i = 0; i < tree_size; ++i) {
-    tree.insert(rand() % 2000);
-  }
-
-  std::vector<int> inorder = tree.inorder();
-
-  for (int i = 0; i < inorder.size(); ++i) {
-    ASSERT_TRUE(tree.exists(inorder[i]));
-  }
-}
-
 TEST_F(BinarySearchTreeTest, MinAndMax) {
   const int tree_size = 100;
 
@@ -376,8 +362,12 @@ TEST_F(BinarySearchTreeTest, IteratorFindEquality) {
 
   std::vector<int> inorder = tree.inorder();
   for (int val: inorder) {
+    ASSERT_NE(tree.find(val), tree.end());
     ASSERT_EQ(*tree.find(val), val);
   }
+
+  // 600 is guaranteed to not be in the tree.
+  ASSERT_EQ(tree.find(600), tree.end());
 }
 
 TEST_F(BinarySearchTreeTest, IteratorPopulateVector) {
