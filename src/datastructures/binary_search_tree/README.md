@@ -412,7 +412,7 @@ have no left child. Finally we'll return an iterator that wraps this node.
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 
 <a name="inorder-successor"></a>
-#### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+#### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
 
 This method takes the root of a tree and some existing node in the tree, and returns the node's
 inorder successor, or nullptr if one does not exist.
@@ -488,7 +488,7 @@ Condition (2) can remain untouched, as for every kind of node, we'll simply want
 right subtree to find a candidate inorder successor, or nullptr otherwise.
 
 <a name="inorder-predecessor"></a>
-### `static TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`
+#### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
 
 TODO(domfarolino): Document this.
 
