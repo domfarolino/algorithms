@@ -412,7 +412,7 @@ have no left child. Finally we'll return an iterator that wraps this node.
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
 
 <a name="inorder-successor"></a>
-### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+#### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
 
 This method takes the root of a tree and some existing node in the tree, and returns the node's
 inorder successor, or nullptr if one does not exist.
@@ -533,7 +533,6 @@ The pre- and post-increment iterator operators delegate to the tree class's
 <a href="#inorder-successor">inorder_successor()</a> method to compute the inorder successor of its
 internal node, given the internal node and root. Then the correct new iterator is returned
 (depending on whether we're pre- or post-incrementing).
-
 
 <a name="operator--"></a>
 ### `iterator iterator::operator--();`
