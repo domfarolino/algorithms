@@ -81,18 +81,14 @@ this repository.
  - [`size()`](#size)
  - [`empty()`](#empty)
  - [`insert()`](#insert)
- - [`insert_helper()`](#insert-helper)
  - [`exists()`](#exists)
- - [`exists_helper()`](#exists-helper)
- - [`inorder_successor()`](#inorder-successor)
- - [`inorder_predecessor()`](#inorder-predecessor)
  - [`remove()`](#remove)
- - [`remove_helper()`](#remove-helper)
  - [`remove_iterative()`](#remove-iterative)
  - [`clear()`](#clear)
- - [`clear_helper()`](#clear-helper)
  - [`min()`](#min)
  - [`max()`](#max)
+ - [`inorder_successor()`](#inorder-successor)
+ - [`inorder_predecessor()`](#inorder-predecessor)
  - [`Traversals`](#traversals)
 
 ### Internal iterator class
@@ -128,7 +124,6 @@ we empty the entire tree yet our `root_` is not `nullptr` or the `size_` variabl
 <a name="insert"></a>
 ### `void binary_search_tree<T>::insert(T elem);`
 
-<a name="insert-helper"></a>
 ### `void binary_search_tree<T>::insert_helper(T elem, TreeNode<T> *root);`
 
 To insert a node into a binary search tree, it is best to consider the average case first. So let's
@@ -189,10 +184,9 @@ handling logic so we're not performing extraneous nullptr checks when unnecessar
 <a name="exists"></a>
 ### `void binary_search_tree<T>::exists(T elem);`
 
-<a name="exists-helper"></a>
 ### `void binary_search_tree<T>::exists_helper(T elem, TreeNode<T> *root);`
 
-The `exists` and `existsHelper` methods have similar mechanics to the `add` method above, so a lot of the boilerplate will
+The `exists` and `exists_helper` methods have similar mechanics to the `insert` method above, so a lot of the boilerplate will
 be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
@@ -206,20 +200,9 @@ next frame if that root is `nullptr`. Doing both would yield in extraneous `null
 function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
 function with the private `root_` of the tree.
 
-<a name="inorder-successor"></a>
-### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
-
-TODO(domfarolino): Document this.
-
-<a name="inorder-predecessor"></a>
-### `static TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`
-
-TODO(domfarolino): Document this.
-
 <a name="remove"></a>
 ### `void binary_search_tree<T>::remove(T elem);`
 
-<a name="remove-helper"></a>
 ### `void binary_search_tree<T>::remove_helper(T elem, TreeNode<T> *root);`
 
 Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
@@ -369,12 +352,11 @@ left subtree to remove the duplicate successor's value (the trivial case).
 ### `void binary_search_tree<T>::remove_iterative(T elem);`
 
 This method is undocumented at the moment, though part of its logic is expressed in
-<a href="#remove-helper">remove_helper</a>. See the source.
+<a href="#remove">remove/remove_helper</a>. See the source.
 
 <a name="clear"></a>
 ### `void binary_search_tree<T>::clear(T elem);`
 
-<a name="clear-helper"></a>
 ### `void binary_search_tree<T>::clear_helper(T elem, TreeNode<T> *root);`
 
 This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
@@ -392,6 +374,16 @@ as this is where smaller and smaller values will exist. The node returned should
 ### `TreeNode<T> binary_search_tree<T>::max();`
 
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
+
+<a name="inorder-successor"></a>
+### `static TreeNode<T>* binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+TODO(domfarolino): Document this.
+
+<a name="inorder-predecessor"></a>
+### `static TreeNode<T>* binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+TODO(domfarolino): Document this.
 
 <a name="traversals"></a>
 ### Traversals
@@ -420,3 +412,5 @@ iterator representing some node, and the root of that node's tree is deleted, th
 is invalidated since it is holding a pointer to the deleted root. This is not good, and
 could be avoided if the tree supported parent pointers, because the iterator class would
 no longer need to hold a root reference.
+
+TODO(domfarolino): Finish the documentation for this class's operations.
