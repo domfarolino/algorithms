@@ -491,7 +491,124 @@ the right subtree to find a candidate inorder successor, or nullptr otherwise.
 <a name="inorder-predecessor"></a>
 #### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
 
-TODO(domfarolino): Document this.
+This method complements the <a href="#inorder-successor">inorder_sucesssor()</a> method. Similarly,
+when given a node and tasked to find the inorder predecessor, there is a trivial case. When `elem`
+has a left subtree, the inorder predecessor will simply be the maximum node the left subtree. You
+can see that this even works when the predecessor has several duplicates (using similar notation as
+we did in <a href="#inorder-sucessor">inorder_successor()</a>):
+
+```
+    5
+   /
+  3(2)
+ /
+3(1)
+```
+
+An inorder traversal of this tree yields the list `[3(1), 3(2), 5]`, indicating the inorder
+predecessor of the 5 node is 3(2). This is exactly the node that finding the max node in 5's left
+subtree will return. Furthermore we can demonstrate that this works when `elem` is one of several
+duplicate values as well:
+
+```
+     5(3) <-- elem
+    /
+   5(2)
+  /
+ 3
+  \
+   5(1)
+```
+
+An inorder traversal of this tree is `[3, 5(1), 5(2), 5(3)]`, and starting with 5(3), our algorithm
+above will correctly produce 5(2). From there we'll start with 5(2), and you can see we'll produce
+5(1) but finding the maximum value in the subtree rooted at 3. From here, 5(1) does not have a left
+subtree, so we no longer fall into the trivial case. Let's see how we can make the rest of our
+algorithm work.
+
+When the given node does not have a left subtree, we'll have to start from the root and work our way
+down. Each node we come across will fall into one of two simple cases (not considering duplicates):
+
+  1. `curr->val < elem->val`
+     - Here, `curr` is a valid inorder predecessor, so we'll keep track of it, but we should explore
+       the right subtree, to attempt to find a more maximal inorder predecessor
+  1. `curr->val >= elem->val`
+     - When `curr`'s value is greater than our node's value, we don't have what we need, so all we
+       can do is traverse the left subtree in hopes of finding something closer to what we want. In
+       fact, even if `curr` and `elem` are the same node, going down the left subtree is still safe;
+       since we know the left subtree doesn't exist, going down it will stop our traversal
+
+The algorithm described by the above conditions can feel a bit nuanced, so let's see how it plays
+out with a few good examples that exercise the above conditions (including dealing with duplicates):
+
+```
+  4
+   \
+   10
+  /
+ 5 <-- elem
+  \
+   8
+```
+
+First we'll start with the root node 4. We satisfy condition (1) above, so we'll mark it as a
+potential inorder predecessor and explore its right subtree, looking for a better one, should one
+exist. Next we'll explore 10, which satisfies condition (2) above. We don't get what we're looking
+for here, so we simply move to its left subtree. Now our `curr` node is the same as `elem`; of
+course the values are equivalent, which satisfies condition (2). We move to the left subtree, which
+finishes our traversal.
+
+Since our last potential inorder predecessor was the 4 node, we'll return it. That's all!
+
+Now for a more complicated one involving duplicates:
+
+```
+      4(3)
+      / \
+   4(2)  5(3)
+    /   /
+ 4(1)  5(2) <-- elem
+      /
+     5(1)
+```
+
+The above tree has the same notation that we've been using to indicate the relative ordering between
+nodes with the duplicate values. We're given `elem` which is the 5(2) node, and the correct inorder
+predecessor to return would be 5(1). Starting our algorithm out, we realize that `elem` has a left
+tree, which brings us to our trivial case. We return the maximum node in 5(2)'s left subtree, which
+is consequently 5(1), correct!
+
+```
+      4(3)
+      / \
+   4(2)  5(3)
+    /   /
+ 4(1)  5(2)
+      /
+     5(1) <-- elem
+```
+
+Running our algorithm again, we know we should be returning 4(3) as the inorder predecessor. We'll
+start by analyzing 4(3). This satisfies condition (1), so we consider it a candidate inorder
+predecessor, and search its right subtree for a potentially better one. We come across 5(3), which
+matches condition (2). Our algorithm critically doesn't consider it as anything (since duplicates
+of `elem` appearing before `elem` can only be sucessors), and we move to the left subtree. This
+continues until we hit `nullptr` and stop traversing. We then return our last candidate inorder
+predecessor, which is 4(3)!
+
+With those examples, the reader is encouraged to run through the following cases with the below tree
+to see why our algorithms work correctly, even with duplicates in our tree.
+
+  - Start at 5(2), and find the predecessor node
+  - Start at 5(1), and find the successor node
+
+```
+    5(2)
+   /
+  3
+   \
+    5(1)
+```
 
 <a name="traversals"></a>
 ### Traversals
