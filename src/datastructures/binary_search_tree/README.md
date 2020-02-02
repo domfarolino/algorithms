@@ -75,23 +75,36 @@ this repository.
 
 ## Supported operations
 
+### Binary Search Tree class
+
  - [`binary_search_tree()`](#default-constructor)
  - [`size()`](#size)
  - [`empty()`](#empty)
  - [`insert()`](#insert)
- - [`insert_helper()`](#insert-helper)
- - [`exists()`](#exists)
- - [`exists_helper()`](#exists-helper)
+ - [`find()`](#find)
  - [`remove()`](#remove)
- - [`remove_helper()`](#remove-helper)
  - [`remove_iterative()`](#remove-iterative)
  - [`clear()`](#clear)
- - [`clear_helper()`](#clear-helper)
+ - [`begin()`](#begin)
+ - [`end()`](#end)
  - [`min()`](#min)
  - [`max()`](#max)
+ - [`inorder_successor()`](#inorder-successor)
+ - [`inorder_predecessor()`](#inorder-predecessor)
  - [`Traversals`](#traversals)
 
+### Internal iterator class
+
+ - [`iterator()`](#default-constructor-iterator)
+ - [`operator++()`](#operator++)
+ - [`operator--()`](#operator--)
+ - [`operator!=()`](#operator!=)
+ - [`operator==()`](#operator==)
+ - [`operator*()`](#operator*)
+
 ----
+
+## Binary Search Tree class
 
 <a name="default-constructor"></a>
 ### `binary_search_tree<T>::binary_search_tree();`
@@ -118,7 +131,6 @@ we empty the entire tree yet our `root_` is not `nullptr` or the `size_` variabl
 <a name="insert"></a>
 ### `void binary_search_tree<T>::insert(T elem);`
 
-<a name="insert-helper"></a>
 ### `void binary_search_tree<T>::insert_helper(T elem, TreeNode<T> *root);`
 
 To insert a node into a binary search tree, it is best to consider the average case first. So let's
@@ -176,30 +188,35 @@ the actual tree's `root_ = nullptr` before passing it along. If so, we can creat
 node in the tree. If not, we can pass it along like we normally would. Yeah! We've successfully condensed our edge case
 handling logic so we're not performing extraneous nullptr checks when unnecessary.
 
-<a name="exists"></a>
-### `void binary_search_tree<T>::exists(T elem);`
+<a name="find"></a>
+### `iterator binary_search_tree<T>::find(T elem);`
 
-<a name="exists-helper"></a>
-### `void binary_search_tree<T>::exists_helper(T elem, TreeNode<T> *root);`
+This method delegates to the find\_helper() method below, calling it with the tree's private root to
+kick things off. It returns an iterator wrapping its return value.
 
-The `exists` and `existsHelper` methods have similar mechanics to the `add` method above, so a lot of the boilerplate will
-be skipped. The idea behind this algorithm is fairly intuitive in that we just want to recurse down the tree until we either:
+### `TreeNode<T>* binary_search_tree<T>::find_helper(T elem, TreeNode<T> *root);`
+
+The `find` and `find_helper` methods have similar mechanics to the `insert` method above, so a lot
+of the boilerplate will be skipped. The idea behind this algorithm is fairly intuitive in that we
+just want to recurse down the tree until we either:
 
  1. Find the node we're looking for
  1. Or get to a `nullptr` node (the one we're looking for didn't exist)
 
-In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse downward comparing the value
-we're given against the value of the current frame's root node. We'll start the whole thing off with the actual root of the tree,
-suggesting we'll need a wrapper function to kick this off. When recursing downward, there is no need to check if the subtree we're
-about to recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it and check in the
-next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr` checks. With this information, we know the wrapper
-function `exists` doesn't have to provide any logic at all. It can just simply kick off the first call of the `existsHelper`
-function with the private `root_` of the tree.
+In the average case of a full tree with our node somewhere in the tree, we'll eventually recurse
+downward comparing the value we're given against the value of the current frame's root node. We'll
+start the whole thing off with the actual root of the tree, suggesting we'll need a wrapper function
+to kick this off. When recursing downward, there is no need to check if the subtree we're about to
+recurse to is `nullptr` before we recurse like we did with `add`; instead we can just recurse to it
+and check in the next frame if that root is `nullptr`. Doing both would yield in extraneous `nullptr`
+checks.
+
+With this information, we know the wrapper function `find` doesn't have to provide any logic at all.
+It simply kicks off the first call of the `find_helper` with the private root of the tree.
 
 <a name="remove"></a>
 ### `void binary_search_tree<T>::remove(T elem);`
 
-<a name="remove-helper"></a>
 ### `void binary_search_tree<T>::remove_helper(T elem, TreeNode<T> *root);`
 
 Removing a node from a BST is more difficult than adding or finding and, since most sources tend to show the solution with little
@@ -349,29 +366,250 @@ left subtree to remove the duplicate successor's value (the trivial case).
 ### `void binary_search_tree<T>::remove_iterative(T elem);`
 
 This method is undocumented at the moment, though part of its logic is expressed in
-<a href="#remove-helper">remove_helper</a>. See the source.
+<a href="#remove">remove/remove_helper</a>. See the source.
 
 <a name="clear"></a>
 ### `void binary_search_tree<T>::clear(T elem);`
 
-<a name="clear-helper"></a>
 ### `void binary_search_tree<T>::clear_helper(T elem, TreeNode<T> *root);`
 
-This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node once both its left and right
-subtrees are completely deleted. Since the tree structure is defined recursively, our algorithm can recurse downwards, re-visiting
-a node once both of its subtrees are cleared and it's time to delete the local root. The internal `size_` variable should decrement
-every time a node is deleted.
+This is a basic DFS algorithm to completely delete a tree. The idea is we can only delete a node
+once both its left and right subtrees are completely deleted. Since the tree structure is defined
+recursively, our algorithm can recurse downwards, re-visiting a node once both of its subtrees are
+cleared and it's time to delete the local root. The internal `size_` variable should decrement every
+time a node is deleted.
+
+<a name="begin"></a>
+### `iterator binary_search_tree<T>::begin();`
+
+Simply delegates to <a href="#min">min</a>.
+
+<a name="end"></a>
+### `iterator binary_search_tree<T>::end();`
+
+This is an unfortunately naive method. Ideally, we'd return an iterator pointing past
+<a href="#max">max()</a>, and whose <a href="#operator--">operator--</a> returns the max()
+iterator. The simple implementation we have now simply returns an iterator that wraps a null node
+and is useless. It is only good for equality comparisons for out-of-bound iterators. This is
+immediately useful to support the example below, but is ultimately deficient:
+
+```
+std::accumulate(tree.begin(), tree.end() /* trivial, but allows us to terminate */, 0);
+```
+
+See https://github.com/domfarolino/algorithms/issues/146.
 
 <a name="min"></a>
-### `TreeNode<T> binary_search_tree<T>::min(T elem, TreeNode<T> *root);`
+### `iterator binary_search_tree<T>::min();`
 
-This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree as we can go,
-as this is where smaller and smaller values will exist. The node returned should have a `nullptr` left child.
+This method is fairly trivial. Given some `root`, we want to traverse as far down its left subtree
+as we can go, as this is where smaller and smaller values will exist. The node we end up with should
+have no left child. Finally we'll return an iterator that wraps this node.
 
 <a name="max"></a>
-### `TreeNode<T> binary_search_tree<T>::max();`
+### `iterator binary_search_tree<T>::max();`
 
 Same as <a href="#min">min</a> but for the maximum value instead of the minimum.
+
+<a name="inorder-successor"></a>
+#### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+This method takes the root of a tree and some existing node in the tree, and returns the node's
+inorder successor, or `nullptr` if one does not exist.
+
+This algorithm is trivial if `elem` has a right subtree, since the inorder successor is simply the
+minimum of such subtree. Otherwise, we have to start at `root` and work our way down, looking for
+candidate inorder successor nodes along the way.
+
+As we work our way down from the root, each node `curr` we encounter will fall into one of two
+simple cases (not considering duplicates in our tree):
+
+  1. `curr->val > elem->val`
+     - In which case we consider `curr` a candidate inorder successor, but want to traverse its left
+       subtree, looking for a more minimal inorder successor
+  1. `curr->val <= elem->val`
+     - Simple enough: `curr` doesn't give us what we're looking for, so we have no new inorder
+       successor, and must follow `curr->right`. This is safe even when `curr->val == elem->val`,
+       because we know `curr` does not have a right subtree if we get to these steps, so our traversal
+       will stop
+
+That's the basic logic, but how do we handle duplicates? Let's consider a simple tree with 3,
+5-valued nodes. In the below-tree, I've labeled each node with an extra identifier indicating the
+order in which each would appear in an inorder traversal.
+
+```
+    5(3)
+   /
+  5(2)
+ /
+5(1)
+```
+
+Suppose we start with the `min()` node of the tree whose value is 5(1), and we want to produce its
+inorder successor, which is 5(2). What modifications to the above algorithm will need to be made?
+Since 5(1) does not have a right subtree, we don't fall into the trivial case, and we have to invoke
+the above steps. Clearly we'll start by evalulating the root 5(3) as `curr`, and obviously we want
+to go down its left subtree, meaning we'll want to satisfy condition (1) above. That way we can mark
+5(3) as our candidate inorder successor, and keep exploring its left subtree. This implies that
+we'll want to modify condition (1) to be something more lenient, like:
+
+> 1. `curr->val >= elem->val`
+
+So let's see if that will work. After one iteration we end up with the following
+
+```
+    5(3) <-- candidate inorder successor
+   /
+  5(2) <-- new `curr` node
+ /
+5(1)
+```
+
+And after another iteration we end up with:
+
+```
+    5(3)
+   /
+  5(2) <-- candidate inorder successor
+ /
+5(1) <-- new `curr` node
+```
+
+You can see that another iteration would break our algorithm, since we'd mark 5(1) as our candidate
+inorder successor, and ultimately return the same node we started with. Instead, we need to make a
+slightly more nuanced modification to condition (1):
+
+> 1. `curr->val > elem->val || (curr->val == elem->val && curr != elem)`
+
+In other words, we want to go left if `curr` is a greater inorder successor, or we also want to find
+the left-most value of a given duplicate just above `elem`. Now try and convince yourself that this
+works assuming `elem` is 5(2) as well, and so on.
+
+Condition (2) can remain untouched, as for every other kind of node, we'll simply want to explore
+the right subtree to find a candidate inorder successor, or nullptr otherwise.
+
+<a name="inorder-predecessor"></a>
+#### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+
+This method complements <a href="#inorder-successor">inorder_sucesssor()</a>. Similarly, when given
+a node and tasked to find its inorder predecessor, there is a trivial case. When `elem` has a left
+subtree, the inorder predecessor is simply the maximum node the left subtree. You can see that this
+even works when the predecessor has several duplicates (using similar notation as we did in
+<a href="#inorder-sucessor">inorder_successor()</a>):
+
+```
+    5
+   /
+  3(2)
+ /
+3(1)
+```
+
+An inorder traversal of this tree yields the list `[3(1), 3(2), 5]`, indicating the inorder
+predecessor of the 5 node is 3(2). This is exactly the node that finding the max node in 5's left
+subtree will return. Furthermore we can demonstrate that this works when `elem` is one of several
+duplicate values as well:
+
+```
+     5(3) <-- elem
+    /
+   5(2)
+  /
+ 3
+  \
+   5(1)
+```
+
+An inorder traversal of this tree is `[3, 5(1), 5(2), 5(3)]`, and starting with 5(3), our algorithm
+above will correctly produce 5(2). From there we'll start with 5(2), and you can see we'll produce
+5(1) by finding the maximum value in the subtree rooted at 3. From here, 5(1) does not have a left
+subtree, so we no longer fall into the trivial case. Let's see how we can make the rest of our
+algorithm work.
+
+When the given node does not have a left subtree, we'll have to start from the root and work our way
+down. Each node we come across will fall into one of two simple cases:
+
+  1. `curr->val < elem->val`
+     - Here, `curr` is a valid inorder predecessor, so we'll keep track of it, but we should explore
+       the right subtree, to attempt to find a more maximal predecessor
+  1. `curr->val >= elem->val`
+     - When `curr`'s value is greater than our node's value, we don't have what we need, so all we
+       can do is traverse the left subtree in hopes of finding something closer to what we want.
+     - Even if `curr`'s value is the same as our node's value, all we've come across is a duplicate
+       successor (unless `curr == elem`), so we still want to continue down the left subtree. In
+       fact, even if `curr` and `elem` are the same node, going down the left subtree is still safe;
+       we know the left subtree doesn't exist, and going down it will stop our traversal
+
+The algorithm described by the above conditions can feel a bit nuanced, so let's see how it plays
+out with a few good examples that exercise the above conditions (and deal with duplicates):
+
+```
+  4
+   \
+   10
+  /
+ 5 <-- elem
+  \
+   8
+```
+
+First we'll start with the root node 4. We satisfy condition (1) above, so we'll mark it as a
+potential inorder predecessor and explore its right subtree, looking for a better one. Next we'll
+explore 10, which satisfies condition (2) above. We don't get what we're looking for here, so we
+simply move to its left subtree. Now our `curr` node is the same as `elem`; of course the values are
+equivalent, which satisfies condition (2). We move to the left subtree, and finish our traversal.
+
+Since our last potential inorder predecessor was the 4 node, we'll return it. That's all folks!
+
+Now for a more complicated one involving duplicates:
+
+```
+      4(3)
+      / \
+   4(2)  5(3)
+    /   /
+ 4(1)  5(2) <-- elem
+      /
+     5(1)
+```
+
+The above tree has the same notation that we've been using to indicate the relative ordering between
+nodes with the duplicate values. We're given `elem` which is the 5(2) node, and the correct inorder
+predecessor to return would be 5(1). Starting our algorithm out, we realize that `elem` has a left
+subtree, which brings us to our trivial case. We return the maximum node in 5(2)'s left subtree,
+which is consequently 5(1)...correct!
+
+```
+      4(3)
+      / \
+   4(2)  5(3)
+    /   /
+ 4(1)  5(2)
+      /
+     5(1) <-- elem
+```
+
+Running our algorithm again, we know we should be returning 4(3) as the inorder predecessor. We
+start with the root again, 4(3). This satisfies condition (1), so we consider it a candidate inorder
+predecessor, and search its right subtree for a potentially better one. We come across 5(3), which
+matches condition (2). Our steps critically dont consider it as anything (since duplicates of `elem`
+appearing before `elem` can only be sucessors), and we move to the left subtree. This continues
+until we hit `nullptr` and stop traversing. We then return our last candidate inorder predecessor,
+which is 4(3)!
+
+With those examples, the reader is encouraged to run through the following cases with the below tree
+to gain even more insight into why our algorithm works correctly, even with duplicates in our tree.
+
+  - Start at 5(2), and find the predecessor node
+  - Start at 5(1), and find the successor node
+
+```
+    5(2)
+   /
+  3
+   \
+    5(1)
+```
 
 <a name="traversals"></a>
 ### Traversals
@@ -382,3 +620,60 @@ TODO(anyone): get to these
  - Pre-order ...etc
  - Post-order ...etc
  - In-order ...etc
+
+----
+
+## Internal iterator class
+
+<a name="default-constructor-iterator"></a>
+### `iterator::iterator(TreeNode<T> *in_node, TreeNode<T> *root);`
+
+The internal `binary_search_tree<T>::iterator` class provides iterator functionality
+for our binary search tree implementation. It is a relatively simple class that acts
+as a thin layer of abstraction over a single node, and the root of the tree that the
+node belongs in. The class's constructor (private) consumes these two members.
+
+The iterator class implements `std::forward_iterator_tag` support, but see
+https://github.com/domfarolino/algorithms/issues/146 to track support of
+`std::bidirectional_iterator_tag`.
+
+The implementation is simple, but deficient in some ways. For example, if you have an
+iterator representing some node, and the root of that node's tree is deleted, the iterator
+is invalidated since it holds a pointer to the deleted root. This is not good, and could be
+avoided if the tree supported parent pointers, because the iterator class would no longer need
+to hold a root reference.
+
+<a name="operator++"></a>
+### `iterator iterator::operator++();`
+
+### `iterator iterator::operator++(int);`
+
+The pre- and post-increment iterator operators delegate to the tree class's
+<a href="#inorder-successor">inorder_successor()</a> method to compute the inorder successor of its
+internal node, given the internal node and root. Then the correct new iterator is returned
+(depending on whether we're pre- or post-incrementing).
+
+<a name="operator--"></a>
+### `iterator iterator::operator--();`
+
+### `iterator iterator::operator--(int);`
+
+The pre- and post-decrement iterator operators delegate to the tree class's
+<a href="#inorder-predecessor">inorder_predecessor()</a> method to compute the inorder predecessor
+of its internal node, given the internal node and root. Then the correct new iterator is returned
+(depending on whether we're pre- or post-decrementing).
+
+<a name="operator!="></a>
+### `bool iterator::operator!=(iterator other) const`
+
+Returns whether the internal node is not the same as `other`'s internal node.
+
+<a name="operator=="></a>
+### `bool iterator::operator==(iterator other) const;`
+
+Returns whether the internal node is the same as `other`'s internal node.
+
+<a name="operator*"></a>
+### `T iterator::operator*() const;`
+
+Attempts to dereference the internal node, and returns its `val` member, of type `T`.

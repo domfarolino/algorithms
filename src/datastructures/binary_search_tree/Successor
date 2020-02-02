@@ -1,0 +1,104 @@
+Algorithm outline for binary search tree inorder successor
+
+Inorder successor is trivial when the "found" node has a right subtree.
+Therefore, the below summary is for the fallback case when a node has no
+right subtree.
+
+1. If root > val
+  - Note: Next largest is either root itself, or in root->left subtree
+  1a. If root->left->val > val
+    - Note: Next largest is in root->left subtree
+  1b. If root->left->val < val
+    - Note: Next largest is either root itself, or in root->left subtree.
+      Try to find in root->left, but return root if nothing.
+2. If root <= val
+  2a. Note: Next largest is in root->right subtree, if it exists.
+
+        7
+      /
+     4
+      \
+      6.5
+     /
+    6
+----------------
+        7
+      /
+     4
+      \
+       6
+----------------
+        1000
+      /
+     4
+      \
+       999
+     /
+    5
+     \
+      998
+    /
+   6
+
+Root(1000) Condition (1)
+  Condition (1b)
+  1000 or whatever is returned from:
+    Root (4) Condition (2)
+      Root (999) Condition (1)
+        Condition (1b)
+        999 or whatever is returned from:
+          Root (5) Condition (2)
+            Root (998) Condition (1b)
+              998 or whatever is returned from:
+                Root (6) Condition (2)
+                  Ro right subtree; return null.
+
+==========================================================
+        7
+       /
+      6(1)
+     /
+    6(2)
+   /
+  6(3)
+ /
+5
+
+Inorder: [5, 6(3), 6(2), 6(1), 7]
+
+Decrement:
+ - Start at 7
+   - Looking for predecessor to 7
+   - 7 has left subtree 6(1)
+   - Consider 6(1), or predecessor on right subtree (none)
+ - Start at 6(1)
+   - Looking for predecessor to 6(1)
+   - 6(1) has left subtree 6(2)
+   - Consider 6(2), or predecessor on right subtree (none)
+ - Start at 6(2)
+   - Looking for predecessor to 6(2)
+   - 6(2) has left subtree 6(1)
+   - Consider 6(1), or predecessor on right subtree
+==========================================================
+       7
+        \
+         8(1)
+        / \
+      8(2) 9
+     /
+    8(3)
+
+Inorder: [7, 8(3), 8(2), 8(1), 9]
+==========================================================
+          0
+           \
+            3
+             \
+              6(1)
+            /
+           4
+            \
+             6(2)
+
+Inorder: [0, 3, 4, 6(2), 6(1)]
+==========================================================
