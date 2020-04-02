@@ -34,7 +34,7 @@ bool isHappy(int n) {
     // Can work with our set if n < 1000
     if (n < 1000) {
       if (set[n]) return false;
-      else set[n]++;
+      else set[n] = true;
     }
   }
 
