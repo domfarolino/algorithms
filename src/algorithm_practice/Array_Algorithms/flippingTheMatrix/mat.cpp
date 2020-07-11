@@ -4,7 +4,9 @@
 #include <iostream>
 #include <algorithm>
 
-// Source: https://www.hackerrank.com/contests/world-codesprint-6/challenges/flipping-the-matrix
+// Source:
+//   - https://www.hackerrank.com/contests/world-codesprint-6/challenges/flipping-the-matrix
+//   - https://www.hackerrank.com/challenges/flipping-the-matrix
 
 /**
  * Flipping the matrix
@@ -24,11 +26,11 @@
  * Space complexity: O(1)
  */
 
-void initMatrix(std::vector<std::vector<int> >& inputMatrix, int n) {
+void initMatrix(std::vector<std::vector<int>>& inputMatrix, int n) {
   inputMatrix.clear();
-  inputMatrix.resize(2*n, std::vector<int>(2*n));
-  for (int i = 0; i < 2*n; ++i) {
-    for (int j = 0; j < 2*n; ++j) {
+  inputMatrix.resize(n * 2, std::vector<int>(n * 2));
+  for (int i = 0; i < n * 2; ++i) {
+    for (int j = 0; j < n * 2; ++j) {
       std::cin >> inputMatrix[i][j];
     }
   }
@@ -38,16 +40,16 @@ int max(int m1, int m2, int m3, int m4) {
   return std::max(m4, std::max(m3, std::max(m1, m2)));
 }
 
-long maxSum(std::vector<std::vector<int> >& matrix) {
+long maxSum(std::vector<std::vector<int>>& matrix) {
   long returnMaxSum = 0;
   int topLeft, topRight, bottomLeft, bottomRight;
 
-  for (int i = 0; i < matrix.size()/2; ++i) {
-    for (int j = 0; j < matrix.size()/2; ++j) {
+  for (int i = 0; i < matrix.size() / 2; ++i) {
+    for (int j = 0; j < matrix.size() / 2; ++j) {
       topLeft = matrix[i][j];
-      topRight = matrix[i][matrix.size()-1-j];
-      bottomLeft = matrix[matrix.size()-1-i][j];
-      bottomRight = matrix[matrix.size()-1-i][matrix.size()-1-j];
+      topRight = matrix[i][matrix.size() - 1 - j];
+      bottomLeft = matrix[matrix.size() - 1 - i][j];
+      bottomRight = matrix[matrix.size() - 1 - i][matrix.size() - 1 - j];
       returnMaxSum += max(topLeft, topRight, bottomLeft, bottomRight);
     }
   }
@@ -58,7 +60,7 @@ long maxSum(std::vector<std::vector<int> >& matrix) {
 int main() {
   int q, n;
   std::cin >> q;
-  std::vector<std::vector<int> > matrix;
+  std::vector<std::vector<int>> matrix;
 
   for (int i = 0; i < q; ++i) {
     std::cin >> n;
