@@ -4,9 +4,9 @@
 #include <cmath>
 #include <algorithm>
 
-using namespace std;
-
-// Source: https://www.hackerrank.com/contests/world-codesprint-6/challenges/bonetrousle
+// Source:
+//   - https://www.hackerrank.com/contests/world-codesprint-6/challenges/bonetrousle
+//   - https://www.hackerrank.com/challenges/bonetrousle/problem
 
 /**
  * Bonetrousle
@@ -38,7 +38,7 @@ using namespace std;
  */
 
 unsigned long long sumFirstNums(const unsigned long long &x) {
-  return (x*(x+1))/2;
+  return (x * (x + 1)) / 2;
 }
 
 unsigned long long sumLastNums(const unsigned long long& lastNum, const unsigned long long& howMany) {
@@ -52,39 +52,40 @@ unsigned long long sumLastNums(const unsigned long long& lastNum, const unsigned
 
 void printAnswerExtraSpace(const unsigned long long &n, const unsigned long long &k, const unsigned long long &b) {
   if (sumFirstNums(b) > n || sumLastNums(k, b) < n) {
-    cout << "-1";
+    std::cout << "-1";
   } else {
     unsigned long long sum = sumFirstNums(b);
     unsigned long long valToAdd = k + 1; // 1 more than the max value we can add for our first custom box
-    vector<unsigned long long> customBoxes;
+    std::vector<unsigned long long> customBoxes;
 
     while (sum < n) {
       // subtract last box value
       sum -= (b - customBoxes.size());
 
       // add largest value we need
-      valToAdd = min(n - sum, valToAdd-1);
+      valToAdd = std::min(n - sum, valToAdd-1);
 
       sum += valToAdd;
       customBoxes.push_back(valToAdd);
     }
 
     for (unsigned long long i = 0; i < (b - customBoxes.size()); ++i) {
-      cout << i+1;
-      if (i != (b - customBoxes.size()-1) || customBoxes.size()) cout << " ";
+      std::cout << i+1;
+      if (i != (b - customBoxes.size()-1) || customBoxes.size()) std::cout << " ";
     }
 
     for (unsigned long long i = 0; i < customBoxes.size(); ++i) {
-      cout << customBoxes[i];
-      if (i != customBoxes.size()-1) cout << " ";
+      std::cout << customBoxes[i];
+      if (i != customBoxes.size()-1) std::cout << " ";
     }
   }
-  cout << '\n';
+
+  std::cout << '\n';
 }
 
 void printAnswerConstantSpace(const unsigned long long &n, const unsigned long long &k, const unsigned long long &b) {
   if (sumFirstNums(b) > n || sumLastNums(k, b) < n) {
-    cout << "-1";
+    std::cout << "-1";
   } else {
     unsigned long long sum = sumFirstNums(b);
     unsigned long long valToAdd = k + 1;
@@ -95,35 +96,37 @@ void printAnswerConstantSpace(const unsigned long long &n, const unsigned long l
       sum -= (b - numCustomBoxes);
 
       // add largest value we need
-      valToAdd = min(n - sum, valToAdd-1);
-      cout << valToAdd;
+      valToAdd = std::min(n - sum, valToAdd - 1);
+      std::cout << valToAdd;
 
       sum += valToAdd;
       numCustomBoxes++;
 
-      if (numCustomBoxes != b) cout << " ";
+      if (numCustomBoxes != b) std::cout << " ";
     }
 
     for (unsigned long long i = 0; i < (b - numCustomBoxes); ++i) {
-      cout << i+1;
-      if (i != (b - numCustomBoxes-1)) cout << " ";
+      std::cout << i + 1;
+      if (i != (b - numCustomBoxes - 1)) std::cout << " ";
     }
 
   }
-  cout << '\n';
+
+  std::cout << '\n';
 }
 
 int main() {
   int t;
-  cin >> t;
+  std::cin >> t;
   unsigned long long n, k, b;
 
-  cout << fixed << std::setprecision(0);
+  std::cout << std::fixed << std::setprecision(0);
 
   for (int i = 0; i < t; ++i) {
-    cin >> n >> k >> b;
+    std::cin >> n >> k >> b;
     //printAnswerExtraSpace(n, k, b);
     printAnswerConstantSpace(n, k, b);
   }
+
   return 0;
 }
