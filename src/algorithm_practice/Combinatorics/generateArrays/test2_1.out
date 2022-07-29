@@ -1,0 +1,31 @@
+Considering pivot element: 1
+Failed: left (0, 0) right (6, 4)
+Failed: left (0, 1) right (6, 3)
+Failed: left (0, 2) right (6, 2)
+Failed: left (0, 3) right (6, 1)
+Failed: left (0, 4) right (6, 0)
+Considering pivot element: 2
+Failed: left (1, 0) right (5, 4)
+Failed: left (1, 1) right (5, 3)
+Failed: left (1, 2) right (5, 2)
+Failed: left (1, 3) right (5, 1)
+Failed: left (1, 4) right (5, 0)
+Considering pivot element: 3
+Failed: left (2, 0) right (4, 4)
+Failed: left (2, 1) right (4, 3)
+Failed: left (2, 2) right (4, 2)
+Failed: left (2, 3) right (4, 1)
+Failed: left (2, 4) right (4, 0)
+Considering pivot element: 4
+Failed: left (3, 0) right (3, 4)
+Failed: left (3, 1) right (3, 3)
+Left (l, c): 3, 2, Right (l, c): 3, 2
+ - (l) Considering pivot element: 1
+ - (l) Failed: left (0, 0) right (2, 0)
+ - (l) Considering pivot element: 2
+ - (l) Left (l, c): 1, 0, Right (l, c): 1, 0
+ - (r) Considering pivot element: 5
+ - (r) Failed: left (0, 0) right (2, 0)
+ - (r) Considering pivot element: 6
+ - (r) Left (l, c): 1, 0, Right (l, c): 1, 0
+4 2 1 3 6 5 7 
