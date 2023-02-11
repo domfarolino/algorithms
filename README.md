@@ -36,7 +36,7 @@ organization involved.
 
 Each algorithm and data structure is contained in its own C++ .h file for datastructures
 and .cpp file for algorithms. Maintain this format along with providing a readme when
-adding a new 
+adding a new data structure or algorithm. 
 
 ## Contributing
 
