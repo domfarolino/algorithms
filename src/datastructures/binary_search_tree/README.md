@@ -634,7 +634,7 @@ In order to be able to insert the elements of a BST into a vector, in order, we 
 
  The `inorder_helper(root->left, vec)` method is used to traverse as far down the left subtree as we can go. Once we end up with a node with no left child, we add the value to the vector with `vec.push_back(root->val)`.
 
- After that we simply use `inorder_helper(root->right)` to traverse down the right subtree, searching for another left subtree.
+ After that we simply use `inorder_helper(root->right)` to traverse down the right subtree, searching for another left subtree (and then once exhausted, another right subtree).
 
 <a name="preorder"></a>
 ### `std::vector<T> binary_search_tree<T>::preorder();`
