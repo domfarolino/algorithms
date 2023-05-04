@@ -646,7 +646,7 @@ The order this method works is as follows:
 - Recursively traverse the left subtree.
 - Recursively traverse the right subtree.
 
-First we add the root's value to the vector with `vec.push_back(root->val)` then we traverse down the left subtree. To do this `preorder_helper(root->left, vec)` is called. Once we reach a node with no left child, `preorder_helper(root->right, vec)` is called to traverse the node's right subtree.
+First we add the root's value to the vector with `vec.push_back(root->val)` then we traverse down the left subtree. To do this, `preorder_helper(root->left, vec)` is called. Once we reach a node with no left child, `preorder_helper(root->right, vec)` is called to traverse the node's right subtree.
 
 <a name="postorder"></a>
 ### `std::vector<T> binary_search_tree<T>::postorder();`
