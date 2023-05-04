@@ -91,7 +91,12 @@ this repository.
  - [`max()`](#max)
  - [`inorder_successor()`](#inorder-successor)
  - [`inorder_predecessor()`](#inorder-predecessor)
- - [`Traversals`](#traversals)
+
+### Traversals
+- [`bfs()`](#bfs)
+- [`inorder()`](#inorder)
+- [`preorder()`](#preorder)
+- [`postorder()`](#postorder)
 
 ### Internal iterator class
 
@@ -489,7 +494,7 @@ Condition (2) can remain untouched, as for every other kind of node, we'll simpl
 the right subtree to find a candidate inorder successor, or nullptr otherwise.
 
 <a name="inorder-predecessor"></a>
-#### `binary_search_tree<T>::inorder_successor(TreeNode<T> *elem, TreeNode<T> *root);`
+#### `binary_search_tree<T>::inorder_predecessor(TreeNode<T> *elem, TreeNode<T> *root);`
 
 This method complements <a href="#inorder-successor">inorder_sucesssor()</a>. Similarly, when given
 a node and tasked to find its inorder predecessor, there is a trivial case. When `elem` has a left
@@ -611,15 +616,74 @@ to gain even more insight into why our algorithm works correctly, even with dupl
     5(1)
 ```
 
-<a name="traversals"></a>
+---
 ### Traversals
 
-TODO(anyone): get to these
+<a name="bfs"></a>
+### `std::vector<T> binary_search_tree<T>::bfs();`
+This method returns a vector with the elements from the BST in breadth-first search order.
+Breadth-first search begins at the root node and then vists all nodes level by level.
 
- - BFS ...etc
- - Pre-order ...etc
- - Post-order ...etc
- - In-order ...etc
+In order to place each value into a vector in BFS order, we need use a queue. First the root is
+placed into the front of a queue. Then we can use a while loop to push the children into the queue.
+With each loop, if there is a left subtree or a right subtree that child is pushed into the queue.
+Then we add the first element of the queue into the vector and dequeue it from the queue. The while
+loop will run until the queue is empty, which means each node from the tree was inserted into the
+vector.
+
+<a name="inorder"></a>
+### `std::vector<T> binary_search_tree<T>::inorder();`
+This method delegates to the `inorder_helper()` method below. This method returns a vector with the
+elements from the BST in order.
+
+### `void binary_search_tree<T>::inorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
+The order this method works is as follows:
+1. Recursively traverse the left subtree.
+2. Add the root's value to the vector.
+3. Recursively traverse the right subtree.
+
+In order to be able to insert the elements of a BST into a vector, in order, we first need to
+traverse down the root's left subtree.
+
+The `inorder_helper(root->left, vec)` method is used to traverse as far down the left subtree as we
+can go. Once we end up with a node with no left child, we add the value to the vector with
+`vec.push_back(root->val)`.
+
+After that we simply use `inorder_helper(root->right)` to traverse down the right subtree,
+searching for another left subtree (and then once exhausted, another right subtree).
+
+<a name="preorder"></a>
+### `std::vector<T> binary_search_tree<T>::preorder();`
+This method delegates to the `preorder_helper()` method below. This method returns a vector with
+the elements from the BST in preorder.
+
+### `void binary_search_tree<T>::preorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
+The order this method works is as follows:
+1. Add the root's value to the vector.
+2. Recursively traverse the left subtree.
+3. Recursively traverse the right subtree.
+
+First we add the root's value to the vector with `vec.push_back(root->val)` then we traverse down
+the left subtree. To do this, `preorder_helper(root->left, vec)` is called. Once we reach a node
+with no left child, `preorder_helper(root->right, vec)` is called to traverse the node's right
+subtree.
+
+<a name="postorder"></a>
+### `std::vector<T> binary_search_tree<T>::postorder();`
+This method delegates to the `postorder_helper()` method below. This method returns a vector with
+the elements from the BST in postorder.
+
+### `void binary_search_tree<T>::postorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
+The order this method works is as follows:
+1. Recursively traverse the left subtree.
+2. Recursively traverse the right subtree.
+3. Add the root's value to the vector.
+
+In order to traverse the tree in post order, we need to first traverse down the left subtree. We
+recursively call `postorder_helper(root->left, vec)` on the node's left subtree to do this. Then we
+traverse down the right subtree by recursively calling `postorder_helper(root->right, vec)` on the
+node's right subtree. After that, the value of the current node is inserted into the vector with
+`vec.push_back(root->val)`.
 
 ----
 
