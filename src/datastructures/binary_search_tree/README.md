@@ -636,7 +636,7 @@ vector.
 This method delegates to the `inorder_helper()` method below. This method returns a vector with the
 elements from the BST in order.
 
-### `void binary_search_tree<T>::inorder_helper(TreeNode<T>* root, std::vector<T> &vec);`
+### `void binary_search_tree<T>::inorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
 The order this method works is as follows:
 1. Recursively traverse the left subtree.
 2. Add the root's value to the vector.
@@ -657,7 +657,7 @@ searching for another left subtree (and then once exhausted, another right subtr
 This method delegates to the `preorder_helper()` method below. This method returns a vector with
 the elements from the BST in preorder.
 
-### `void binary_search_tree<T>::preorder_helper(TreeNode<T>* root, std::vector<T> &vec);`
+### `void binary_search_tree<T>::preorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
 The order this method works is as follows:
 1. Add the root's value to the vector.
 2. Recursively traverse the left subtree.
@@ -673,7 +673,7 @@ subtree.
 This method delegates to the `postorder_helper()` method below. This method returns a vector with
 the elements from the BST in postorder.
 
-### `void binary_search_tree<T>::postorder_helper(TreeNode<T>* root, std::vector<T> &vec);`
+### `void binary_search_tree<T>::postorder_helper(TreeNode<T>* root, std::vector<T>& vec);`
 The order this method works is as follows:
 1. Recursively traverse the left subtree.
 2. Recursively traverse the right subtree.
