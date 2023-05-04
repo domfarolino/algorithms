@@ -650,7 +650,7 @@ First we add the root's value to the vector with `vec.push_back(root->val)` then
 
 <a name="postorder"></a>
 ### `std::vector<T> binary_search_tree<T>::postorder();`
-This method delegeates to the `postorder_helper()` method below. This method returns a vector with the elements from the BST in post order.
+This method delegeates to the `postorder_helper()` method below. This method returns a vector with the elements from the BST in postorder.
 
 ### `void binary_search_tree<T>::postorder_helper(TreeNode<T>* root, std::vector<T> &vec);`
 In order to traverse the tree in post order, we need to first traverse down the left subtree. We recursively call `postorder_helper(root->left, vec)` on the node's left subtree to do this. Then we traverse down the right subtree by recursively calling `postorder_helper(root->right, vec)` on the node's right subtree. After that, the value of the current node is inserted into the vector with `vec.push_back(root->val)`.
