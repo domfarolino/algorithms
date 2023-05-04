@@ -621,7 +621,7 @@ to gain even more insight into why our algorithm works correctly, even with dupl
 
 <a name="bfs"></a>
 ### `std::vector<T> binary_search_tree<T>::bfs();`
-This method returns a vector with the elements from the BST in Breadth First Search order. Breadth First Search begins at the root node and then vists all nodes level by level. 
+This method returns a vector with the elements from the BST in breadth-first search order. Breadth-first search begins at the root node and then vists all nodes level by level. 
 
 In order to place each value into a vector in BFS order, we need use a queue. First the root is placed into the front of a queue. Then we can use a while loop to push the children into the queue. With each loop, if there is a left subtree or a right subtree that child is pushed into the queue. Then we add the first element of the queue into the vector and dequeue it from the queue. The while loop will run until the queue is empty, which means each node from the tree was inserted into the vector.
 
