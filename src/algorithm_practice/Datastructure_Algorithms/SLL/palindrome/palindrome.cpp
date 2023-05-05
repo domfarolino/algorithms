@@ -62,8 +62,8 @@ struct ListNode {
   T val;
   ListNode<T>* next;
   ListNode(): val(0), next(nullptr) {}
-  ListNode(int x): val(x), next(nullptr) {}
-  ListNode(int x, ListNode<T>* in_next): val(x), next(in_next) {}
+  ListNode(T x): val(x), next(nullptr) {}
+  ListNode(T x, ListNode<T>* in_next): val(x), next(in_next) {}
 };
 
 /**
@@ -117,7 +117,7 @@ bool isPalindrome(ListNode<T>* head) {
   if (!head) return false;
 
   ListNode<T>* curr = head;
-  ListNode<T>* tail = reverse(middleNode(tail));
+  ListNode<T>* tail = reverse(middleNode(head));
   ListNode<T>* tail_head = tail; // So we can delete the full LL.
 
   while (tail) {
