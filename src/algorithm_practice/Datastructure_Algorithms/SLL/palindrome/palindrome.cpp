@@ -15,26 +15,28 @@
  * the last element one at a time while working towards the middle of 
  * the linked list. This means we need to reverse half of the linked 
  * list. Using two pointers, a fast and a slow, we can find the middle
- * node.
- * 
+ * node. A full explanation on finding the middle node can be found 
+ * in this repository at "./middleNode/middle.cpp".
  *     head->next->next->next
- *     ^ ^
+ *     ↑ ↑
  *  slow fast
  * 
  *     head->next->next->next
- *            ^           ^
+ *            ↑           ↑
  *          slow         fast
  * 
  *     head->next->next->next
- *                  ^          ^
+ *                  ↑          ↑
  *                slow        fast
  * 
  * Once we find the middle node, the right half of the list needs 
  * to be reversed. Since we found the middle node, we can use another
  * pointer to store the next node, and another to store the previous
- * node. Once we swap the pointers around we keep moving to the end 
- * of the list. Now the list should look like this:
- *                  \/ This node's next will actually be nullptr.
+ * node. We can swap the pointers around right here without losing a 
+ * reference to the rest of the second half of the list. A full 
+ * explanation on reversing a linked list can be found in this repository
+ * at "./reverseList/reverse.cpp". Now the list should look like this:
+ *                  ↓ This node's next will actually be nullptr.
  *     head->next->next<-next
  * 
  * We still have access to the original head, and now we have another
@@ -42,12 +44,13 @@
  * is the last item in the list).
  *                  
  *     head->next->next<-next
- *      ^                  ^
+ *      ↑                  ↑
  *     curr              tail
  * 
  * Now we can compare the values while moving the pointers 'towards' 
  * eachother. If the values aren't the same, return false. If the
- * pointers reach the end, we can return true!
+ * pointers reach their respective "ends" of the list, we can return 
+ * true!
  * 
  * Complexity analysis:
  * Time complexity: O(n)
@@ -77,7 +80,7 @@ ListNode<T>* reverse(ListNode<T>* head) {
 
   ListNode<T>* prev = nullptr;
   ListNode<T>* curr = head;
-  ListNode<T>* next;
+  ListNode<T>* next = nullptr;
 
   while (curr) {
     next = curr->next;
@@ -118,12 +121,12 @@ bool isPalindrome(ListNode<T>* head) {
 
   ListNode<T>* curr = head;
   ListNode<T>* tail = reverse(middleNode(head));
-  ListNode<T>* tail_head = tail; // So we can delete the full LL.
+  ListNode<T>* original_tail = tail; // So we can delete the full LL.
 
   while (tail) {
     if (tail->val != curr->val) {
       // Could just return here but let's put the list back in order first.
-      reverse(tail_head);
+      reverse(original_tail);
       return false;
     }
     tail = tail->next;
@@ -170,7 +173,7 @@ int main() {
   ListNode<int>* not_palindrome = new ListNode<int>(1);
   not_palindrome->next = new ListNode<int>(2);
   not_palindrome->next->next = new ListNode<int>(2);
-  // not_palindrome->next->next->next = new ListNode<int>(2);
+  not_palindrome->next->next->next = new ListNode<int>(2);
 
   printNode(not_palindrome);
   std::cout << " is" << (isPalindrome(not_palindrome) ? " " : " not ") << "a palindrome.\n";
